@@ -1,0 +1,43 @@
+body {
+    background-color: #e6f0e4;
+}
+
+#tabmenu .heading {
+    font-size: 20px;
+}
+
+
+#tabmenu .tablink {
+    padding: 5px 20px;
+    margin: 10px 20px;
+    border-radius: 10px;
+    background-color: #5db866;
+    box-shadow: 3px 3px 2px 1px #a7a0a0;
+}
+
+
+#tabmenu .tablink-active {
+    padding: 5px 20px;
+    margin: 0 20px;
+    border-radius: 10px;
+    background-color: #5db866;
+    box-shadow: 3px 3px 2px 1px #a7a0a0;
+
+}
+
+#info {
+    display: none;
+}
+
+.tab-body {
+    margin: 0 20px;
+    padding: 15px;
+    background-color: #c8e9a7;
+    border-radius: 10px;
+    box-shadow: 3px 3px 2px 1px #a7a0a0;
+
+}
+
+.tab-body h4 {
+    margin: 0;
+}
