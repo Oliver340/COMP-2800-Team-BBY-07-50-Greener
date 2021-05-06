@@ -1,12 +1,11 @@
 #tabmenu {
     list-style: none;
+    margin: 0 auto;
     padding: 0;
-    margin: 0;
 }
 
 #tabmenu .tablink {
     display: inline;
-    margin: 0 auto;
     padding: 2px 5px;
     border-radius: 10px 10px 0 0;
     background-color: #5db866;
@@ -14,7 +13,6 @@
 
 #tabmenu .tablink-active {
     display: inline;
-    margin: 0 auto;
     padding: 2px 5px;
     border-radius: 10px 10px 0 0;
     background-color: #c8e9a7;
