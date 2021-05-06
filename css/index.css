@@ -25,6 +25,7 @@ body {
   border: 0;
   font-size: 14pt;
   color: white;
+  box-shadow: 2px 2px 7px black;
 }
 
 #index-login {
@@ -34,4 +35,5 @@ body {
   background-color: #C8E9A7;
   border: 0;
   font-size: 12pt;
+  box-shadow: 2px 2px 7px black;
 }
