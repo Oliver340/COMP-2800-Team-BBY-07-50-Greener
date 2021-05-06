@@ -1,11 +1,5 @@
-#informationTabs {
-    width: 85vw;
-}
-
-
 #tabmenu {
     list-style: none;
-    width: 85vw;
     padding: 0;
     margin: 0;
 }
@@ -16,7 +10,6 @@
     padding: 2px 5px;
     border-radius: 10px 10px 0 0;
     background-color: #5db866;
-
 }
 
 #tabmenu .tablink-active {
@@ -28,9 +21,12 @@
 }
 
 .tab-body {
-    display: none;
     margin: 0 auto;
-    padding: 5px;
+    padding: 15px;
     background-color: #c8e9a7;
     height: 90vh;
+}
+
+#info {
+    display: none;
 }
