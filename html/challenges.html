@@ -7,14 +7,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Challenges Page</title>
         <link rel="stylesheet" href="../css/challenges.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     </head>
 
     <body>
 
         <div id="tabmenu">
 
-            <div id="info-tab" class="tablink-active"><span class="heading">Challenges</span></div>
-
+            <div id="info-tab" class="tablink-active">Challenges
+                <span class="material-icons-outlined">expand_less</span>
+            </div>
             <div id="info" class="tab-body">
                 <h4>Challenges Page</h4>
                 <p>Select a category to see challenges</p>
@@ -22,41 +24,52 @@
             </div>
 
 
-            <div id="water-tab" class="tablink"><span class="heading">Water</span></div>
-
+            <div id="water-tab" class="tablink">Water
+                <span class="material-icons-outlined">expand_more</span>
+            </div>
             <div id="water" class="tab-body">
-                <span class="details">Some challenge description</span>
-                <input type="checkbox" name="check" />
-                <span class="points">## ponts</span>
-            </div>
-
-
-            <div id="food-tab" class="tablink"><span class="heading">Diet</span></div>
-
-            <div id="food" class="tab-body">
-                <span class="details">Some challenge description</span>
-                <input type="checkbox" name="check" />
-                <span class="points">## ponts</span>
-            </div>
-
-
-            <div id="commute-tab" class="tablink"><span class="heading">Commute</span></div>
-
-            <div id="commute" class="tab-body">
                 <div class="challenges">
                     <span class="details">Some challenge description</span>
-                    <input type="checkbox" name="check" />
-                    <span class="points">## ponts</span>
+                    <input type="checkbox" class="check" />
+                    <span class="points">## pts</span>
+                </div>
+            </div>
+
+            <div id="food-tab" class="tablink">Diet
+                <span class="material-icons-outlined">expand_more</span>
+            </div>
+            <div id="food" class="tab-body">
+                <div class="challenges">
+                    <span class="details">Some challenge description</span>
+                    <input type="checkbox" class="check" />
+                    <span class="points">## pts</span>
+                </div>
+            </div>
+
+            <div id="commute-tab" class="tablink">Commute
+                <span class="material-icons-outlined">expand_more</span>
+            </div>
+            <div id="commute" class="tab-body">
+                <div class="challenges">
+                    <span class="details">Challenge description</span>
+                    <input type="checkbox" class="check" />
+                    <span class="points">5 pts</span>
                 </div>
             </div>
 
 
-            <div id="home-tab" class="tablink"><span class="heading">Home</span></div>
-
+            <div id="home-tab" class="tablink">Home
+                <span class="material-icons-outlined expand">expand_more</span>
+            </div>
             <div id="home" class="tab-body">
-                <span class="details">Some challenge description</span>
-                <input type="checkbox" name="check" />
-                <span class="points">## ponts</span>
+                <div class="challenges">
+                    <span class="details">Some challenge description</span>
+                    <input type="checkbox" class="check" />
+                    <span class="points">## pts</span>
+                    <span class="details">Some challenge description</span>
+                    <input type="checkbox" class="check" />
+                    <span class="points">## pts</span>
+                </div>
             </div>
 
 

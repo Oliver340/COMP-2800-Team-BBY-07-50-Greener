@@ -12,6 +12,7 @@ body {
     display: inline;
     padding: 2px 5px;
     border-radius: 10px 10px 0 0;
+    border: 1px solid #c8e9a7;
     background-color: #5db866;
     box-shadow: 3px 0 #a7a0a0;
 }
@@ -19,6 +20,7 @@ body {
 #tabmenu .tablink-active {
     display: inline;
     padding: 2px 5px;
+    border: 1px solid #c8e9a7;
     border-radius: 10px 10px 0 0;
     background-color: #c8e9a7;
     box-shadow: 3px 0 #a7a0a0;
@@ -33,10 +35,18 @@ body {
     box-shadow: 3px 3px 1px 1px #a7a0a0;
 }
 
+.tab-body-active {
+    margin: 0 auto;
+    padding: 15px;
+    background-color: #c8e9a7;
+    height: 90vh;
+    border-radius: 0 10px 10px 10px;
+    box-shadow: 3px 3px 1px 1px #a7a0a0;
+}
+
 #info {
     display: none;
 }
-
 
 .tab-body h4 {
     margin: 0;
