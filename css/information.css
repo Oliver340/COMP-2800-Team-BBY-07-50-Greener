@@ -8,6 +8,12 @@ body {
     padding: 0;
 }
 
+#tabmenu span {
+    width: 40px;
+    vertical-align: middle;
+    text-align: center;
+}
+
 #tabmenu .tablink {
     display: inline;
     padding: 2px 5px;

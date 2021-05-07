@@ -15,7 +15,7 @@ $(function () {
     });
 
     function showTab(e, tabID) {
-        let bodyid = e.target.parentNode.parentNode.parentNode.id;
+        let bodyid = document.querySelector('div').id;
         if (bodyid == 'informationTabs') {
             $('.tablink-active').attr('class', 'tablink');
             $('.tab-body').attr('style', 'display: none');
@@ -31,9 +31,7 @@ $(function () {
 
     function udpateIcon(e) {
         let iconName = e.target.innerHTML;
-        let cname = e.target.parentNode.className;
 
-        console.log(cname);
         if (iconName == 'expand_less') {
             e.target.innerHTML = 'expand_more';
         }

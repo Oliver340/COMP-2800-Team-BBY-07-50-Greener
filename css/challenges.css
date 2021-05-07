@@ -47,3 +47,7 @@ body {
 span {
     float: right;
 }
+
+.challenges span {
+    margin: 5px 0;
+}
