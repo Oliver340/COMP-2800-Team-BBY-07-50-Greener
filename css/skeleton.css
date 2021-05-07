@@ -8,7 +8,7 @@ nav{
 	justify-content: space-between;
 	align-items: center;
 	position: static;
-	width: 99vw;
+	width: 100vw;
 	top: 0;
 }
 #dropdowncontent{
@@ -28,7 +28,7 @@ nav{
 footer{
 	position: static;
 	left: 0;
-	width: 99vw;
+	width: 100vw;
 	bottom: 0;
 	background-color: rgb(200, 233, 167);
 	display: flex;
@@ -71,7 +71,7 @@ a{
 		justify-content: space-between;
 		align-items: center;
 		position: sticky;
-		width: 99vw;
+		width: 100vw;
 		top: 0;
 	}
 	#dropdown{
@@ -112,7 +112,7 @@ a{
 	footer{
 		position: sticky;
 		left: 0;
-		width: 99vw;
+		width: 100vw;
 		bottom: 0;
 		background-color: rgb(200, 233, 167);
 		display: flex;
