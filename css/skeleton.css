@@ -1,0 +1,145 @@
+body{
+	background-color: rgb(230, 240, 228);
+	margin: 0;
+}
+nav{
+	background-color: rgb(200, 233, 167);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: static;
+	width: 99vw;
+	top: 0;
+}
+#dropdowncontent{
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	width: 60vw;
+	right: 1vw;
+}
+#logo{
+	width: 150px;
+	margin-left: 2vw;
+}
+#hammenu{
+	display: none;
+}
+footer{
+	position: static;
+	left: 0;
+	width: 99vw;
+	bottom: 0;
+	background-color: rgb(200, 233, 167);
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+.bottomicons{
+	margin: 0.5vw;
+	max-width: 100px;
+	min-width: 50px;
+	border-radius: 15px;
+}
+.bottomicons:hover{
+	background-color: rgb(93, 184, 102);
+}
+.options{
+	padding: 1%;
+	border-radius: 15px;
+	font-size: 2em;
+}
+.options:hover{
+	background-color: rgb(60, 115, 41);
+	color: white;
+}
+a{
+	text-decoration: none;
+	color: black;
+	position: relative;
+}
+
+
+@media only screen and (max-device-width: 1000px){
+	body{
+		background-color: rgb(230, 240, 228);
+		margin: 0;
+	}
+	nav{
+		background-color: rgb(200, 233, 167);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		position: sticky;
+		width: 99vw;
+		top: 0;
+	}
+	#dropdown{
+		position: relative;
+		display: inline-block;
+		cursor: pointer;
+	}
+	#dropdowncontent{
+		display: none;
+		position: absolute;
+		background-color: rgb(93,184,102);
+		width: 33vw;
+		box-shadow: 3px 3px 7px;
+		z-index: 1;
+		margin-right: 1vw;
+		border-radius: 15px;
+	}
+	#dropdown:hover #dropdowncontent {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+	}
+	#logo{
+		width: 25vw;
+		margin-left: 2vw;
+	}
+	#hammenu{
+		display:inline;
+		margin-right: 5vw;
+		padding: 2vw;
+		width: 8vw;
+		border-radius: 15px;
+	}
+	#dropdown:hover #hammenu{
+		background-color: rgb(93, 184, 102);
+	}
+	footer{
+		position: sticky;
+		left: 0;
+		width: 99vw;
+		bottom: 0;
+		background-color: rgb(200, 233, 167);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.bottomicons{
+		margin: 2vw;
+		width: 19vw;
+		max-width: 100px;
+		border-radius: 15px;
+	}
+	.bottomicons:hover{
+		background-color: rgb(93, 184, 102);
+	}
+	.options{
+		padding: 10%;
+		border-radius: 15px;
+		font-size: 5vw;
+	}
+	.options:hover{
+		background-color: rgb(60, 115, 41);
+		color: white;
+	}
+	/*https://www.computerhope.com/issues/ch000074.htm*/
+	a{
+		text-decoration: none;
+		color: black;
+	}
+}
