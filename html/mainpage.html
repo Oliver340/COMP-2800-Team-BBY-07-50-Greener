@@ -17,6 +17,8 @@
 </head>
 
 <body>
+  
+  
   <!--
   html for the dial gauge, adapted to suit our needs
   Found this code on: https://codepen.io/meetamit/pen/xOgeoj
@@ -26,9 +28,16 @@
   -->
   <div class="chart-gauge"></div>
   <!-- Code block end -->
+
+  <div class="chart-pie">
+    <canvas id="myChart" wdith=100 height=100></canvas>
+  </div>
+
 </body>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="../js/dial-gauge.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
+<script src="../js/mainpage-dial-gauge.js"></script>
+<script src="../js/mainpage-pie-chart.js"></script>
 
 </html>

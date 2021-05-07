@@ -1,3 +1,7 @@
+body {
+    background-color: #e6f0e4;
+}
+
 /**
 CSS for the dial gauge, adapted to work in our situation
 Found this code on: https://codepen.io/meetamit/pen/xOgeoj
@@ -6,8 +10,8 @@ Found this code on: https://codepen.io/meetamit/pen/xOgeoj
 @see https://codepen.io/meetamit/pen/xOgeoj
 **/
 .chart-gauge {
-    width: 400px;
-     margin: 100px auto  
+    width: 500px;
+    margin: 100px auto;
 } 
 
 .chart-first {
@@ -42,3 +46,11 @@ svg {
     font: 10px sans-serif;
 }
 /** Code block end **/
+
+
+#pieContainer {
+    position: relative;
+    margin: auto;
+    height: 30vh;
+    width: 40vw;
+}
