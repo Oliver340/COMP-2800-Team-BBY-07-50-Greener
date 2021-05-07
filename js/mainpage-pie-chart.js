@@ -14,6 +14,7 @@ var data = {
             'rgb(93, 184, 102)'
         ],
         hoverOffset: 4,
+        borderColor: 'rgb(230, 240, 228)'
     }]
 };
 
@@ -24,8 +25,7 @@ var option = {
             labels: {
                 font: {
                     size: 30
-                },
-                borderColor: '#E6F0E4'
+                }
             }
         }
     }
