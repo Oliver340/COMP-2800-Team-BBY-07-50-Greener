@@ -1,0 +1,58 @@
+/*
+* Jquery Barfiller plugin style
+*
+* Author: 9bit Studios
+* Copyright 2012, 9bit Studios
+* http://www.9bitstudios.com
+* Free to use and abuse under the MIT license.
+* http://www.opensource.org/licenses/mit-license.php
+*/
+
+.barfiller {
+    margin: 10px auto;
+    width: 80%;
+    height: 20px;
+    background: #fcfcfc;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    position: relative;
+    box-shadow: inset 1px 4px 9px -6px rgba(0, 0, 0, .5);
+    -moz-box-shadow: inset 1px 4px 9px -6px rgba(0, 0, 0, .5);
+}
+
+.barfiller .fill {
+    border-radius: 5px;
+    display: block;
+    position: relative;
+    width: 0px;
+    height: 100%;
+    background: #333;
+    z-index: 1;
+}
+
+.barfiller .tipWrap {
+    display: none;
+}
+
+.barfiller .tip {
+    margin-top: -30px;
+    padding: 2px 4px;
+    font-size: 11px;
+    color: #fff;
+    left: 0px;
+    position: absolute;
+    z-index: 2;
+    background: #333;
+}
+
+.barfiller .tip:after {
+    border: solid;
+    border-color: rgba(0, 0, 0, .8) transparent;
+    border-width: 6px 6px 0 6px;
+    content: "";
+    display: block;
+    position: absolute;
+    left: 9px;
+    top: 100%;
+    z-index: 9
+}

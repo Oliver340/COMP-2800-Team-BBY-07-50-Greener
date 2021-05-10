@@ -2,16 +2,7 @@ body {
     background-color: #e6f0e4;
 }
 
-#tabmenu .tablink {
-    font-size: 20px;
-    padding: 5px 20px;
-    margin: 10px 20px 3px 20px;
-    border-radius: 10px;
-    border: 1px solid #c8e9a7;
-    background-color: #5db866;
-    box-shadow: 3px 3px 1px 1px #a7a0a0;
-}
-
+#tabmenu .tablink,
 #tabmenu .tablink-active {
     font-size: 20px;
     padding: 5px 20px;
@@ -22,6 +13,7 @@ body {
     box-shadow: 3px 3px 1px 1px #a7a0a0;
 }
 
+
 #info {
     display: none;
 }
@@ -30,6 +22,7 @@ body {
     margin: 0 20px;
     padding: 15px;
     background-color: #c8e9a7;
+    border: 1px solid #5db866;
     border-radius: 10px;
     box-shadow: 3px 3px 1px 1px #a7a0a0;
 }
@@ -40,11 +33,12 @@ body {
 
 .tab-body .challenges {
     display: grid;
-    grid: auto / 50vw 10vw 15vw;
+    grid: auto / 75% 10% 15%;
     align-items: center;
 }
 
-span {
+.tablink .arrow,
+.tablink-active .arrow {
     float: right;
 }
 
