@@ -7,6 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Challenges Page</title>
         <link rel="stylesheet" href="../css/challenges.css">
+        <link rel="stylesheet" href="../css/barfiller.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     </head>
 
@@ -14,8 +15,20 @@
 
         <div id="tabmenu">
 
+            <div id="goal-tab" class="tablink">Main Goal
+                <span class="material-icons-outlined arrow">expand_more</span>
+            </div>
+            <div id="goal" class="tab-body">
+                <div id="maingoal" class="barfiller">
+                    <div class="tipWrap">
+                        <span class="tip"></span>
+                    </div>
+                    <span class="fill" data-percentage="75"></span>
+                </div>
+            </div>
+
             <div id="info-tab" class="tablink-active">Challenges
-                <span class="material-icons-outlined">expand_less</span>
+                <span class="material-icons-outlined arrow">expand_more</span>
             </div>
             <div id="info" class="tab-body">
                 <h4>Challenges Page</h4>
@@ -23,9 +36,8 @@
                 <p>Complete challenges and earn points towards your goal!</p>
             </div>
 
-
             <div id="water-tab" class="tablink">Water
-                <span class="material-icons-outlined">expand_more</span>
+                <span class="material-icons-outlined arrow">expand_more</span>
             </div>
             <div id="water" class="tab-body">
                 <div class="challenges">
@@ -36,7 +48,7 @@
             </div>
 
             <div id="food-tab" class="tablink">Diet
-                <span class="material-icons-outlined">expand_more</span>
+                <span class="material-icons-outlined arrow">expand_more</span>
             </div>
             <div id="food" class="tab-body">
                 <div class="challenges">
@@ -47,7 +59,7 @@
             </div>
 
             <div id="commute-tab" class="tablink">Commute
-                <span class="material-icons-outlined">expand_more</span>
+                <span class="material-icons-outlined arrow">expand_more</span>
             </div>
             <div id="commute" class="tab-body">
                 <div class="challenges">
@@ -59,7 +71,7 @@
 
 
             <div id="home-tab" class="tablink">Home
-                <span class="material-icons-outlined expand">expand_more</span>
+                <span class="material-icons-outlined arrow">expand_more</span>
             </div>
             <div id="home" class="tab-body">
                 <div class="challenges">
@@ -71,13 +83,14 @@
                     <span class="points">## pts</span>
                 </div>
             </div>
-
-
-
         </div>
+
+
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="../js/tabs.js"></script>
+        <script src="../js/jquery.barfiller.js"></script>
+        <script src="../js/maingoal-bar.js"></script>
 
     </body>
 

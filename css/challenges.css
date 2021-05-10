@@ -13,7 +13,8 @@ body {
     box-shadow: 3px 3px 1px 1px #a7a0a0;
 }
 
-#info {
+#info,
+#goals {
     display: none;
 }
 
@@ -32,11 +33,12 @@ body {
 
 .tab-body .challenges {
     display: grid;
-    grid: auto / 50vw 10vw 15vw;
+    grid: auto / 75% 10% 15%;
     align-items: center;
 }
 
-span {
+.tablink .arrow,
+.tablink-active .arrow {
     float: right;
 }
 
