@@ -2,8 +2,10 @@ body{
 	background-color: rgb(230, 240, 228);
 	margin: 0;
 	min-height: 100vh;
+	width: 100vw;
     display: flex;
     flex-direction: column;
+	justify-content: space-between;
 }
 nav{
 	background-color: rgb(200, 233, 167);
@@ -11,8 +13,15 @@ nav{
 	justify-content: space-between;
 	align-items: center;
 	position: static;
-	width: 100vw;
+	width: 100%;
 	top: 0;
+
+	height: 10%;
+}
+#dropdown{
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
 }
 #dropdowncontent{
 	display: flex;
@@ -23,7 +32,7 @@ nav{
 }
 #logo{
 	width: 150px;
-	margin-left: 2vw;
+	margin-left: 2%;
 }
 #hammenu{
 	display: none;
@@ -31,16 +40,17 @@ nav{
 footer{
 	position: static;
 	left: 0;
-	width: 100vw;
+	width: 100%;
 	bottom: 0;
 	background-color: rgb(200, 233, 167);
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-	margin-top: auto;
+
+	height: 10%;
 }
 .bottomicons{
-	margin: 0.5vw;
+	margin: 0.5%;
 	max-width: 100px;
 	min-width: 50px;
 	border-radius: 15px;
@@ -57,6 +67,7 @@ footer{
 	background-color: rgb(60, 115, 41);
 	color: white;
 }
+/*https://www.computerhope.com/issues/ch000074.htm*/
 a{
 	text-decoration: none;
 	color: black;
@@ -64,25 +75,7 @@ a{
 }
 
 
-@media only screen and (max-device-width: 1000px){
-	body{
-		background-color: rgb(230, 240, 228);
-		margin: 0;
-	}
-	nav{
-		background-color: rgb(200, 233, 167);
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		position: sticky;
-		width: 100vw;
-		top: 0;
-	}
-	#dropdown{
-		position: relative;
-		display: inline-block;
-		cursor: pointer;
-	}
+@media only screen and (max-width: 1000px){
 	#dropdowncontent{
 		display: none;
 		position: absolute;
@@ -100,11 +93,10 @@ a{
 		flex-direction: column;
 	}
 	#logo{
-		width: 25vw;
-		margin-left: 2vw;
+		width: 25%;
 	}
 	#hammenu{
-		display:inline;
+		display: inline-block;
 		margin-right: 5vw;
 		padding: 2vw;
 		width: 8vw;
@@ -115,36 +107,17 @@ a{
 	}
 	footer{
 		position: sticky;
-		left: 0;
-		width: 100vw;
-		bottom: 0;
 		background-color: rgb(200, 233, 167);
 		display: flex;
 		justify-content: space-between;
-		align-items: center;
 	}
 	.bottomicons{
-		margin: 2vw;
-		width: 19vw;
-		max-width: 100px;
-		border-radius: 15px;
-	}
-	.bottomicons:hover{
-		background-color: rgb(93, 184, 102);
+		margin: 5px;
+		width: 75px;
 	}
 	.options{
 		padding: 5%;
-		border-radius: 15px;
 		font-size: 5vw;
 		margin: 15%;
-	}
-	.options:hover{
-		background-color: rgb(60, 115, 41);
-		color: white;
-	}
-	/*https://www.computerhope.com/issues/ch000074.htm*/
-	a{
-		text-decoration: none;
-		color: black;
 	}
 }
