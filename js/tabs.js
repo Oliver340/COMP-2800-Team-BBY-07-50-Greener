@@ -10,8 +10,7 @@ $(function () {
             activetab = e.target.parentNode.id.replace('-tab', '');
             closeTab(e, activetab);
         } else {
-            activetabID = $('.tablink-active').attr('id');
-            activetab = activetabID.replace('-tab', '')
+            activetab = e.target.id.replace('-tab', '');
             closeTab(e, activetab);
         }
     });
