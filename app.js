@@ -8,7 +8,7 @@ const { JSDOM } = require('jsdom');
 
 app.use('/js', express.static('js'));
 app.use('/css', express.static('css'));
-app.use('/img', express.static('images'));
+app.use('/images', express.static('images'));
 app.use('/html', express.static('html'));
 
 app.use(session({
@@ -30,6 +30,7 @@ app.get('/', function (req, res) {
     let $index = require("jquery")(indexDOM.window);
 
     $("#content-to-replace").replaceWith($index("body"));
+    $("#indexCSS").replaceWith($index("#linkToCSS"));
 
 
     let dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
