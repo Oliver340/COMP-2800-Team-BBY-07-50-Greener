@@ -22,3 +22,15 @@ app.get('/signup', function (req, res) {
 
   $skeleton("#content-to-replace").replaceWith($signup("#signup-container"));
 });
+
+app.get('/login', function (req, res) {
+  let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+  let skeletonDOM = new JSDOM(skeleton);
+  let $skeleton = require("jquery")(skeletonDOM.window);
+
+  let login = fs.readFileSync('./html/login.html', "utf8");
+  let loginDOM = new JSDOM(login);
+  let $login = require("jquery")(loginDOM.window);
+
+  $skeleton("#content-to-replace").replaceWith($signup("#login-container"));
+});
