@@ -1,6 +1,8 @@
 #image-container {
-  display: grid;
-  grid-template-columns: 25% 25% 25% 25%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  row-gap: 20px;
 }
 
 .about-img {
@@ -9,22 +11,79 @@
   padding: 1%;
 }
 
+.container {
+  height: 170px;
+  flex-basis: calc(50% - 40px);  
+}
+
+.img-card {
+  transition: transform 2s;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+.front, .back {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  backface-visibility: hidden;
+}
+
+div {
+  width: 100%;
+  height: 100%;
+}
+
+.back {
+  transform: rotateY(180deg);
+  color: rgb(255, 243, 228);
+}
+
+h1 {
+  background-color: #335529;
+  border-radius: 50%;
+  width: 130px;
+  height: 100px;
+  padding-top: 65px;
+  padding-left: 35px;
+  margin: 0;
+  display: block;
+}
+
 #oliver-pic {
-  max-width: 90%;
-  grid-column: 1;
+  width: 150px
 }
 
 #victor-pic {
-  max-width: 90%;
-  grid-column: 2;
+  width: 150px
 }
 
 #avneet-pic {
-  max-width: 90%;
-  grid-column: 3; 
+  width: 150px
 }
 
 #kyung-pic {
-  max-width: 90%;
-  grid-column: 4; 
+  width: 150px
+}
+
+#hint {
+  color: #335529;
+  text-align: right;
+  margin-right: 3%;
+  font-size: 11pt;
+}
+
+#description-container {
+  background-color: #C8E9A7;
+  border-radius: 10px;
+  padding: 1% 4%;
+  width: 85%;
+  margin: 20px auto;
+}
+
+#big-text {
+  font-size: 18pt;
+  color: #26471b;
 }
