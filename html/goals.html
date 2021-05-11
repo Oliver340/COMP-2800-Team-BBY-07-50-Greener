@@ -1,64 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Goals</title>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <link rel="stylesheet" type="text/css" href="../css/skeleton.css" />
+    <link rel="stylesheet" type="text/css" href="../css/goals.css" />
 
-<body>
-
+    <!-- MAIN GOAL -->
+    <link rel="stylesheet" href="../css/challenges.css">
+    <link rel="stylesheet" href="../css/barfiller.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <!-- MAIN GOAL -->
+  </head>
   <body>
+    
+    <nav>
+    	<img id="logo" src="../images/50GreenerLogo.png" alt="50GreenerLogo"/>
+<!--https://www.w3schools.com/css/css_dropdowns.asp-->
+    	<div id="dropdown">
+    		<img id="hammenu" src="../images/hamicon.png" alt="hamicon"/>
+    		<div id="dropdowncontent">
+          <a href="about.html" class="options">About Us</a>
+          <a href="goals.html" class="options">Goals</a>
+				  <a href="settings.html" class="options">Settings</a>
+				  <a href="login.html" class="options">Log In</a>
+    		</div>
+    	</div>
+    </nav>
+
     <!-- MAIN GOAL -->
     <div id="tabmenu">
       <div id="goal-tab" class="tablink">Your Goal</div>
       <div id="goal" class="tab-body">
-        <div id="maingoal" class="barfiller">
-          <div class="tipWrap">
-            <span class="tip"></span>
+          <div id="maingoal" class="barfiller">
+              <div class="tipWrap">
+                  <span class="tip"></span>
+              </div>
+              <span class="fill" data-percentage="75"></span>
           </div>
-          <span class="fill" data-percentage="75"></span>
-        </div>
       </div>
     </div>
     <!-- MAIN GOAL -->
 
     <div class="allsliders">
-      <!-- https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_rangeslider -->
-      <div class="slidercontainer">
-        <div class="slidetext">Diet</div>
-        <input type="range" min="1" max="100" value="50" class="slider" id="myRange1">
-        <!-- https://www.youtube.com/watch?v=BrpiNUf2XCk -->
-        <div class="valuetext">Value: <span class="slidervalue" id="value1"></span></div>
-        <!-- https://www.w3schools.com/css/css_tooltip.asp -->
-        <span class="tooltiptext">Set your goal for Diet: <b>red</b> is remaining, <b>green</b> is accomplished.</span>
-      </div>
+        <!-- https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_rangeslider -->
+        <div class="slidercontainer">
+            <div class="slidetext">Diet</div>
+            <input type="range" min="1" max="100" value="50" class="slider" id="myRange1">
+            <!-- https://www.youtube.com/watch?v=BrpiNUf2XCk -->
+            <div class="valuetext">Value: <span class="slidervalue" id="value1"></span></div>
+            <!-- https://www.w3schools.com/css/css_tooltip.asp -->
+            <span class="tooltiptext">Set your goal for Diet: <b>red</b> is remaining, <b>green</b> is accomplished.</span>
+        </div>
 
-      <div class="slidercontainer">
-        <div class="slidetext">Water</div>
-        <input type="range" min="1" max="100" value="50" class="slider" id="myRange2">
-        <div class="valuetext">Value: <span class="slidervalue" id="value2"></span></div>
-        <span class="tooltiptext">Set your goal for Water: <b>red</b> is remaining, <b>green</b> is accomplished.</span>
-      </div>
+        <div class="slidercontainer">
+            <div class="slidetext">Water</div>
+            <input type="range" min="1" max="100" value="50" class="slider" id="myRange2">
+            <div class="valuetext">Value: <span class="slidervalue" id="value2"></span></div>
+            <span class="tooltiptext">Set your goal for Water: <b>red</b> is remaining, <b>green</b> is accomplished.</span>
+        </div>
 
-      <div class="slidercontainer">
-        <div class="slidetext">Transportation</div>
-        <input type="range" min="1" max="100" value="50" class="slider" id="myRange3">
-        <div class="valuetext">Value: <span class="slidervalue" id="value3"></span></div>
-        <span class="tooltiptext">Set your goal for Transportation: <b>red</b> is remaining, <b>green</b> is
-          accomplished.</span>
-      </div>
+        <div class="slidercontainer">
+            <div class="slidetext">Transportation</div>
+            <input type="range" min="1" max="100" value="50" class="slider" id="myRange3">
+            <div class="valuetext">Value: <span class="slidervalue" id="value3"></span></div>
+            <span class="tooltiptext">Set your goal for Transportation: <b>red</b> is remaining, <b>green</b> is accomplished.</span>
+        </div>
 
-      <div class="slidercontainer">
-        <div class="slidetext">Home</div>
-        <input type="range" min="1" max="100" value="50" class="slider" id="myRange4">
-        <div class="valuetext">Value: <span class="slidervalue" id="value4"></span></div>
-        <span class="tooltiptext">Set your goal for Home: <b>red</b> is remaining, <b>green</b> is accomplished.</span>
-      </div>
+        <div class="slidercontainer">
+            <div class="slidetext">Home</div>
+            <input type="range" min="1" max="100" value="50" class="slider" id="myRange4">
+            <div class="valuetext">Value: <span class="slidervalue" id="value4"></span></div>
+            <span class="tooltiptext">Set your goal for Home: <b>red</b> is remaining, <b>green</b> is accomplished.</span>
+        </div>
     </div>
-
+    
     <footer>
-      <a href="mainpage.html"><img class="bottomicons" src="../images/homeicon.png" alt="homeicon" /></a>
-      <a href="challenges.html"><img class="bottomicons" src="../images/challengesicon.png" alt="challengeicon" /></a>
-      <a href="information.html"><img class="bottomicons" src="../images/informationicon.png"
-          alt="informationicon" /></a>
+    	<a href="mainpage.html"><img class="bottomicons" src="../images/homeicon.png" alt="homeicon"/></a>
+    	<a href="challenges.html"><img class="bottomicons" src="../images/challengesicon.png" alt="challengeicon"/></a>
+    	<a href="information.html"><img class="bottomicons" src="../images/informationicon.png" alt="informationicon"/></a>
     </footer>
 
-  </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="../js/goals.js"></script>
 
+    <!-- MAIN GOAL -->
+    <script src="../js/tabs.js"></script>
+    <script src="../js/jquery.barfiller.js"></script>
+    <script src="../js/maingoal-bar.js"></script>
+    <!-- MAIN GOAL -->
+  </body>
 </html>
