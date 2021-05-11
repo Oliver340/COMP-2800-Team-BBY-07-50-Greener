@@ -90,7 +90,7 @@ app.get('/mainpage', function(req, res) {
     } else {
         res.redirect('/');
     }
-
+});
 
 app.get('/signup', function (req, res) {
   let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
