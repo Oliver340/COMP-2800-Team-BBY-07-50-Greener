@@ -92,4 +92,26 @@ app.get('/mainpage', function(req, res) {
     }
 
 
+app.get('/signup', function (req, res) {
+  let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+  let skeletonDOM = new JSDOM(skeleton);
+  let $skeleton = require("jquery")(skeletonDOM.window);
+
+  let signup = fs.readFileSync('./html/signup.html', "utf8");
+  let signupDOM = new JSDOM(signup);
+  let $signup = require("jquery")(signupDOM.window);
+
+  $skeleton("#content-to-replace").replaceWith($signup("#signup-container"));
+});
+
+app.get('/login', function (req, res) {
+  let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+  let skeletonDOM = new JSDOM(skeleton);
+  let $skeleton = require("jquery")(skeletonDOM.window);
+
+  let login = fs.readFileSync('./html/login.html', "utf8");
+  let loginDOM = new JSDOM(login);
+  let $login = require("jquery")(loginDOM.window);
+
+  $skeleton("#content-to-replace").replaceWith($signup("#login-container"));
 });
