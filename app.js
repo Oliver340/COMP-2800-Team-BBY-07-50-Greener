@@ -20,10 +20,16 @@ app.use(session({
 );
 
 app.get('/', function (req, res) {
-    let doc = fs.readFileSync('./html/index.html', "utf8");
+    let doc = fs.readFileSync('./html/skeleton.html', "utf8");
 
     let dom = new JSDOM(doc);
     let $ = require("jquery")(dom.window);
+
+    let index = fs.readFileSync('./html/index.html', "utf8");
+    let indexDOM = new JSDOM(index);
+    let $index = require("jquery")(indexDOM.window);
+
+    $("#content-to-replace").replaceWith($index("body"));
 
 
     let dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -74,8 +80,6 @@ app.get('/mainpage', function(req, res) {
         let skeletonFile = fs.readFileSync('./html/skeleton.html', "utf8");
         let skeletonDOM = new JSDOM(skeletonFile);
         let $skeleton = require("jquery")(skeletonDOM.window);
-
-        // $skeleton("#content-to-replace").html(req.session.email);
 
         let content = fs.readFileSync('./html/mainpage.html', "utf8");
         let contentDOM = new JSDOM(content);
