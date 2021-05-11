@@ -115,3 +115,17 @@ app.get('/login', function (req, res) {
 
   $skeleton("#content-to-replace").replaceWith($signup("#login-container"));
 });
+
+app.get('/logout', function(req,res){
+    req.session.destroy(function(error){
+        if(error) {
+            console.log(error);
+        }
+    });
+    res.redirect("/mainpage");
+})
+
+let port = 8000;
+app.listen(port, function () {
+    console.log('Listening on port ' + port + '!');
+})
