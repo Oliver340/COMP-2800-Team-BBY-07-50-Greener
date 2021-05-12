@@ -1,6 +1,6 @@
 "use strict";
 $(document).ready(function () {
-    $("#login-btn").click(function () {
+    $("#login-btn").on("click", function () {
         $.ajax({
             url: "/authenticate",
             type: "POST",
@@ -11,7 +11,7 @@ $(document).ready(function () {
             },
             success: function (data) {
                 if (data['status'] == "success") {
-                    window.location.replace("/profile");
+                    document.documentElement.innerHTML = data;
                 } else {
                     $("#errorMsg").html(data['msg']);
                 }

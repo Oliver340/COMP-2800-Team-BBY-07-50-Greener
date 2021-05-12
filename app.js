@@ -87,8 +87,10 @@ app.get('/mainpage', function (req, res) {
     let contentDOM = new JSDOM(content);
     let $content = require("jquery")(contentDOM.window);
 
+    $skeleton("#content-to-replace").empty();
     $skeleton("#content-to-replace").replaceWith($content("body"));
-
+    $skeleton("#linkToCSS").attr("href", "css/mainpage.css");
+    
     res.set('Server', 'Wazubi Engine');
     res.set('X-Powered-By', 'Wazubi');
     res.send(profileDOM.serialize());
