@@ -143,21 +143,21 @@ app.get('/login', function (req, res) {
 app.get('/about', function (req, res) {
   if (req.session.loggedIn) {
 
-  let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
-  let skeletonDOM = new JSDOM(skeleton);
-  let $skeleton = require("jquery")(skeletonDOM.window);
+    let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+    let skeletonDOM = new JSDOM(skeleton);
+    let $skeleton = require("jquery")(skeletonDOM.window);
 
-  let about = fs.readFileSync('./html/about.html', "utf8");
-  let aboutDOM = new JSDOM(about);
-  let $about = require("jquery")(aboutDOM.window);
+    let about = fs.readFileSync('./html/about.html', "utf8");
+    let aboutDOM = new JSDOM(about);
+    let $about = require("jquery")(aboutDOM.window);
 
-  $skeleton("#content-to-replace").empty();
-  $skeleton("#content-to-replace").html($about("body"));
-  $skeleton("#linkToCSS").attr("href", "css/about.css");
+    $skeleton("#content-to-replace").empty();
+    $skeleton("#content-to-replace").html($about("body"));
+    $skeleton("#linkToCSS").attr("href", "css/about.css");
 
-  res.set('Server', '50Greener Engine');
-  res.set('X-Powered-By', '50Greener');
-  res.send(skeletonDOM.serialize());
+    res.set('Server', '50Greener Engine');
+    res.set('X-Powered-By', '50Greener');
+    res.send(skeletonDOM.serialize());
   } else {
     res.redirect('/');
   }
@@ -191,24 +191,24 @@ app.get('/challenges', function (req, res) {
 app.get('/goals', function (req, res) {
   if (req.session.loggedIn) {
 
-  let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
-  let skeletonDOM = new JSDOM(skeleton);
-  let $skeleton = require("jquery")(skeletonDOM.window);
+    let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+    let skeletonDOM = new JSDOM(skeleton);
+    let $skeleton = require("jquery")(skeletonDOM.window);
 
-  let goals = fs.readFileSync('./html/goals.html', "utf8");
-  let goalsDOM = new JSDOM(goals);
-  let $goals = require("jquery")(goalsDOM.window);
+    let goals = fs.readFileSync('./html/goals.html', "utf8");
+    let goalsDOM = new JSDOM(goals);
+    let $goals = require("jquery")(goalsDOM.window);
 
-  $skeleton("#content-to-replace").empty();
-  $skeleton("#content-to-replace").html($goals("body"));
-  $skeleton("#linkToCSS").attr("href", "css/challenges.css");
-  $skeleton("#linkToCSS2").attr("href", "css/barfiller.css");
-  $skeleton("#linkToCSS3").attr("href", "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
-  $skeleton("#linkToCSS4").attr("href", "css/goals.css");
+    $skeleton("#content-to-replace").empty();
+    $skeleton("#content-to-replace").html($goals("body"));
+    $skeleton("#linkToCSS").attr("href", "css/challenges.css");
+    $skeleton("#linkToCSS2").attr("href", "css/barfiller.css");
+    $skeleton("#linkToCSS3").attr("href", "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
+    $skeleton("#linkToCSS4").attr("href", "css/goals.css");
 
-  res.set('Server', '50Greener Engine');
-  res.set('X-Powered-By', '50Greener');
-  res.send(skeletonDOM.serialize());
+    res.set('Server', '50Greener Engine');
+    res.set('X-Powered-By', '50Greener');
+    res.send(skeletonDOM.serialize());
   } else {
     res.redirect('/');
   }
@@ -241,21 +241,21 @@ app.get('/information', function (req, res) {
 app.get('/settings', function (req, res) {
   if (req.session.loggedIn) {
 
-  let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
-  let skeletonDOM = new JSDOM(skeleton);
-  let $skeleton = require("jquery")(skeletonDOM.window);
+    let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+    let skeletonDOM = new JSDOM(skeleton);
+    let $skeleton = require("jquery")(skeletonDOM.window);
 
-  let settings = fs.readFileSync('./html/settings.html', "utf8");
-  let settingsDOM = new JSDOM(settings);
-  let $settings = require("jquery")(settingsDOM.window);
+    let settings = fs.readFileSync('./html/settings.html', "utf8");
+    let settingsDOM = new JSDOM(settings);
+    let $settings = require("jquery")(settingsDOM.window);
 
-  $skeleton("#content-to-replace").empty();
-  $skeleton("#content-to-replace").html($settings("body"));
-  $skeleton("#linkToCSS").attr("href", "css/settings.css");
+    $skeleton("#content-to-replace").empty();
+    $skeleton("#content-to-replace").html($settings("body"));
+    $skeleton("#linkToCSS").attr("href", "css/settings.css");
 
-  res.set('Server', '50Greener Engine');
-  res.set('X-Powered-By', '50Greener');
-  res.send(skeletonDOM.serialize());
+    res.set('Server', '50Greener Engine');
+    res.set('X-Powered-By', '50Greener');
+    res.send(skeletonDOM.serialize());
   } else {
     res.redirect('/');
   }
