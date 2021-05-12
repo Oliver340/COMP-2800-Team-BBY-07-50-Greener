@@ -3,10 +3,36 @@
 $(function () {
 
   $("#index-signup").on("click", function () {
-    window.location.replace("/signup");
+    $.ajax({
+      url: "/signup",
+      dataType: "html",
+      type: "GET",
+      data: { format: "signup" },
+      success: function (data) {
+        document.documentElement.innerHTML = data;
+  
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        $("#content").text(jqXHR.statusText);
+        console.log("ERROR:", jqXHR, textStatus, errorThrown);
+      }
+    });
   });
 
   $("#index-login").on("click", function () {
-    window.location.replace("/login");
+    $.ajax({
+      url: "/login",
+      dataType: "html",
+      type: "GET",
+      data: { format: "login" },
+      success: function (data) {
+        document.documentElement.innerHTML = data;
+  
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        $("#content").text(jqXHR.statusText);
+        console.log("ERROR:", jqXHR, textStatus, errorThrown);
+      }
+    });
   });
 });
