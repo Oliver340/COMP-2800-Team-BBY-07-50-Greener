@@ -107,7 +107,8 @@ app.get('/signup', function (req, res) {
   let signupDOM = new JSDOM(signup);
   let $signup = require("jquery")(signupDOM.window);
 
-  $skeleton("#content-to-replace").replaceWith($signup("#signup-container"));
+  $skeleton("#content-to-replace").empty();
+  $skeleton("#content-to-replace").html($signup("#signup-container"));
 });
 
 app.get('/login', function (req, res) {
@@ -119,7 +120,8 @@ app.get('/login', function (req, res) {
   let loginDOM = new JSDOM(login);
   let $login = require("jquery")(loginDOM.window);
 
-  $skeleton("#content-to-replace").replaceWith($signup("#login-container"));
+  $skeleton("#content-to-replace").empty();
+  $skeleton("#content-to-replace").html($login("#login-container"));
 });
 
 app.get('/logout', function(req,res){
