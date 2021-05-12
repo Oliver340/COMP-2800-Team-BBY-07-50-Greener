@@ -134,6 +134,102 @@ app.get('/login', function (req, res) {
   res.send(skeletonDOM.serialize());
 });
 
+app.get('/about', function (req, res) {
+  let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+  let skeletonDOM = new JSDOM(skeleton);
+  let $skeleton = require("jquery")(skeletonDOM.window);
+
+  let about = fs.readFileSync('./html/about.html', "utf8");
+  let aboutDOM = new JSDOM(about);
+  let $about = require("jquery")(aboutDOM.window);
+
+  $skeleton("#content-to-replace").empty();
+  $skeleton("#content-to-replace").html($about("body"));
+  $skeleton("#linkToCSS").attr("href", "css/about.css");
+
+  res.set('Server', '50Greener Engine');
+  res.set('X-Powered-By', '50Greener');
+  res.send(skeletonDOM.serialize());
+});
+
+app.get('/challenges', function (req, res) {
+  let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+  let skeletonDOM = new JSDOM(skeleton);
+  let $skeleton = require("jquery")(skeletonDOM.window);
+
+  let challenges = fs.readFileSync('./html/challenges.html', "utf8");
+  let challengesDOM = new JSDOM(challenges);
+  let $challenges = require("jquery")(challengesDOM.window);
+
+  $skeleton("#content-to-replace").empty();
+  $skeleton("#content-to-replace").html($challenges("body"));
+  $skeleton("#linkToCSS").attr("href", "css/challenges.css");
+  $skeleton("#linkToCSS2").attr("href", "css/barfiller.css");
+  $skeleton("#linkToCSS3").attr("href", "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
+
+  res.set('Server', '50Greener Engine');
+  res.set('X-Powered-By', '50Greener');
+  res.send(skeletonDOM.serialize());
+});
+
+app.get('/goals', function (req, res) {
+  let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+  let skeletonDOM = new JSDOM(skeleton);
+  let $skeleton = require("jquery")(skeletonDOM.window);
+
+  let goals = fs.readFileSync('./html/goals.html', "utf8");
+  let goalsDOM = new JSDOM(goals);
+  let $goals = require("jquery")(goalsDOM.window);
+
+  $skeleton("#content-to-replace").empty();
+  $skeleton("#content-to-replace").html($goals("body"));
+  $skeleton("#linkToCSS").attr("href", "css/challenges.css");
+  $skeleton("#linkToCSS2").attr("href", "css/barfiller.css");
+  $skeleton("#linkToCSS3").attr("href", "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
+  $skeleton("#linkToCSS4").attr("href", "css/goals.css");
+
+  res.set('Server', '50Greener Engine');
+  res.set('X-Powered-By', '50Greener');
+  res.send(skeletonDOM.serialize());
+});
+
+app.get('/information', function (req, res) {
+  let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+  let skeletonDOM = new JSDOM(skeleton);
+  let $skeleton = require("jquery")(skeletonDOM.window);
+
+  let information = fs.readFileSync('./html/information.html', "utf8");
+  let informationDOM = new JSDOM(information);
+  let $information = require("jquery")(informationDOM.window);
+
+  $skeleton("#content-to-replace").empty();
+  $skeleton("#content-to-replace").html($information("body"));
+  $skeleton("#linkToCSS").attr("href", "css/information.css");
+  $skeleton("#linkToCSS3").attr("href", "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
+
+  res.set('Server', '50Greener Engine');
+  res.set('X-Powered-By', '50Greener');
+  res.send(skeletonDOM.serialize());
+});
+
+app.get('/settings', function (req, res) {
+  let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+  let skeletonDOM = new JSDOM(skeleton);
+  let $skeleton = require("jquery")(skeletonDOM.window);
+
+  let settings = fs.readFileSync('./html/settings.html', "utf8");
+  let settingsDOM = new JSDOM(settings);
+  let $settings = require("jquery")(settingsDOM.window);
+
+  $skeleton("#content-to-replace").empty();
+  $skeleton("#content-to-replace").html($settings("#settings-container"));
+  $skeleton("#linkToCSS").attr("href", "css/settings.css");
+
+  res.set('Server', '50Greener Engine');
+  res.set('X-Powered-By', '50Greener');
+  res.send(skeletonDOM.serialize());
+});
+
 app.get('/logout', function (req, res) {
   req.session.destroy(function (error) {
     if (error) {
