@@ -156,23 +156,28 @@ app.get('/about', function (req, res) {
 });
 
 app.get('/challenges', function (req, res) {
-  let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
-  let skeletonDOM = new JSDOM(skeleton);
-  let $skeleton = require("jquery")(skeletonDOM.window);
+  
+  if (req.session.loggedIn) {
+    let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+    let skeletonDOM = new JSDOM(skeleton);
+    let $skeleton = require("jquery")(skeletonDOM.window);
 
-  let challenges = fs.readFileSync('./html/challenges.html', "utf8");
-  let challengesDOM = new JSDOM(challenges);
-  let $challenges = require("jquery")(challengesDOM.window);
+    let challenges = fs.readFileSync('./html/challenges.html', "utf8");
+    let challengesDOM = new JSDOM(challenges);
+    let $challenges = require("jquery")(challengesDOM.window);
 
-  $skeleton("#content-to-replace").empty();
-  $skeleton("#content-to-replace").html($challenges("body"));
-  $skeleton("#linkToCSS").attr("href", "css/challenges.css");
-  $skeleton("#linkToCSS2").attr("href", "css/barfiller.css");
-  $skeleton("#linkToCSS3").attr("href", "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
+    $skeleton("#content-to-replace").empty();
+    $skeleton("#content-to-replace").html($challenges("body"));
+    $skeleton("#linkToCSS").attr("href", "css/challenges.css");
+    $skeleton("#linkToCSS2").attr("href", "css/barfiller.css");
+    $skeleton("#linkToCSS3").attr("href", "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
 
-  res.set('Server', '50Greener Engine');
-  res.set('X-Powered-By', '50Greener');
-  res.send(skeletonDOM.serialize());
+    res.set('Server', '50Greener Engine');
+    res.set('X-Powered-By', '50Greener');
+    res.send(skeletonDOM.serialize());
+  } else {
+    res.redirect('/');
+  }
 });
 
 app.get('/goals', function (req, res) {
@@ -197,22 +202,27 @@ app.get('/goals', function (req, res) {
 });
 
 app.get('/information', function (req, res) {
-  let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
-  let skeletonDOM = new JSDOM(skeleton);
-  let $skeleton = require("jquery")(skeletonDOM.window);
 
-  let information = fs.readFileSync('./html/information.html', "utf8");
-  let informationDOM = new JSDOM(information);
-  let $information = require("jquery")(informationDOM.window);
+  if (req.session.loggedIn) {
+    let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+    let skeletonDOM = new JSDOM(skeleton);
+    let $skeleton = require("jquery")(skeletonDOM.window);
 
-  $skeleton("#content-to-replace").empty();
-  $skeleton("#content-to-replace").html($information("body"));
-  $skeleton("#linkToCSS").attr("href", "css/information.css");
-  $skeleton("#linkToCSS3").attr("href", "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
+    let information = fs.readFileSync('./html/information.html', "utf8");
+    let informationDOM = new JSDOM(information);
+    let $information = require("jquery")(informationDOM.window);
 
-  res.set('Server', '50Greener Engine');
-  res.set('X-Powered-By', '50Greener');
-  res.send(skeletonDOM.serialize());
+    $skeleton("#content-to-replace").empty();
+    $skeleton("#content-to-replace").html($information("body"));
+    $skeleton("#linkToCSS").attr("href", "css/information.css");
+    $skeleton("#linkToCSS3").attr("href", "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
+
+    res.set('Server', '50Greener Engine');
+    res.set('X-Powered-By', '50Greener');
+    res.send(skeletonDOM.serialize());
+  } else {
+    res.redirect('/');
+  }
 });
 
 app.get('/settings', function (req, res) {
