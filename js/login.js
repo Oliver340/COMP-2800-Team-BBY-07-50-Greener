@@ -1,6 +1,7 @@
 "use strict";
 $(document).ready(function () {
-    $("#login-btn").on("click", function () {
+    $("#login-btn").click(function () {
+        console.log("onclickloginbtn");
         $.ajax({
             url: "/authenticate",
             type: "POST",
@@ -11,7 +12,7 @@ $(document).ready(function () {
             },
             success: function (data) {
                 if (data['status'] == "success") {
-                    document.documentElement.innerHTML = data;
+                    window.location.replace("/mainpage");
                 } else {
                     $("#errorMsg").html(data['msg']);
                 }

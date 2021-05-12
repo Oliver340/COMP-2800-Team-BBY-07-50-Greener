@@ -11,6 +11,7 @@ app.use('/css', express.static('css'));
 app.use('/images', express.static('images'));
 app.use('/html', express.static('html'));
 
+
 app.use(session({
   secret: 'super secret password',
   name: '50Greener',
@@ -76,7 +77,7 @@ async function initDB() {
 }
 
 app.get('/mainpage', function (req, res) {
-
+  console.log("mainpage");
   if (req.session.loggedIn) {
 
     let skeletonFile = fs.readFileSync('./html/skeleton.html', "utf8");
@@ -110,7 +111,7 @@ app.get('/signup', function (req, res) {
   let $signup = require("jquery")(signupDOM.window);
 
   $skeleton("#content-to-replace").empty();
-  $skeleton("#content-to-replace").html($signup("#signup-container"));
+  $skeleton("#content-to-replace").html($signup("body"));
   $skeleton("#linkToCSS").attr("href", "css/signup.css");
   
   res.set('Server', '50Greener Engine');
@@ -128,7 +129,7 @@ app.get('/login', function (req, res) {
   let $login = require("jquery")(loginDOM.window);
 
   $skeleton("#content-to-replace").empty();
-  $skeleton("#content-to-replace").html($login("#login-container"));
+  $skeleton("#content-to-replace").html($login("body"));
   $skeleton("#linkToCSS").attr("href", "css/login.css");
 
   res.set('Server', '50Greener Engine');
@@ -224,7 +225,7 @@ app.get('/settings', function (req, res) {
   let $settings = require("jquery")(settingsDOM.window);
 
   $skeleton("#content-to-replace").empty();
-  $skeleton("#content-to-replace").html($settings("#settings-container"));
+  $skeleton("#content-to-replace").html($settings("body"));
   $skeleton("#linkToCSS").attr("href", "css/settings.css");
 
   res.set('Server', '50Greener Engine');
@@ -232,9 +233,12 @@ app.get('/settings', function (req, res) {
   res.send(skeletonDOM.serialize());
 });
 
-app.post('/authenticate', function(req, res) {
-    res.setHeader('Content-Type', 'application/json');
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 
+app.post('/authenticate', function(req, res) {
+    console.log("authentication");
+    res.setHeader('Content-Type', 'application/json');
     let results = authenticate(req.body.email, req.body.password,
         function(rows) {
             if(rows == null) {
@@ -249,6 +253,33 @@ app.post('/authenticate', function(req, res) {
     });
 
 });
+
+
+function authenticate(email, pwd, callback) {
+
+    const connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: '',
+      database: 'accounts'
+    });
+
+    connection.query(
+      "SELECT * FROM user WHERE email = ? AND password = ?", [email, pwd],
+      function (error, results) {
+        if (error) {
+            throw error;
+        }
+
+        if(results.length > 0) {
+            return callback(results[0]);
+        } else {
+            return callback(null);
+        }
+
+    });
+
+}
 
 app.get('/logout', function (req, res) {
   req.session.destroy(function (error) {
