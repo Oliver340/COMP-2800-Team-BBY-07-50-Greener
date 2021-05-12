@@ -61,7 +61,7 @@ async function initDB() {
         use accounts;
         CREATE TABLE IF NOT EXISTS user (
         ID int NOT NULL AUTO_INCREMENT,
-        email varchar(30),
+        username varchar(30),
         password varchar(30),
         PRIMARY KEY (ID));`;
 
@@ -239,13 +239,13 @@ app.use(express.urlencoded({ extended: true }))
 app.post('/authenticate', function(req, res) {
     console.log("authentication");
     res.setHeader('Content-Type', 'application/json');
-    let results = authenticate(req.body.email, req.body.password,
+    let results = authenticate(req.body.username, req.body.password,
         function(rows) {
             if(rows == null) {
                 res.send({ status: "fail", msg: "User account not found." });
             } else {
                 req.session.loggedIn = true;
-                req.session.email = rows.email;
+                req.session.username = rows.username;
                 req.session.save(function(err) {
                 })
                 res.send({ status: "success", msg: "Logged in." });
@@ -265,7 +265,7 @@ function authenticate(email, pwd, callback) {
     });
 
     connection.query(
-      "SELECT * FROM user WHERE email = ? AND password = ?", [email, pwd],
+      "SELECT * FROM user WHERE username = ? AND password = ?", [username, pwd],
       function (error, results) {
         if (error) {
             throw error;
@@ -290,7 +290,7 @@ app.get('/logout', function (req, res) {
   res.redirect("/mainpage");
 })
 
-let port = 8000;
+const port = process.env.port || 8000;
 app.listen(port, function () {
   console.log('Listening on port ' + port + '!');
 })

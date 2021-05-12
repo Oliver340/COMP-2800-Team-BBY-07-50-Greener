@@ -7,7 +7,7 @@ $(document).ready(function () {
             type: "POST",
             dataType: "JSON",
             data: {
-                email: $("#email").val(),
+                email: $("#username").val(),
                 password: $("#password").val()
             },
             success: function (data) {
