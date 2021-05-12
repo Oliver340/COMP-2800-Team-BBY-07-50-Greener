@@ -68,10 +68,10 @@ async function initDB() {
   let results = await connection.query("SELECT COUNT(*) FROM user");
   let count = results[0][0]['COUNT(*)'];
 
-  if (count < 1) {
-    results = await connection.query("INSERT INTO user (email, password) values ('arron_ferguson@bcit.ca', 'admin')");
-    console.log("Added one user record.");
-  }
+//   if (count < 1) {
+//     results = await connection.query("INSERT INTO user (email, password) values ('arron_ferguson@bcit.ca', 'admin')");
+//     console.log("Added one user record.");
+//   }
   connection.end();
 }
 
@@ -132,6 +132,24 @@ app.get('/login', function (req, res) {
   res.set('Server', '50Greener Engine');
   res.set('X-Powered-By', '50Greener');
   res.send(skeletonDOM.serialize());
+});
+
+app.post('/authenticate', function(req, res) {
+    res.setHeader('Content-Type', 'application/json');
+
+    let results = authenticate(req.body.email, req.body.password,
+        function(rows) {
+            if(rows == null) {
+                res.send({ status: "fail", msg: "User account not found." });
+            } else {
+                req.session.loggedIn = true;
+                req.session.email = rows.email;
+                req.session.save(function(err) {
+                })
+                res.send({ status: "success", msg: "Logged in." });
+            }
+    });
+
 });
 
 app.get('/logout', function (req, res) {
