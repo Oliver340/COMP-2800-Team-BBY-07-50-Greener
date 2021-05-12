@@ -87,3 +87,42 @@ h1 {
   font-size: 18pt;
   color: #26471b;
 }
+body {
+  background-color: #E6F0E4;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#index-heading {
+  font-size: 16pt;
+}
+
+#index-description {
+  font-size: 16pt;
+}
+
+#login-signup {
+  width: 100%;
+  text-align: center;
+  margin-top: 50px;
+}
+
+#index-signup {
+  width: 50%;
+  padding: 15px;
+  border-radius: 20px 20px 0 0;
+  background-color: #3C7329;
+  border: 0;
+  font-size: 14pt;
+  color: white;
+  box-shadow: 2px 2px 7px black;
+}
+
+#index-login {
+  width: 50%;
+  padding: 7px;
+  border-radius: 0 0 20px 20px;
+  background-color: #C8E9A7;
+  border: 0;
+  font-size: 12pt;
+  box-shadow: 2px 2px 7px black;
+}
