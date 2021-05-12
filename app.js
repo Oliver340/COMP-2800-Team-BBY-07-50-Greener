@@ -109,6 +109,7 @@ app.get('/signup', function (req, res) {
 
   $skeleton("#content-to-replace").empty();
   $skeleton("#content-to-replace").html($signup("#signup-container"));
+  $skeleton("#linkToCSS").attr("href", "css/signup.css");
   
   res.set('Server', '50Greener Engine');
   res.set('X-Powered-By', '50Greener');
@@ -126,6 +127,7 @@ app.get('/login', function (req, res) {
 
   $skeleton("#content-to-replace").empty();
   $skeleton("#content-to-replace").html($login("#login-container"));
+  $skeleton("#linkToCSS").attr("href", "css/login.css");
 
   res.set('Server', '50Greener Engine');
   res.set('X-Powered-By', '50Greener');
