@@ -62,6 +62,8 @@ async function initDB() {
         CREATE TABLE IF NOT EXISTS user (
         ID int NOT NULL AUTO_INCREMENT,
         username varchar(30),
+        firstName varchar(30),
+        lastName varchar(30),
         password varchar(30),
         PRIMARY KEY (ID));`;
 
@@ -70,7 +72,7 @@ async function initDB() {
   let count = results[0][0]['COUNT(*)'];
 
    if (count < 1) {
-     results = await connection.query("INSERT INTO user (username, password) values ('arron_ferguson@bcit.ca', 'admin')");
+     results = await connection.query("INSERT INTO user (username, firstName, lastName, password) values ('arron_ferguson@bcit.ca', 'arron', 'f', 'admin')");
      console.log("Added one user record.");
    }
   connection.end();
@@ -91,6 +93,7 @@ app.get('/mainpage', function (req, res) {
     $skeleton("#content-to-replace").empty();
     $skeleton("#content-to-replace").replaceWith($content("body"));
     $skeleton("#linkToCSS").attr("href", "css/mainpage.css");
+    $skeleton("#profile_name").html(req.session.name);
     
     res.set('Server', 'Wazubi Engine');
     res.set('X-Powered-By', 'Wazubi');
@@ -255,7 +258,7 @@ app.post('/authenticate', function(req, res) {
                 res.send({ status: "fail", msg: "User account not found." });
             } else {
                 req.session.loggedIn = true;
-                req.session.loginUsername = rows.username;
+                req.session.name = rows.firstName;
                 req.session.save(function(err) {
                 })
                 res.send({ status: "success", msg: "Logged in." });

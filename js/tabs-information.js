@@ -4,12 +4,7 @@ $(function () {
 
     let activetab;
 
-    $('#tabmenu').on('click', '.tablink-active', function (e) {
-
-        activetab = e.target.parentNode.id.replace('-tab', '');
-        closeTab(e, activetab);
-
-    });
+    $('#info').attr('style', 'display: block');
 
     $('#tabmenu').on('click', '.tablink', function (e) {
 
@@ -24,13 +19,6 @@ $(function () {
         $('.tab-body').attr('style', 'display: none');
         e.target.parentNode.className = "tablink-active";
         $(`#${tabID}`).attr('style', 'display: block');
-
-    }
-
-    function closeTab(e, tabID) {
-
-        e.target.parentNode.className = "tablink";
-        $(`#${tabID}`).attr('style', 'display: none');
 
     }
 

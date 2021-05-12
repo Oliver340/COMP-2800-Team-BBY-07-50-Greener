@@ -13,11 +13,6 @@ body {
     box-shadow: 3px 3px 1px 1px #a7a0a0;
 }
 
-
-#info {
-    display: none;
-}
-
 .tab-body {
     margin: 0 20px;
     padding: 15px;
