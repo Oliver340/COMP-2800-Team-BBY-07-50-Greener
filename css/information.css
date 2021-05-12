@@ -44,10 +44,6 @@ body {
     box-shadow: 3px 3px 1px 1px #a7a0a0;
 }
 
-#info {
-    display: none;
-}
-
 .tab-body h4 {
     margin: 0;
 }
