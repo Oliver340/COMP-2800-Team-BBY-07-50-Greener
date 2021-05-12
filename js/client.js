@@ -242,4 +242,24 @@ $(function () {
     });
   });
 
+  $("#nav-logout").on("click", function () {
+    $.ajax({
+      url: "/logout",
+      dataType: "html",
+      type: "GET",
+      data: { format: "logout" },
+      success: function (data) {
+        document.documentElement.innerHTML = data;
+        var temp1 = "<script id='jquery-script' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
+        var temp2 = "<script id='client-script' src='../js/client.js'></script>";
+        $("#jquery-script").replaceWith(temp1);
+        $("#client-script").replaceWith(temp2);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        $("#content").text(jqXHR.statusText);
+        console.log("ERROR:", jqXHR, textStatus, errorThrown);
+      }
+    });
+  });
+
 });

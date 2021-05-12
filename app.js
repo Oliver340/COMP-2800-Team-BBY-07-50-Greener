@@ -94,6 +94,10 @@ app.get('/mainpage', function (req, res) {
     $skeleton("#content-to-replace").replaceWith($content("body"));
     $skeleton("#linkToCSS").attr("href", "css/mainpage.css");
     $skeleton("#profile_name").html(req.session.name);
+
+    //
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
+    //
     
     res.set('Server', 'Wazubi Engine');
     res.set('X-Powered-By', 'Wazubi');
@@ -381,7 +385,12 @@ app.get('/logout', function (req, res) {
       console.log(error);
     }
   });
-  res.redirect("/mainpage");
+
+  let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+  let skeletonDOM = new JSDOM(skeleton);
+  let $skeleton = require("jquery")(skeletonDOM.window);
+  $skeleton("#nav-logout").replaceWith("<div id='nav-login' class='options'>Log In</div>");
+  res.redirect("/");
 })
 
 const port = process.env.port || 8000;
