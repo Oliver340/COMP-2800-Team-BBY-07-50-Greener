@@ -119,7 +119,7 @@ app.get('/login', function (req, res) {
   let loginDOM = new JSDOM(login);
   let $login = require("jquery")(loginDOM.window);
 
-  $skeleton("#content-to-replace").replaceWith($signup("#login-container"));
+  $skeleton("#content-to-replace").replaceWith($login("#login-container"));
 });
 
 app.get('/logout', function(req,res){
