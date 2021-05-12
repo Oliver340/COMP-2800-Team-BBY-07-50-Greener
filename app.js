@@ -31,7 +31,7 @@ app.get('/', function (req, res) {
 
   $("#content-to-replace").empty();
   $("#content-to-replace").html($index("body"));
-  $("#indexCSS").replaceWith($index("#linkToCSS"));
+  $("#linkToCSS").attr("href", "css/index.css");
 
 
   let dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
