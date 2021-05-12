@@ -29,7 +29,8 @@ app.get('/', function (req, res) {
     let indexDOM = new JSDOM(index);
     let $index = require("jquery")(indexDOM.window);
 
-    $("#content-to-replace").replaceWith($index("body"));
+    $("#content-to-replace").empty();
+    $("#content-to-replace").html($index("body"));
     $("#indexCSS").replaceWith($index("#linkToCSS"));
 
 
