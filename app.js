@@ -309,6 +309,72 @@ function authenticate(username, pwd, callback) {
 
 }
 
+app.post('/newUser', function(req, res) {
+  console.log("new user");
+  res.setHeader('Content-Type', 'application/json');
+  
+  let results = insertUser(req.body.signupUsername, req.body.signupFirstName, req.body.signupLastName, req.body.signupPassword,
+      function(rows) {
+          if(rows == null) {
+              res.send({ status: "fail", msg: "This user already exists." });
+          } else {
+              req.session.loggedIn = true;
+              req.session.name = rows.firstName;
+              req.session.save(function(err) {
+              })
+              res.send({ status: "success", msg: "Signed up." });
+          }
+  });
+
+});
+
+
+function insertUser(username, firstName, lastName, pwd, callback) {
+
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
+
+  connection.query(
+    "SELECT * FROM user WHERE username = ?", [username],
+    function (error, results) {
+      if (error) {
+          throw error;
+      }
+
+      if(results.length > 0) {
+        return callback(null);
+        
+      } else {
+        connection.query(
+          "INSERT INTO user (username, firstName, lastName, password) values (?, ?, ?, ?)", [username, firstName, lastName, pwd],
+          function (error, results) {
+            if (error) {
+              throw error;
+            }
+          });
+          connection.query(
+            "SELECT * FROM user WHERE username = ? AND password = ?", [username, pwd],
+            function (error, results) {
+              if (error) {
+                  throw error;
+              }
+      
+              if(results.length > 0) {
+                  return callback(results[0]);
+              } else {
+                  return callback(null);
+              }
+            });
+      }
+
+  });
+
+}
+
 app.get('/logout', function (req, res) {
   req.session.destroy(function (error) {
     if (error) {
