@@ -141,6 +141,8 @@ app.get('/login', function (req, res) {
 });
 
 app.get('/about', function (req, res) {
+  if (req.session.loggedIn) {
+
   let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
   let skeletonDOM = new JSDOM(skeleton);
   let $skeleton = require("jquery")(skeletonDOM.window);
@@ -156,6 +158,9 @@ app.get('/about', function (req, res) {
   res.set('Server', '50Greener Engine');
   res.set('X-Powered-By', '50Greener');
   res.send(skeletonDOM.serialize());
+  } else {
+    res.redirect('/');
+  }
 });
 
 app.get('/challenges', function (req, res) {
@@ -184,6 +189,8 @@ app.get('/challenges', function (req, res) {
 });
 
 app.get('/goals', function (req, res) {
+  if (req.session.loggedIn) {
+
   let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
   let skeletonDOM = new JSDOM(skeleton);
   let $skeleton = require("jquery")(skeletonDOM.window);
@@ -202,6 +209,9 @@ app.get('/goals', function (req, res) {
   res.set('Server', '50Greener Engine');
   res.set('X-Powered-By', '50Greener');
   res.send(skeletonDOM.serialize());
+  } else {
+    res.redirect('/');
+  }
 });
 
 app.get('/information', function (req, res) {
@@ -229,6 +239,8 @@ app.get('/information', function (req, res) {
 });
 
 app.get('/settings', function (req, res) {
+  if (req.session.loggedIn) {
+
   let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
   let skeletonDOM = new JSDOM(skeleton);
   let $skeleton = require("jquery")(skeletonDOM.window);
@@ -244,6 +256,9 @@ app.get('/settings', function (req, res) {
   res.set('Server', '50Greener Engine');
   res.set('X-Powered-By', '50Greener');
   res.send(skeletonDOM.serialize());
+  } else {
+    res.redirect('/');
+  }
 });
 
 app.use(express.json());
