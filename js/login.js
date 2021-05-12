@@ -1,14 +1,15 @@
 "use strict";
-$(document).ready(function () {
-    $("#login-btn").click(function () {
-        console.log("onclickloginbtn");
+$(function () {
+
+    $("#login-btn").on("click", function () {
+
         $.ajax({
             url: "/authenticate",
             type: "POST",
             dataType: "JSON",
             data: {
-                email: $("#username").val(),
-                password: $("#password").val()
+                loginUsername: $("#login-username").val(),
+                loginPassword: $("#login-password").val()
             },
             success: function (data) {
                 if (data['status'] == "success") {

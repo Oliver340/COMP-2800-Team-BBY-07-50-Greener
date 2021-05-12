@@ -69,10 +69,10 @@ async function initDB() {
   let results = await connection.query("SELECT COUNT(*) FROM user");
   let count = results[0][0]['COUNT(*)'];
 
-//   if (count < 1) {
-//     results = await connection.query("INSERT INTO user (email, password) values ('arron_ferguson@bcit.ca', 'admin')");
-//     console.log("Added one user record.");
-//   }
+   if (count < 1) {
+     results = await connection.query("INSERT INTO user (username, password) values ('arron_ferguson@bcit.ca', 'admin')");
+     console.log("Added one user record.");
+   }
   connection.end();
 }
 
@@ -94,7 +94,7 @@ app.get('/mainpage', function (req, res) {
     
     res.set('Server', 'Wazubi Engine');
     res.set('X-Powered-By', 'Wazubi');
-    res.send(profileDOM.serialize());
+    res.send(skeletonDOM.serialize());
 
   } else {
     res.redirect('/');
@@ -239,13 +239,13 @@ app.use(express.urlencoded({ extended: true }))
 app.post('/authenticate', function(req, res) {
     console.log("authentication");
     res.setHeader('Content-Type', 'application/json');
-    let results = authenticate(req.body.username, req.body.password,
+    let results = authenticate(req.body.loginUsername, req.body.loginPassword,
         function(rows) {
             if(rows == null) {
                 res.send({ status: "fail", msg: "User account not found." });
             } else {
                 req.session.loggedIn = true;
-                req.session.username = rows.username;
+                req.session.loginUsername = rows.username;
                 req.session.save(function(err) {
                 })
                 res.send({ status: "success", msg: "Logged in." });
@@ -255,7 +255,7 @@ app.post('/authenticate', function(req, res) {
 });
 
 
-function authenticate(email, pwd, callback) {
+function authenticate(username, pwd, callback) {
 
     const connection = mysql.createConnection({
       host: 'localhost',
