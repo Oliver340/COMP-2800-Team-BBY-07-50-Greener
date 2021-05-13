@@ -320,7 +320,7 @@ app.post('/newUser', function(req, res) {
   let results = insertUser(req.body.signupUsername, req.body.signupFirstName, req.body.signupLastName, req.body.signupPassword,
       function(rows) {
           if(rows == null) {
-              res.send({ status: "fail", msg: "This user already exists." });
+              res.send({ status: "fail", msg: "This username already exists." });
           } else {
               req.session.loggedIn = true;
               req.session.name = rows.firstName;

@@ -12,11 +12,11 @@ body {
   margin: 20% auto;
 }
 
-#username {
+#signup-username {
   width: 95%;
 }
 
-#password {
+#signup-password {
   width: 95%;
 }
 
@@ -32,12 +32,16 @@ body {
   grid-column: 2;
 }
 
-#first-name {
+#signup-first-name {
   width: 90%;
 }
 
-#last-name {
+#signup-last-name {
   width: 90%;
+}
+
+#errorMsg {
+  color: red;
 }
 
 #signup-btn {

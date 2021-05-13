@@ -18,6 +18,8 @@ $(function () {
 
                 } else {
                     $("#errorMsg").html(data['msg']);
+                    $("#login-username").val("");
+                    $("#login-password").val("");
                 }
 
             },
