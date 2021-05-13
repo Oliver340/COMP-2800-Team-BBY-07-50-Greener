@@ -95,9 +95,7 @@ app.get('/mainpage', function (req, res) {
     $skeleton("#linkToCSS").attr("href", "css/mainpage.css");
     $skeleton("#profile_name").html(req.session.name);
 
-    //
     $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
-    //
     
     res.set('Server', 'Wazubi Engine');
     res.set('X-Powered-By', 'Wazubi');

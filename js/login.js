@@ -30,6 +30,7 @@ $(function () {
 
 });
 
+
 function goMain() {
     $.ajax({
         url: "/mainpage",
