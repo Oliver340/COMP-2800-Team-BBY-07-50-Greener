@@ -60,13 +60,13 @@ $(function () {
         $("#client-script").replaceWith(temp2);
         if (document.getElementById("mainpage-identifier") != null) {
           var temp3 = "<script id='cloudflare-script' src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js'></script>";
-          var temp4 = "<script id='dialguage-script' src='../js/mainpage-dial-gauge.js'></script>";
+          var temp4 = "<script id='semicircle-script' src='../js/mainpage-semicircle.js'></script>";
           var temp5 = "<script id='piechart-script' src='../js/mainpage-pie-chart.js'></script>";
-          var temp6 = "<script id='header-script' src='https://d3js.org/d3.v3.min.js' charset='utf-8'></script>";
+          var temp6 = "<script id='progressbar-script' src='https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.1.0/progressbar.min.js' charset='utf-8'></script>";
           $("#cloudflare-script").replaceWith(temp3);
-          $("#dialguage-script").replaceWith(temp4);
+          $("#semicircle-script").replaceWith(temp4);
           $("#piechart-script").replaceWith(temp5);
-          $("#header-script").replaceWith(temp6);
+          $("#progressbar-script").replaceWith(temp6);
         } else {
           console.log("redirect");
         }

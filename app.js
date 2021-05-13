@@ -99,8 +99,8 @@ app.get('/mainpage', function (req, res) {
     $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
     //
     
-    res.set('Server', 'Wazubi Engine');
-    res.set('X-Powered-By', 'Wazubi');
+    res.set('Server', '50Greener Engine');
+    res.set('X-Powered-By', '50Greener');
     res.send(skeletonDOM.serialize());
 
   } else {
