@@ -102,7 +102,6 @@ app.get('/mainpage', function (req, res) {
     $skeleton("#profile_name").html(req.session.name);
 
     $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
-    //
 
     res.set('Server', '50Greener Engine');
     res.set('X-Powered-By', '50Greener');
@@ -164,6 +163,8 @@ app.get('/about', function (req, res) {
     $skeleton("#content-to-replace").html($about("body"));
     $skeleton("#linkToCSS").attr("href", "css/about.css");
 
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
+
     res.set('Server', '50Greener Engine');
     res.set('X-Powered-By', '50Greener');
     res.send(skeletonDOM.serialize());
@@ -186,6 +187,8 @@ app.get('/challenges', function (req, res) {
     $skeleton("#content-to-replace").empty();
     $skeleton("#content-to-replace").html($challenges("body"));
     $skeleton("#linkToCSS").attr("href", "css/challenges.css");
+
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
 
     res.set('Server', '50Greener Engine');
     res.set('X-Powered-By', '50Greener');
@@ -213,6 +216,8 @@ app.get('/goals', function (req, res) {
     $skeleton("#linkToCSS3").attr("href", "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
     $skeleton("#linkToCSS4").attr("href", "css/goals.css");
 
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
+
     res.set('Server', '50Greener Engine');
     res.set('X-Powered-By', '50Greener');
     res.send(skeletonDOM.serialize());
@@ -237,6 +242,8 @@ app.get('/information', function (req, res) {
     $skeleton("#linkToCSS").attr("href", "css/information.css");
     $skeleton("#linkToCSS3").attr("href", "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
 
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
+
     res.set('Server', '50Greener Engine');
     res.set('X-Powered-By', '50Greener');
     res.send(skeletonDOM.serialize());
@@ -259,6 +266,8 @@ app.get('/settings', function (req, res) {
     $skeleton("#content-to-replace").empty();
     $skeleton("#content-to-replace").html($settings("body"));
     $skeleton("#linkToCSS").attr("href", "css/settings.css");
+
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
 
     res.set('Server', '50Greener Engine');
     res.set('X-Powered-By', '50Greener');
