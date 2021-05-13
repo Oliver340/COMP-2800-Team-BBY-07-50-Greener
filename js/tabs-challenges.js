@@ -4,7 +4,7 @@ $(function () {
 
     let activetab;
 
-    $('#info, #goal').attr('style', 'display: block');
+    $('#info, #progress').attr('style', 'display: block');
 
     $('#tabmenu').on('click', '.tablink-active', function (e) {
         activetab = e.target.id.replace('-tab', '');
@@ -25,5 +25,16 @@ $(function () {
         e.target.className = "tablink";
         $(`#${tabID}`).attr('style', 'display: none');
     }
+
+    var line = new ProgressBar.Line('#progress', {
+        color: '#FCB03C',
+        strokeWidth: 1,
+        trailColor: '#d73242',
+        trailWidth: 1,
+        duration: 2000,
+        easing: 'easeInOut'
+    });
+
+    line.animate(0.6);
 
 });

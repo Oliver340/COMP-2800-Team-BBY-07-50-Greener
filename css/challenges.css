@@ -40,3 +40,12 @@ body {
 .challenges span {
     margin: 5px 0;
 }
+
+#progress {
+    height: 10px;
+}
+
+#progress>svg {
+    height: 100%;
+    display: block;
+}
