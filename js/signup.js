@@ -20,6 +20,10 @@ $(function () {
 
                 } else {
                     $("#errorMsg").html(data['msg']);
+                    $("#signup-username").val("");
+                    $("#signup-password").val("");
+                    $("#signup-first-name").val("");
+                    $("#signup-last-name").val("");
                 }
 
             },

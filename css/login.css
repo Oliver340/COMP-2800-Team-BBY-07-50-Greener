@@ -12,12 +12,16 @@ body {
   margin: 20% auto;
 }
 
-#username {
+#login-username {
   width: 95%;
 }
 
-#password {
+#login-password {
   width: 95%;
+}
+
+#errorMsg {
+  color: red;
 }
 
 #login-btn {
