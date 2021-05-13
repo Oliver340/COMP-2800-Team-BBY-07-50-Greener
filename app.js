@@ -91,7 +91,7 @@ app.get('/mainpage', function (req, res) {
     let $content = require("jquery")(contentDOM.window);
 
     $skeleton("#content-to-replace").empty();
-    $skeleton("#content-to-replace").replaceWith($content("body"));
+    $skeleton("#content-to-replace").html($content("body"));
     $skeleton("#linkToCSS").attr("href", "css/mainpage.css");
     $skeleton("#profile_name").html(req.session.name);
 
