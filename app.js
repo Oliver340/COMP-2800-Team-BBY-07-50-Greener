@@ -57,9 +57,10 @@ async function initDB() {
   const mysql = require('mysql2/promise');
 
   const connection = await mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
+    host: 'aa1g71w6g84yllj.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+    port: 3306,
+    user: 'admin',
+    password: '50percentgreener',
     multipleStatements: true
   });
 
@@ -301,9 +302,10 @@ app.post('/authenticate', function (req, res) {
 function authenticate(username, pwd, callback) {
 
   const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
+    host: 'aa1g71w6g84yllj.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+    port: 3306,
+    user: 'admin',
+    password: '50percentgreener',
     database: 'accounts'
   });
 
@@ -352,9 +354,10 @@ app.post('/newUser', function (req, res) {
 function insertUser(username, firstName, lastName, pwd, callback) {
 
   const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
+    host: 'aa1g71w6g84yllj.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+    port: 3306,
+    user: 'admin',
+    password: '50percentgreener',
     database: 'accounts'
   });
 
