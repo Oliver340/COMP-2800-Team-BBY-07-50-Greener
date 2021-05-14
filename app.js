@@ -56,23 +56,22 @@ async function initDB() {
 
   const mysql = require('mysql2/promise');
 
-  // THIS CONNECTION FOR LOCAL TESTING
-  // const connection = mysql.createConnection({
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  // const connection = await mysql.createConnection({
   //   host: 'localhost',
   //   port: 3306,
   //   user: 'root',
   //   password: '',
-  //   database: 'accounts'
+  //   multipleStatements: true
   // });
 
-
-  // THIS CONNECTION FOR GOING LIVE
-  const connection = mysql.createConnection({
-    host: 'localhost',
+  // THIS IS FOR LIVE SERVER
+  const connection = await mysql.createConnection({
+    host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
     port: 3306,
-    user: 'root',
-    password: '',
-    database: 'accounts'
+    user: 'admin',
+    password: '50percentgreener',
+    multipleStatements: true
   });
 
   const createDBAndTables = `CREATE DATABASE IF NOT EXISTS accounts;
@@ -320,7 +319,7 @@ app.post('/authenticate', function (req, res) {
 
 function authenticate(username, pwd, callback) {
 
-  // THIS CONNECTION FOR LOCAL TESTING
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
   // const connection = mysql.createConnection({
   //   host: 'localhost',
   //   port: 3306,
@@ -329,13 +328,12 @@ function authenticate(username, pwd, callback) {
   //   database: 'accounts'
   // });
 
-
-  // THIS CONNECTION FOR GOING LIVE
+  // THIS IS FOR LIVE SERVER
   const connection = mysql.createConnection({
-    host: 'localhost',
+    host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
     port: 3306,
-    user: 'root',
-    password: '',
+    user: 'admin',
+    password: '50percentgreener',
     database: 'accounts'
   });
 
@@ -383,7 +381,7 @@ app.post('/newUser', function (req, res) {
 
 function insertUser(username, firstName, lastName, pwd, callback) {
 
-  // THIS CONNECTION FOR LOCAL TESTING
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
   // const connection = mysql.createConnection({
   //   host: 'localhost',
   //   port: 3306,
@@ -392,13 +390,12 @@ function insertUser(username, firstName, lastName, pwd, callback) {
   //   database: 'accounts'
   // });
 
-
-  // THIS CONNECTION FOR GOING LIVE
+  // THIS IS FOR LIVE SERVER
   const connection = mysql.createConnection({
-    host: 'localhost',
+    host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
     port: 3306,
-    user: 'root',
-    password: '',
+    user: 'admin',
+    password: '50percentgreener',
     database: 'accounts'
   });
 
