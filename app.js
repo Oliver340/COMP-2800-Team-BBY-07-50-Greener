@@ -56,12 +56,23 @@ async function initDB() {
 
   const mysql = require('mysql2/promise');
 
-  const connection = await mysql.createConnection({
+  // THIS CONNECTION FOR LOCAL TESTING
+  // const connection = mysql.createConnection({
+  //   host: 'localhost',
+  //   port: 3306,
+  //   user: 'root',
+  //   password: '',
+  //   database: 'accounts'
+  // });
+
+
+  // THIS CONNECTION FOR GOING LIVE
+  const connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
     password: '',
-    multipleStatements: true
+    database: 'accounts'
   });
 
   const createDBAndTables = `CREATE DATABASE IF NOT EXISTS accounts;
@@ -309,6 +320,17 @@ app.post('/authenticate', function (req, res) {
 
 function authenticate(username, pwd, callback) {
 
+  // THIS CONNECTION FOR LOCAL TESTING
+  // const connection = mysql.createConnection({
+  //   host: 'localhost',
+  //   port: 3306,
+  //   user: 'root',
+  //   password: '',
+  //   database: 'accounts'
+  // });
+
+
+  // THIS CONNECTION FOR GOING LIVE
   const connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
@@ -361,6 +383,17 @@ app.post('/newUser', function (req, res) {
 
 function insertUser(username, firstName, lastName, pwd, callback) {
 
+  // THIS CONNECTION FOR LOCAL TESTING
+  // const connection = mysql.createConnection({
+  //   host: 'localhost',
+  //   port: 3306,
+  //   user: 'root',
+  //   password: '',
+  //   database: 'accounts'
+  // });
+
+
+  // THIS CONNECTION FOR GOING LIVE
   const connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
