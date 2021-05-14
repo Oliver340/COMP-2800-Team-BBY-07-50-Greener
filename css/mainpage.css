@@ -2,16 +2,9 @@ body {
     background-color: #e6f0e4;
 }
 
-/**
-CSS for the dial gauge, adapted to work in our situation
-Found this code on: https://codepen.io/meetamit/pen/xOgeoj
-
-@author Amit Sch
-@see https://codepen.io/meetamit/pen/xOgeoj
-**/
-.chart-gauge {
-    width: 500px;
-    margin: 100px auto;
+.chartGauge {
+    width: 80%;
+    margin: auto;
 } 
 
 .chart-first {
