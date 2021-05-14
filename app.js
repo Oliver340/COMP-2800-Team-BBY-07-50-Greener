@@ -4,7 +4,9 @@ const session = require('express-session');
 const app = express();
 const fs = require("fs");
 const mysql = require('mysql2');
-const { JSDOM } = require('jsdom');
+const {
+  JSDOM
+} = require('jsdom');
 
 app.use('/js', express.static('js'));
 app.use('/css', express.static('css'));
@@ -17,8 +19,7 @@ app.use(session({
   name: '50Greener',
   resave: false,
   saveUninitialized: true
-})
-);
+}));
 
 app.get('/', function (req, res) {
   let doc = fs.readFileSync('./html/skeleton.html', "utf8");
@@ -35,7 +36,12 @@ app.get('/', function (req, res) {
   $("#linkToCSS").attr("href", "css/index.css");
 
 
-  let dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  let dateOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  };
   let d = new Date().toLocaleDateString("en-US", dateOptions);
 
   initDB();
@@ -52,6 +58,7 @@ async function initDB() {
 
   const connection = await mysql.createConnection({
     host: 'localhost',
+    port: 3306,
     user: 'root',
     password: '',
     multipleStatements: true
@@ -71,10 +78,10 @@ async function initDB() {
   let results = await connection.query("SELECT COUNT(*) FROM user");
   let count = results[0][0]['COUNT(*)'];
 
-   if (count < 1) {
-     results = await connection.query("INSERT INTO user (username, firstName, lastName, password) values ('arron_ferguson@bcit.ca', 'arron', 'f', 'admin')");
-     console.log("Added one user record.");
-   }
+  if (count < 1) {
+    results = await connection.query("INSERT INTO user (username, firstName, lastName, password) values ('arron_ferguson@bcit.ca', 'arron', 'f', 'admin')");
+    console.log("Added one user record.");
+  }
   connection.end();
 }
 
@@ -91,14 +98,12 @@ app.get('/mainpage', function (req, res) {
     let $content = require("jquery")(contentDOM.window);
 
     $skeleton("#content-to-replace").empty();
-    $skeleton("#content-to-replace").replaceWith($content("body"));
+    $skeleton("#content-to-replace").html($content("body"));
     $skeleton("#linkToCSS").attr("href", "css/mainpage.css");
     $skeleton("#profile_name").html(req.session.name);
 
-    //
     $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
-    //
-    
+
     res.set('Server', '50Greener Engine');
     res.set('X-Powered-By', '50Greener');
     res.send(skeletonDOM.serialize());
@@ -120,7 +125,7 @@ app.get('/signup', function (req, res) {
   $skeleton("#content-to-replace").empty();
   $skeleton("#content-to-replace").html($signup("body"));
   $skeleton("#linkToCSS").attr("href", "css/signup.css");
-  
+
   res.set('Server', '50Greener Engine');
   res.set('X-Powered-By', '50Greener');
   res.send(skeletonDOM.serialize());
@@ -159,6 +164,8 @@ app.get('/about', function (req, res) {
     $skeleton("#content-to-replace").html($about("body"));
     $skeleton("#linkToCSS").attr("href", "css/about.css");
 
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
+
     res.set('Server', '50Greener Engine');
     res.set('X-Powered-By', '50Greener');
     res.send(skeletonDOM.serialize());
@@ -168,7 +175,7 @@ app.get('/about', function (req, res) {
 });
 
 app.get('/challenges', function (req, res) {
-  
+
   if (req.session.loggedIn) {
     let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
     let skeletonDOM = new JSDOM(skeleton);
@@ -181,8 +188,8 @@ app.get('/challenges', function (req, res) {
     $skeleton("#content-to-replace").empty();
     $skeleton("#content-to-replace").html($challenges("body"));
     $skeleton("#linkToCSS").attr("href", "css/challenges.css");
-    $skeleton("#linkToCSS2").attr("href", "css/barfiller.css");
-    $skeleton("#linkToCSS3").attr("href", "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
+
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
 
     res.set('Server', '50Greener Engine');
     res.set('X-Powered-By', '50Greener');
@@ -210,6 +217,8 @@ app.get('/goals', function (req, res) {
     $skeleton("#linkToCSS3").attr("href", "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
     $skeleton("#linkToCSS4").attr("href", "css/goals.css");
 
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
+
     res.set('Server', '50Greener Engine');
     res.set('X-Powered-By', '50Greener');
     res.send(skeletonDOM.serialize());
@@ -234,6 +243,8 @@ app.get('/information', function (req, res) {
     $skeleton("#linkToCSS").attr("href", "css/information.css");
     $skeleton("#linkToCSS3").attr("href", "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
 
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
+
     res.set('Server', '50Greener Engine');
     res.set('X-Powered-By', '50Greener');
     res.send(skeletonDOM.serialize());
@@ -257,6 +268,8 @@ app.get('/settings', function (req, res) {
     $skeleton("#content-to-replace").html($settings("body"));
     $skeleton("#linkToCSS").attr("href", "css/settings.css");
 
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
+
     res.set('Server', '50Greener Engine');
     res.set('X-Powered-By', '50Greener');
     res.send(skeletonDOM.serialize());
@@ -266,22 +279,29 @@ app.get('/settings', function (req, res) {
 });
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({
+  extended: true
+}))
 
-app.post('/authenticate', function(req, res) {
-    console.log("authentication");
-    res.setHeader('Content-Type', 'application/json');
-    let results = authenticate(req.body.loginUsername, req.body.loginPassword,
-        function(rows) {
-            if(rows == null) {
-                res.send({ status: "fail", msg: "User account not found." });
-            } else {
-                req.session.loggedIn = true;
-                req.session.name = rows.firstName;
-                req.session.save(function(err) {
-                })
-                res.send({ status: "success", msg: "Logged in." });
-            }
+app.post('/authenticate', function (req, res) {
+  console.log("authentication");
+  res.setHeader('Content-Type', 'application/json');
+  let results = authenticate(req.body.loginUsername, req.body.loginPassword,
+    function (rows) {
+      if (rows == null) {
+        res.send({
+          status: "fail",
+          msg: "User account not found."
+        });
+      } else {
+        req.session.loggedIn = true;
+        req.session.name = rows.firstName;
+        req.session.save(function (err) {})
+        res.send({
+          status: "success",
+          msg: "Logged in."
+        });
+      }
     });
 
 });
@@ -289,46 +309,52 @@ app.post('/authenticate', function(req, res) {
 
 function authenticate(username, pwd, callback) {
 
-    const connection = mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: '',
-      database: 'accounts'
-    });
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
 
-    connection.query(
-      "SELECT * FROM user WHERE username = ? AND password = ?", [username, pwd],
-      function (error, results) {
-        if (error) {
-            throw error;
-        }
+  connection.query(
+    "SELECT * FROM user WHERE username = ? AND password = ?", [username, pwd],
+    function (error, results) {
+      if (error) {
+        throw error;
+      }
 
-        if(results.length > 0) {
-            return callback(results[0]);
-        } else {
-            return callback(null);
-        }
+      if (results.length > 0) {
+        return callback(results[0]);
+      } else {
+        return callback(null);
+      }
 
     });
 
 }
 
-app.post('/newUser', function(req, res) {
+app.post('/newUser', function (req, res) {
   console.log("new user");
   res.setHeader('Content-Type', 'application/json');
-  
+
   let results = insertUser(req.body.signupUsername, req.body.signupFirstName, req.body.signupLastName, req.body.signupPassword,
-      function(rows) {
-          if(rows == null) {
-              res.send({ status: "fail", msg: "This username already exists." });
-          } else {
-              req.session.loggedIn = true;
-              req.session.name = rows.firstName;
-              req.session.save(function(err) {
-              })
-              res.send({ status: "success", msg: "Signed up." });
-          }
-  });
+    function (rows) {
+      if (rows == null) {
+        res.send({
+          status: "fail",
+          msg: "This username already exists."
+        });
+      } else {
+        req.session.loggedIn = true;
+        req.session.name = rows.firstName;
+        req.session.save(function (err) {})
+        res.send({
+          status: "success",
+          msg: "Signed up."
+        });
+      }
+    });
 
 });
 
@@ -337,6 +363,7 @@ function insertUser(username, firstName, lastName, pwd, callback) {
 
   const connection = mysql.createConnection({
     host: 'localhost',
+    port: 3306,
     user: 'root',
     password: '',
     database: 'accounts'
@@ -346,12 +373,12 @@ function insertUser(username, firstName, lastName, pwd, callback) {
     "SELECT * FROM user WHERE username = ?", [username],
     function (error, results) {
       if (error) {
-          throw error;
+        throw error;
       }
 
-      if(results.length > 0) {
+      if (results.length > 0) {
         return callback(null);
-        
+
       } else {
         connection.query(
           "INSERT INTO user (username, firstName, lastName, password) values (?, ?, ?, ?)", [username, firstName, lastName, pwd],
@@ -360,22 +387,22 @@ function insertUser(username, firstName, lastName, pwd, callback) {
               throw error;
             }
           });
-          connection.query(
-            "SELECT * FROM user WHERE username = ? AND password = ?", [username, pwd],
-            function (error, results) {
-              if (error) {
-                  throw error;
-              }
-      
-              if(results.length > 0) {
-                  return callback(results[0]);
-              } else {
-                  return callback(null);
-              }
-            });
+        connection.query(
+          "SELECT * FROM user WHERE username = ? AND password = ?", [username, pwd],
+          function (error, results) {
+            if (error) {
+              throw error;
+            }
+
+            if (results.length > 0) {
+              return callback(results[0]);
+            } else {
+              return callback(null);
+            }
+          });
       }
 
-  });
+    });
 
 }
 
@@ -393,7 +420,7 @@ app.get('/logout', function (req, res) {
   res.redirect("/");
 })
 
-const port = process.env.port || 8000;
+const port = process.env.PORT || 8000;
 app.listen(port, function () {
   console.log('Listening on port ' + port + '!');
 })

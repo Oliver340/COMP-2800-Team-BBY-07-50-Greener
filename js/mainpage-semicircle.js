@@ -1,7 +1,7 @@
 var bar = new ProgressBar.SemiCircle('.chartGauge', {
     strokeWidth: 6,
     color: '#FFEA82',
-    trailColor: '#eee',
+    trailColor: '#5DB866',
     trailWidth: 1,
     easing: 'easeInOut',
     duration: 1400,
