@@ -164,7 +164,10 @@ $(function () {
         $("#client-script").replaceWith(temp2);
         if (document.getElementById("about-identifier") != null) {
           var temp3 = "<script id='about-script' src='../js/about.js'></script>";
+          var temp4 = "<script id='egg-script' src='../js/egg.js'></script>";
           $("#about-script").replaceWith(temp3);
+          $("#egg-script").replaceWith(temp4);
+
         } else {
           console.log("redirect");
         }
