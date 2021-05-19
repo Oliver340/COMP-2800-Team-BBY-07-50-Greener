@@ -381,6 +381,7 @@ $(function () {
     });
 
     localStorage.setItem("score", score);
+    console.log(localStorage.getItem("score"));
 
   
       $.ajax({
@@ -488,6 +489,7 @@ $(function () {
     });
 
     localStorage.setItem("score", score);
+    console.log("Total Score: " + localStorage.getItem("score"));
 
 
     goGoals();
