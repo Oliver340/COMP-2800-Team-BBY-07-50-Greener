@@ -53,3 +53,14 @@
     margin-top: 10px;
     font-size: 1em;
 }
+#finish {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 15px;
+    border-radius: 7px;
+    background-color: #3C7329;
+    color: white;
+    border: 0;
+    box-shadow: 2px 2px 5px black;
+    font-size: 2rem;
+  }
