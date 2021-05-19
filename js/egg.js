@@ -10,6 +10,8 @@ $(function () {
     navb = 233;
     navc = 167;
 
+    count = 0;
+
     $('#logo').on('click', function (e) {
         e.preventDefault();
         console.log("clicked logo")
