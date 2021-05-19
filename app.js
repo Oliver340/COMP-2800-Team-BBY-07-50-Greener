@@ -313,6 +313,106 @@ app.get('/survey-intro', function (req, res) {
   }
 });
 
+app.get('/survey-transport', function (req, res) {
+  if (req.session.loggedIn) {
+
+    let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+    let skeletonDOM = new JSDOM(skeleton);
+    let $skeleton = require("jquery")(skeletonDOM.window);
+
+    let survey = fs.readFileSync('./html/survey-transport.html', "utf8");
+    let surveyDOM = new JSDOM(survey);
+    let $survey = require("jquery")(surveyDOM.window);
+
+    $skeleton("#content-to-replace").empty();
+    $skeleton("#content-to-replace").html($survey("body"));
+    $skeleton("#linkToCSS").attr("href", "css/survey.css");
+
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
+
+    res.set('Server', '50Greener Engine');
+    res.set('X-Powered-By', '50Greener');
+    res.send(skeletonDOM.serialize());
+  } else {
+    res.redirect('/');
+  }
+});
+
+app.get('/survey-water', function (req, res) {
+  if (req.session.loggedIn) {
+
+    let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+    let skeletonDOM = new JSDOM(skeleton);
+    let $skeleton = require("jquery")(skeletonDOM.window);
+
+    let survey = fs.readFileSync('./html/survey-water.html', "utf8");
+    let surveyDOM = new JSDOM(survey);
+    let $survey = require("jquery")(surveyDOM.window);
+
+    $skeleton("#content-to-replace").empty();
+    $skeleton("#content-to-replace").html($survey("body"));
+    $skeleton("#linkToCSS").attr("href", "css/survey.css");
+
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
+
+    res.set('Server', '50Greener Engine');
+    res.set('X-Powered-By', '50Greener');
+    res.send(skeletonDOM.serialize());
+  } else {
+    res.redirect('/');
+  }
+});
+
+app.get('/survey-home', function (req, res) {
+  if (req.session.loggedIn) {
+
+    let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+    let skeletonDOM = new JSDOM(skeleton);
+    let $skeleton = require("jquery")(skeletonDOM.window);
+
+    let survey = fs.readFileSync('./html/survey-home.html', "utf8");
+    let surveyDOM = new JSDOM(survey);
+    let $survey = require("jquery")(surveyDOM.window);
+
+    $skeleton("#content-to-replace").empty();
+    $skeleton("#content-to-replace").html($survey("body"));
+    $skeleton("#linkToCSS").attr("href", "css/survey.css");
+
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
+
+    res.set('Server', '50Greener Engine');
+    res.set('X-Powered-By', '50Greener');
+    res.send(skeletonDOM.serialize());
+  } else {
+    res.redirect('/');
+  }
+});
+
+app.get('/survey-food', function (req, res) {
+  if (req.session.loggedIn) {
+
+    let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+    let skeletonDOM = new JSDOM(skeleton);
+    let $skeleton = require("jquery")(skeletonDOM.window);
+
+    let survey = fs.readFileSync('./html/survey-food.html', "utf8");
+    let surveyDOM = new JSDOM(survey);
+    let $survey = require("jquery")(surveyDOM.window);
+
+    $skeleton("#content-to-replace").empty();
+    $skeleton("#content-to-replace").html($survey("body"));
+    $skeleton("#linkToCSS").attr("href", "css/survey.css");
+
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
+
+    res.set('Server', '50Greener Engine');
+    res.set('X-Powered-By', '50Greener');
+    res.send(skeletonDOM.serialize());
+  } else {
+    res.redirect('/');
+  }
+});
+
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true

@@ -14,10 +14,8 @@ $(function () {
       success: function (data) {
         document.documentElement.innerHTML = data;
         var temp1 = "<script src='../js/survey.js'></script>";
-        var temp2 = "<script id='client-script' src='../js/client.js'></script>";
         var temp3 = "<script id='jquery-script' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
         $("#survey-script").replaceWith(temp1);
-        $("#client-script").replaceWith(temp2);
         $("#jquery-script").replaceWith(temp3);
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -165,10 +163,8 @@ $(function () {
           success: function (data) {
             document.documentElement.innerHTML = data;
             var temp1 = "<script src='../js/survey.js'></script>";
-            var temp2 = "<script id='client-script' src='../js/client.js'></script>";
             var temp3 = "<script id='jquery-script' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
             $("#survey-script").replaceWith(temp1);
-            $("#client-script").replaceWith(temp2);
             $("#jquery-script").replaceWith(temp3);
             waterQuestions;
           },
@@ -249,10 +245,8 @@ function waterQuestions() {
         success: function (data) {
           document.documentElement.innerHTML = data;
           var temp1 = "<script src='../js/survey.js'></script>";
-          var temp2 = "<script id='client-script' src='../js/client.js'></script>";
           var temp3 = "<script id='jquery-script' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
           $("#survey-script").replaceWith(temp1);
-          $("#client-script").replaceWith(temp2);
           $("#jquery-script").replaceWith(temp3);
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -330,10 +324,8 @@ function waterQuestions() {
         success: function (data) {
           document.documentElement.innerHTML = data;
           var temp1 = "<script src='../js/survey.js'></script>";
-          var temp2 = "<script id='client-script' src='../js/client.js'></script>";
           var temp3 = "<script id='jquery-script' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
           $("#survey-script").replaceWith(temp1);
-          $("#client-script").replaceWith(temp2);
           $("#jquery-script").replaceWith(temp3);
         },
         error: function (jqXHR, textStatus, errorThrown) {
