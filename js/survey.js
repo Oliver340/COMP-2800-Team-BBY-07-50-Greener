@@ -5,7 +5,9 @@ $(function () {
   $("#survey-begin").on("click", function (e) {
     e.preventDefault();
     localStorage.setItem("score", "0");
-    /*
+
+    console.log(localStorage.getItem("score"));
+    
     $.ajax({
       url: "/survey-transport",
       dataType: "html",
@@ -22,7 +24,7 @@ $(function () {
         $("#content").text(jqXHR.statusText);
         console.log("ERROR:", jqXHR, textStatus, errorThrown);
       }
-    }); */
+    }); 
   });
 
   // the following are functions to load the next question depending on the answer of the previous/current question for the transport section
@@ -97,10 +99,16 @@ $(function () {
   });
   //end of serving up transport questions
 
+  var waterQs = ["wq1-container", "wq2-container", "wq3-container", "wq4-container", "wq5-container", "wq6-container", "wq7-container", "wq8-container", "wq9-container", "wq10-container"]
+  var homeQs = ["hq1-container", "hq2-container", "hq3-container", "hq4-container", "hq5-container", "hq6-container", "hq7-container", "hq8-container", "hq9-container", "hq10-container"]
+  var foodQs = ["fq1-container", "fq2-container", "fq3-container", "fq4-container", "fq5-container", "fq6-container", "fq7-container", "fq8-container", "fq9-container", "fq10-container"]
+
+
   //score will be calculated for this section and next section served up
   $("#transport-done").on("click", function (e) {
     e.preventDefault();
-    let score = localStorage.getItem("score");
+    let score = Number(localStorage.getItem("score"));
+    console.log(localStorage.getItem("score"));
 
     $('input:checkbox[name=tq1]').each(function () {
       if ($(this).is(':checked'))
@@ -153,8 +161,9 @@ $(function () {
     });
 
     localStorage.setItem("score", score);
+    console.log(localStorage.getItem("score"));
 
-    /*
+    
         $.ajax({
           url: "/survey-water",
           dataType: "html",
@@ -162,51 +171,55 @@ $(function () {
           data: { format: "water" },
           success: function (data) {
             document.documentElement.innerHTML = data;
+            
             var temp1 = "<script src='../js/survey.js'></script>";
             var temp3 = "<script id='jquery-script' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
             $("#survey-script").replaceWith(temp1);
             $("#jquery-script").replaceWith(temp3);
-            waterQuestions;
+
+            let someWaterQ = waterQs;
+            let wqn1 = Math.floor(Math.random() * 10);            
+            let selected_wq1 = someWaterQ[wqn1];
+            someWaterQ.splice(wqn1, 1);
+        
+            let element = document.getElementById(selected_wq1);  
+            element.style.display = "block";
+        
+            let wqn2 = Math.floor(Math.random() * 9);
+            let selected_wq2 = someWaterQ[wqn2];
+            someWaterQ.splice(wqn2, 1);
+
+            let element2 = document.getElementById(selected_wq2);
+            $(element2).insertAfter(element);
+            $(element).on("click", function () {
+              element2.style.display = "block";
+            })  
+            
+            let wqn3 = Math.floor(Math.random() * 8);
+            let selected_wq3 = someWaterQ[wqn3];
+            someWaterQ.splice(wqn3, 1);
+        
+            let element3 = document.getElementById(selected_wq3);
+            $(element3).insertAfter(element2);
+            $(element2).on("click", function () {
+              element3.style.display = "block";
+            })  
+            
           },
           error: function (jqXHR, textStatus, errorThrown) {
             $("#content").text(jqXHR.statusText);
             console.log("ERROR:", jqXHR, textStatus, errorThrown);
           }
-        });
-        */
+        });    
+        
+        
   });
 
-  var waterQs = ["#wq1-container", "#wq2-container", "#wq3-container", "#wq4-container", "#wq5-container", "#wq6-container", "#wq7-container", "#wq8-container", "#wq9-container", "#wq10-container"]
-
-  function waterQuestions() {
-    let someWaterQ = waterQs;
-    wqn1 = Math.floor(Math.random() * 10);
-    let selected_wq1 = someWaterQ[wqn1];
-    someWaterQ.splice(wqn1, 1);
-
-    $(selected_wq1).css("display", "block");
-
-    wqn2 = Math.floor(Math.random() * 9);
-    let selected_wq2 = someWaterQ[wqn2];
-    someWaterQ.splice(wqn2, 1);
-
-    $(selected_wq1).on("click", function () {
-      $(selected_wq2).css("display", "block");
-    });
-
-    wqn3 = Math.floor(Math.random() * 8);
-    let selected_wq3 = someWaterQ[wqn3];
-    someWaterQ.splice(wqn3, 1);
-
-    $(selected_wq2).on("click", function () {
-      $(selected_wq3).css("display", "block");
-    });
-
-  }
 
   $("#water-done").on("click", function (e) {
     e.preventDefault();
-    let score = localStorage.getItem("score");
+    let score = Number(localStorage.getItem("score"))
+    console.log(localStorage.getItem("score"));
 
     $('input:radio[name=wq1]').each(function () {
       if ($(this).is(':checked'))
@@ -259,8 +272,9 @@ $(function () {
     });
 
     localStorage.setItem("score", score);
+    console.log(localStorage.getItem("score"));
 
-    /*
+    
       $.ajax({
         url: "/survey-home",
         dataType: "html",
@@ -272,47 +286,49 @@ $(function () {
           var temp3 = "<script id='jquery-script' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
           $("#survey-script").replaceWith(temp1);
           $("#jquery-script").replaceWith(temp3);
+
+          let someHomeQ = homeQs;
+            let hqn1 = Math.floor(Math.random() * 10);            
+            let selected_hq1 = someHomeQ[hqn1];
+            someHomeQ.splice(hqn1, 1);
+        
+            let element = document.getElementById(selected_hq1);  
+            element.style.display = "block";
+        
+            let hqn2 = Math.floor(Math.random() * 9);
+            let selected_hq2 = someHomeQ[hqn2];
+            someHomeQ.splice(hqn2, 1);
+
+            let element2 = document.getElementById(selected_hq2);
+            $(element2).insertAfter(element);
+            $(element).on("click", function () {
+              element2.style.display = "block";
+            })  
+            
+            let hqn3 = Math.floor(Math.random() * 8);
+            let selected_hq3 = someHomeQ[hqn3];
+            someHomeQ.splice(hqn3, 1);
+        
+            let element3 = document.getElementById(selected_hq3);
+            $(element3).insertAfter(element2);
+            $(element2).on("click", function () {
+              element3.style.display = "block";
+            })  
         },
         error: function (jqXHR, textStatus, errorThrown) {
           $("#content").text(jqXHR.statusText);
           console.log("ERROR:", jqXHR, textStatus, errorThrown);
         }
       });
-      */
+      
 
   });
 
-  var homeQs = ["#hq1-container", "#hq2-container", "#hq3-container", "#hq4-container", "#hq5-container", "#hq6-container", "#hq7-container", "#hq8-container", "#hq9-container", "#hq10-container"]
-
-  function homeQuestions() {
-    let someHomeQ = homeQs;
-    hqn1 = Math.floor(Math.random() * 10);
-    let selected_hq1 = someHomeQ[hqn1];
-    someHomeQ.splice(hqn1, 1);
-
-    $(selected_hq1).css("display", "block");
-
-    hqn2 = Math.floor(Math.random() * 9);
-    let selected_hq2 = someHomeQ[hqn2];
-    someHomeQ.splice(hqn2, 1);
-
-    $(selected_hq1).on("click", function () {
-      $(selected_hq2).css("display", "block");
-    });
-
-    hqn3 = Math.floor(Math.random() * 8);
-    let selected_hq3 = someHomeQ[hqn3];
-    someHomeQ.splice(hqn3, 1);
-
-    $(selected_hq2).on("click", function () {
-      $(selected_hq3).css("display", "block");
-    });
-
-  }
+  
 
   $("#home-done").on("click", function (e) {
     e.preventDefault();
-    let score = localStorage.getItem("score");
+    let score = Number(localStorage.getItem("score"))
 
     $('input:radio[name=hq1]').each(function () {
       if ($(this).is(':checked'))
@@ -366,8 +382,7 @@ $(function () {
 
     localStorage.setItem("score", score);
 
-    //at the end of each section the is either stored in session or db
-    /*
+  
       $.ajax({
         url: "/survey-food",
         dataType: "html",
@@ -379,47 +394,48 @@ $(function () {
           var temp3 = "<script id='jquery-script' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
           $("#survey-script").replaceWith(temp1);
           $("#jquery-script").replaceWith(temp3);
+
+          let someFoodQ = foodQs;
+          let fqn1 = Math.floor(Math.random() * 10);            
+          let selected_fq1 = someFoodQ[fqn1];
+          someFoodQ.splice(fqn1, 1);
+      
+          let element = document.getElementById(selected_fq1);  
+          element.style.display = "block";
+      
+          let fqn2 = Math.floor(Math.random() * 9);
+          let selected_fq2 = someFoodQ[fqn2];
+          someFoodQ.splice(fqn2, 1);
+
+          let element2 = document.getElementById(selected_fq2);
+          $(element2).insertAfter(element);
+          $(element).on("click", function () {
+            element2.style.display = "block";
+          })  
+          
+          let fqn3 = Math.floor(Math.random() * 8);
+          let selected_fq3 = someFoodQ[fqn3];
+          someFoodQ.splice(fqn3, 1);
+      
+          let element3 = document.getElementById(selected_fq3);
+          $(element3).insertAfter(element2);
+          $(element2).on("click", function () {
+            element3.style.display = "block";
+          })  
         },
         error: function (jqXHR, textStatus, errorThrown) {
           $("#content").text(jqXHR.statusText);
           console.log("ERROR:", jqXHR, textStatus, errorThrown);
         }
       });
-      */
+      
 
   });
 
-  var foodQs = ["#fq1-container", "#fq2-container", "#fq3-container", "#fq4-container", "#fq5-container", "#fq6-container", "#fq7-container", "#fq8-container", "#fq9-container", "#fq10-container"]
-
-  function foodQuestions() {
-    let somefoodQ = foodQs;
-    fqn1 = Math.floor(Math.random() * 10);
-    let selected_fq1 = somefoodQ[fqn1];
-    somefoodQ.splice(fqn1, 1);
-
-    $(selected_fq1).css("display", "block");
-
-    fqn2 = Math.floor(Math.random() * 9);
-    let selected_fq2 = somefoodQ[fqn2];
-    somefoodQ.splice(fqn2, 1);
-
-    $(selected_fq1).on("click", function () {
-      $(selected_fq2).css("display", "block");
-    });
-
-    fqn3 = Math.floor(Math.random() * 8);
-    let selected_fq3 = somefoodQ[fqn3];
-    somefoodQ.splice(fqn3, 1);
-
-    $(selected_fq2).on("click", function () {
-      $(selected_fq3).css("display", "block");
-    });
-
-  }
-
+  
   $("#food-done").on("click", function (e) {
     e.preventDefault();
-    let score = localStorage.getItem("score");
+    let score = Number(localStorage.getItem("score"))
 
     $('input:radio[name=fq1]').each(function () {
       if ($(this).is(':checked'))
