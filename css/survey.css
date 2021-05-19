@@ -88,3 +88,83 @@ input[type='radio'] {
   box-shadow: 2px 2px 5px black;
   font-size: 2rem;
 }
+
+#tq2-container {
+  display: none;
+}
+
+#tq3-container {
+  display: none;
+}
+
+#tq4-container {
+  display: none;
+}
+
+#tq5-container {
+  display: none;
+}
+
+#tq6-container {
+  display: none;
+}
+
+#tq7-container {
+  display: none;
+}
+
+#tq8-container {
+  display: none;
+}
+
+#tq9-container {
+  display: none;
+}
+
+#tq10-container {
+  display: none;
+}
+
+#wq1-container {
+  display: none;
+}
+
+#wq2-container {
+  display: none;
+}
+
+#wq3-container {
+  display: none;
+}
+
+#wq4-container {
+  display: none;
+}
+
+#wq5-container {
+  display: none;
+}
+
+#wq6-container {
+  display: none;
+}
+
+#wq7-container {
+  display: none;
+}
+
+#wq8-container {
+  display: none;
+}
+
+#wq9-container {
+  display: none;
+}
+
+#wq10-container {
+  display: none;
+}
+
+.wq1 {
+  display: block;
+}

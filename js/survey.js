@@ -1,11 +1,10 @@
 'use strict';
 
-//depending on whether the score gets saved to session or db, this number will be pulled from there instead
-var score = 0;
 
 $(function () {
   $("#survey-begin").on("click", function (e) {
     e.preventDefault();
+    localStorage.setItem("score", "0");
     /*
     $.ajax({
       url: "/survey-transport",
@@ -28,8 +27,82 @@ $(function () {
     }); */
   });
 
+  // the following are functions to load the next question depending on the answer of the previous/current question for the transport section
+  $('#tq1-4').on("click", function () {
+    if (this.checked == true) {
+      $("#tq2-container").css("display", "block");
+    }
+    else if (this.checked == false) {
+      $("#tq2-container").css("display", "none");
+    }
+  });
+
+  $('#tq1-1').on("click", function () {
+    if (this.checked == true) {
+      $("#tq9-container").css("display", "block");
+    }
+    else if (this.checked == false) {
+      $("#tq9-container").css("display", "none");
+    }
+  });
+
+  $('#tq1-2').on("click", function () {
+    if (this.checked == true) {
+      $("#tq10-container").css("display", "block");
+    }
+    else if (this.checked == false) {
+      $("#tq10-container").css("display", "none");
+    }
+  });
+
+  $('#tq1-3').on("click", function () {
+    if (this.checked == true) {
+      $("#tq8-container").css("display", "block");
+    }
+    else if (this.checked == false) {
+      $("#tq8-container").css("display", "none");
+    }
+  });
+
+  $('#tq1-5').on("click", function () {
+    if (this.checked == true) {
+      $("#tq7-container").css("display", "block");
+    }
+    else if (this.checked == false) {
+      $("#tq7-container").css("display", "none");
+    }
+  });
+
+  $('input:checkbox[name=tq2]').on("click", function () {
+    $("#tq3-container").css("display", "block");
+  });
+
+  $('input:radio[name=tq3]').on("click", function () {
+    $("#tq4-container").css("display", "block");
+  });
+
+  $("#tq4-1").on("click", function () {
+    if (this.checked == true) {
+      $("#tq5-container").css("display", "block");
+    }
+  });
+
+  $("#tq4-2").on("click", function () {
+    if (this.checked == true) {
+      $("#tq5-container").css("display", "none");
+      $("#tq6-container").css("display", "block");
+    }
+  });
+
+  $('input:radio[name=tq5]').on("click", function () {
+    $("#tq6-container").css("display", "block");
+  });
+//end of serving up transport questions
+
+//score will be calculated for this section and next section served up
   $("#transport-done").on("click", function (e) {
     e.preventDefault();
+    let score = localStorage.getItem("score");
 
     $('input:checkbox[name=tq1]').each(function () {
       if ($(this).is(':checked'))
@@ -81,9 +154,8 @@ $(function () {
         score += Number($(this).val());
     });
 
-    console.log(score);
+    localStorage.setItem("score", score);
 
-    //at the end of each section the is either stored in session or db
     /*
         $.ajax({
           url: "/survey-water",
@@ -98,6 +170,7 @@ $(function () {
             $("#survey-script").replaceWith(temp1);
             $("#client-script").replaceWith(temp2);
             $("#jquery-script").replaceWith(temp3);
+            waterQuestions;
           },
           error: function (jqXHR, textStatus, errorThrown) {
             $("#content").text(jqXHR.statusText);
@@ -107,8 +180,13 @@ $(function () {
         */
   });
 
+function waterQuestions() {
+  
+}
+
   $("#water-done").on("click", function (e) {
     e.preventDefault();
+    let score = localStorage.getItem("score");
 
     $('input:radio[name=wq1]').each(function () {
       if ($(this).is(':checked'))
@@ -160,9 +238,8 @@ $(function () {
         score += Number($(this).val());
     });
 
-    console.log(score);
+    localStorage.setItem("score", score);
 
-    //at the end of each section the is either stored in session or db
     /*
       $.ajax({
         url: "/survey-home",
@@ -189,6 +266,7 @@ $(function () {
 
   $("#home-done").on("click", function (e) {
     e.preventDefault();
+    let score = localStorage.getItem("score");
 
     $('input:radio[name=hq1]').each(function () {
       if ($(this).is(':checked'))
@@ -240,7 +318,7 @@ $(function () {
         score += Number($(this).val());
     });
 
-    console.log(score);
+    localStorage.setItem("score", score);
 
     //at the end of each section the is either stored in session or db
     /*
@@ -269,6 +347,7 @@ $(function () {
 
   $("#food-done").on("click", function (e) {
     e.preventDefault();
+    let score = localStorage.getItem("score");
 
     $('input:radio[name=fq1]').each(function () {
       if ($(this).is(':checked'))
@@ -320,40 +399,36 @@ $(function () {
         score += Number($(this).val());
     });
 
-    console.log(score);
+    localStorage.setItem("score", score);
 
-    //at the end of each section the is either stored in session or db
-
-
-    //this should serve up a goal setting page instead
 
     goGoals();
 
-    
+
   });
 
 
   function goGoals() {
     $.ajax({
-        url: "/goals",
-        dataType: "html",
-        type: "GET",
-        data: { format: "goals" },
-        success: function (data) {
-          document.documentElement.innerHTML = data;
-          
-          if (document.getElementById("goals-identifier") != null) {
-            changeToGoalsPage();
-          } else {
-            console.log("redirect");
-          }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          $("#content").text(jqXHR.statusText);
-          console.log("ERROR:", jqXHR, textStatus, errorThrown);
+      url: "/goals",
+      dataType: "html",
+      type: "GET",
+      data: { format: "goals" },
+      success: function (data) {
+        document.documentElement.innerHTML = data;
+
+        if (document.getElementById("goals-identifier") != null) {
+          changeToGoalsPage();
+        } else {
+          console.log("redirect");
         }
-      });
-}
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        $("#content").text(jqXHR.statusText);
+        console.log("ERROR:", jqXHR, textStatus, errorThrown);
+      }
+    });
+  }
 
   function changeToGoalsPage() {
     var script1 = document.createElement('script');
@@ -390,7 +465,7 @@ $(function () {
     }
     document.getElementById('jquery-script').replaceWith(script1);
   }
-  
+
   $("#skip-survey").on("click", function (e) {
     e.preventDefault();
     goGoals();
