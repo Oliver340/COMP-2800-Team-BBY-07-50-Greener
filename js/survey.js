@@ -14,10 +14,8 @@ $(function () {
       success: function (data) {
         document.documentElement.innerHTML = data;
         var temp1 = "<script src='../js/survey.js'></script>";
-        var temp2 = "<script id='client-script' src='../js/client.js'></script>";
         var temp3 = "<script id='jquery-script' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
         $("#survey-script").replaceWith(temp1);
-        $("#client-script").replaceWith(temp2);
         $("#jquery-script").replaceWith(temp3);
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -165,10 +163,8 @@ $(function () {
           success: function (data) {
             document.documentElement.innerHTML = data;
             var temp1 = "<script src='../js/survey.js'></script>";
-            var temp2 = "<script id='client-script' src='../js/client.js'></script>";
             var temp3 = "<script id='jquery-script' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
             $("#survey-script").replaceWith(temp1);
-            $("#client-script").replaceWith(temp2);
             $("#jquery-script").replaceWith(temp3);
             waterQuestions;
           },
@@ -273,10 +269,8 @@ $(function () {
         success: function (data) {
           document.documentElement.innerHTML = data;
           var temp1 = "<script src='../js/survey.js'></script>";
-          var temp2 = "<script id='client-script' src='../js/client.js'></script>";
           var temp3 = "<script id='jquery-script' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
           $("#survey-script").replaceWith(temp1);
-          $("#client-script").replaceWith(temp2);
           $("#jquery-script").replaceWith(temp3);
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -382,10 +376,8 @@ $(function () {
         success: function (data) {
           document.documentElement.innerHTML = data;
           var temp1 = "<script src='../js/survey.js'></script>";
-          var temp2 = "<script id='client-script' src='../js/client.js'></script>";
           var temp3 = "<script id='jquery-script' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
           $("#survey-script").replaceWith(temp1);
-          $("#client-script").replaceWith(temp2);
           $("#jquery-script").replaceWith(temp3);
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -515,33 +507,33 @@ $(function () {
     script1.id = "jquery-script";
     script1.src = "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js";
     script1.type = "text/javascript";
-    script1.onload = function () {
-      var script2 = document.createElement('script');
-      script2.id = "client-script";
-      script2.src = "../js/client.js";
-      script2.type = "text/javascript";
-      script2.onload = function () {
-        var script3 = document.createElement('script');
-        script3.id = "progressbar-script";
-        script3.src = "https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.1.0/progressbar.js";
-        script3.type = "text/javascript";
-        script3.onload = function () {
-          var script4 = document.createElement('script');
-          script4.id = "challenges-tabs-script";
-          script4.src = "../js/tabs-challenges.js";
-          script4.type = "text/javascript";
-          script4.onload = function () {
-            var script5 = document.createElement('script');
-            script5.id = "goals-script";
-            script5.src = "../js/goals.js";
-            script5.type = "text/javascript";
-            document.getElementById('goals-script').replaceWith(script5);
+    script1.onload = function() {
+      // var script2 = document.createElement('script');
+      // script2.id = "client-script";
+      // script2.src = "../js/client.js";
+      // script2.type = "text/javascript";
+      //   script2.onload = function() {
+          var script3 = document.createElement('script');
+          script3.id = "progressbar-script";
+          script3.src = "https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.1.0/progressbar.js";
+          script3.type = "text/javascript";
+          script3.onload = function() {
+            var script4 = document.createElement('script');
+            script4.id = "challenges-tabs-script";
+            script4.src = "../js/tabs-challenges.js";
+            script4.type = "text/javascript";
+            script4.onload = function() {
+              var script5 = document.createElement('script');
+              script5.id = "goals-script";
+              script5.src = "../js/goals.js";
+              script5.type = "text/javascript";
+              document.getElementById('goals-script').replaceWith(script5);
+            }
+            document.getElementById('challenges-tabs-script').replaceWith(script4);
           }
-          document.getElementById('challenges-tabs-script').replaceWith(script4);
-        }
-        document.getElementById('progressbar-script').replaceWith(script3);
-      }
-      document.getElementById('client-script').replaceWith(script2);
+          document.getElementById('progressbar-script').replaceWith(script3);
+        // }
+        // document.getElementById('client-script').replaceWith(script2);
     }
     document.getElementById('jquery-script').replaceWith(script1);
   }

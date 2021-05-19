@@ -1,12 +1,12 @@
 var slider1 = document.getElementById("myRange1");
 var output1 = document.getElementById("value1");
-output1.innerHTML = slider1.value;
+output1.innerHTML = slider1.value + "%";
 var x = slider1.value;
 x -= x * 0.01;
 var color = "linear-gradient(90deg, red " + x + "%, rgb(200, 233, 167) " + x + "%)";
 slider1.style.background = color;
 slider1.oninput = function() {
-    output1.innerHTML = this.value;
+    output1.innerHTML = this.value + "%";
 }
 slider1.addEventListener("input", function(){
     var x = slider1.value;
@@ -15,53 +15,130 @@ slider1.addEventListener("input", function(){
     slider1.style.background = color;
 })
 
-var slider2 = document.getElementById("myRange2");
-var output2 = document.getElementById("value2");
-output2.innerHTML = slider2.value;
-var x = slider2.value;
-x -= x * 0.01;
-var color = "linear-gradient(90deg, red " + x + "%, rgb(200, 233, 167) " + x + "%)";
-slider2.style.background = color;
-slider2.oninput = function() {
-    output2.innerHTML = this.value;
-}
-slider2.addEventListener("input", function(){
-    var x = slider2.value;
-    x -= x * 0.01;
-    var color = "linear-gradient(90deg, red " + x + "%, rgb(200, 233, 167) " + x + "%)";
-    slider2.style.background = color;
-})
+// var slider2 = document.getElementById("myRange2");
+// var output2 = document.getElementById("value2");
+// output2.innerHTML = slider2.value;
+// var x = slider2.value;
+// x -= x * 0.01;
+// var color = "linear-gradient(90deg, red " + x + "%, rgb(200, 233, 167) " + x + "%)";
+// slider2.style.background = color;
+// slider2.oninput = function() {
+//     output2.innerHTML = this.value;
+// }
+// slider2.addEventListener("input", function(){
+//     var x = slider2.value;
+//     x -= x * 0.01;
+//     var color = "linear-gradient(90deg, red " + x + "%, rgb(200, 233, 167) " + x + "%)";
+//     slider2.style.background = color;
+// })
 
-var slider3 = document.getElementById("myRange3");
-var output3 = document.getElementById("value3");
-output3.innerHTML = slider3.value;
-var x = slider3.value;
-x -= x * 0.01;
-var color = "linear-gradient(90deg, red " + x + "%, rgb(200, 233, 167) " + x + "%)";
-slider3.style.background = color;
-slider3.oninput = function() {
-    output3.innerHTML = this.value;
-}
-slider3.addEventListener("input", function(){
-    var x = slider3.value;
-    x -= x * 0.01;
-    var color = "linear-gradient(90deg, red " + x + "%, rgb(200, 233, 167) " + x + "%)";
-    slider3.style.background = color;
-})
+// var slider3 = document.getElementById("myRange3");
+// var output3 = document.getElementById("value3");
+// output3.innerHTML = slider3.value;
+// var x = slider3.value;
+// x -= x * 0.01;
+// var color = "linear-gradient(90deg, red " + x + "%, rgb(200, 233, 167) " + x + "%)";
+// slider3.style.background = color;
+// slider3.oninput = function() {
+//     output3.innerHTML = this.value;
+// }
+// slider3.addEventListener("input", function(){
+//     var x = slider3.value;
+//     x -= x * 0.01;
+//     var color = "linear-gradient(90deg, red " + x + "%, rgb(200, 233, 167) " + x + "%)";
+//     slider3.style.background = color;
+// })
 
-var slider4 = document.getElementById("myRange4");
-var output4 = document.getElementById("value4");
-output4.innerHTML = slider4.value;
-var x = slider4.value;
-x -= x * 0.01;
-var color = "linear-gradient(90deg, red " + x + "%, rgb(200, 233, 167) " + x + "%)";
-slider4.style.background = color;
-slider4.oninput = function() {
-    output4.innerHTML = this.value;
+// var slider4 = document.getElementById("myRange4");
+// var output4 = document.getElementById("value4");
+// output4.innerHTML = slider4.value;
+// var x = slider4.value;
+// x -= x * 0.01;
+// var color = "linear-gradient(90deg, red " + x + "%, rgb(200, 233, 167) " + x + "%)";
+// slider4.style.background = color;
+// slider4.oninput = function() {
+//     output4.innerHTML = this.value;
+// }
+// slider4.addEventListener("input", function(){
+//     var x = slider4.value;
+//     x -= x * 0.01;
+//     var color = "linear-gradient(90deg, red " + x + "%, rgb(200, 233, 167) " + x + "%)";
+//     slider4.style.background = color;
+// })
+
+"use strict";
+$(function () {
+
+    $("#finish").on("click", function () {
+
+        goMain();
+
+    });
+
+});
+
+function goMain() {
+    $.ajax({
+        url: "/mainpage",
+        dataType: "html",
+        type: "GET",
+        data: { format: "mainpage" },
+        success: function (data) {
+          document.documentElement.innerHTML = data;
+          
+          if (document.getElementById("mainpage-identifier") != null) {
+            changePage();
+          } else {
+            console.log("redirect");
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          $("#content").text(jqXHR.statusText);
+          console.log("ERROR:", jqXHR, textStatus, errorThrown);
+        }
+      });
 }
-slider4.addEventListener("input", function(){
-    var x = slider4.value;
-    x -= x * 0.01;
-    var color = "linear-gradient(90deg, red " + x + "%, rgb(200, 233, 167) " + x + "%)";
-    slider4.style.background = color;
-})
+
+function changePage() {
+  var script1 = document.createElement('script');
+  script1.id = "jquery-script";
+  script1.src = "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js";
+  script1.type = "text/javascript";
+  script1.onload = function() {
+    var script2 = document.createElement('script');
+    script2.id = "client-script";
+    script2.src = "../js/client.js";
+    script2.type = "text/javascript";
+      script2.onload = function() {
+        var script3 = document.createElement('script');
+        script3.id = "cloudflare-script";
+        script3.src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js";
+        script3.type = "text/javascript";
+        script3.onload = function() {
+          var script4 = document.createElement('script');
+          script4.id = "progressbar-script";
+          script4.src = "https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.1.0/progressbar.min.js";
+          script4.type = "text/javascript";
+          script4.onload = function() {
+            var script5 = document.createElement('script');
+            script5.id = "piechart-script";
+            script5.src = "../js/mainpage-pie-chart.js";
+            script5.type = "text/javascript";
+            script5.onload = function() {
+              var script6 = document.createElement('script');
+              script6.id = "semicircle-script";
+              script6.src = "../js/mainpage-semicircle.js";
+              script6.type = "text/javascript";
+              document.getElementById('semicircle-script').replaceWith(script6);
+            }
+            document.getElementById('piechart-script').replaceWith(script5);
+          }
+          document.getElementById('progressbar-script').replaceWith(script4);
+        }
+        document.getElementById('cloudflare-script').replaceWith(script3);
+      }
+      document.getElementById('client-script').replaceWith(script2);
+  }
+  document.getElementById('jquery-script').replaceWith(script1);
+
+}

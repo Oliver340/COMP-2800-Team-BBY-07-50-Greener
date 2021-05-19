@@ -31,6 +31,19 @@
   font-size: 2rem;
 }
 
+#skip-survey {
+  display: block;
+  margin: 0 auto;
+  margin-top: 10px;
+  padding: 10px 15px;
+  border-radius: 7px;
+  background-color: #3C7329;
+  color: white;
+  border: 0;
+  box-shadow: 2px 2px 5px black;
+  font-size: 2rem;
+}
+
 fieldset {
   background-color: #C8E9A7;
   border-radius: 10px;
