@@ -39,9 +39,11 @@ $(function () {
         var temp1 = "<script src='../js/login.js'></script>";
         var temp2 = "<script id='client-script' src='../js/client.js'></script>";
         var temp3 = "<script id='jquery-script' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
+        var temp4 = "<script id='google-script' src='https://apis.google.com/js/platform.js' async defer></script>";
         $("#login-script").replaceWith(temp1);
         $("#client-script").replaceWith(temp2);
         $("#jquery-script").replaceWith(temp3);
+        $("#google-script").replaceWith(temp4);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         $("#content").text(jqXHR.statusText);
