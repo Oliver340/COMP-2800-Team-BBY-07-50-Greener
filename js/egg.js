@@ -14,7 +14,6 @@ $(function () {
         e.preventDefault();
         console.log("clicked logo")
 
-
         count++;
 
         if (count < 10) {
