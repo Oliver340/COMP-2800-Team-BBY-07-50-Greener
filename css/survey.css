@@ -152,6 +152,82 @@ input[type='radio'] {
   display: none;
 }
 
-.wq1 {
-  display: block;
+#hq1-container {
+  display: none;
+}
+
+#hq2-container {
+  display: none;
+}
+
+#hq3-container {
+  display: none;
+}
+
+#hq4-container {
+  display: none;
+}
+
+#hq5-container {
+  display: none;
+}
+
+#hq6-container {
+  display: none;
+}
+
+#hq7-container {
+  display: none;
+}
+
+#hq8-container {
+  display: none;
+}
+
+#hq9-container {
+  display: none;
+}
+
+#hq10-container {
+  display: none;
+}
+
+#fq1-container {
+  display: none;
+}
+
+#fq2-container {
+  display: none;
+}
+
+#fq3-container {
+  display: none;
+}
+
+#fq4-container {
+  display: none;
+}
+
+#fq5-container {
+  display: none;
+}
+
+#fq6-container {
+  display: none;
+}
+
+#fq7-container {
+  display: none;
+}
+
+#fq8-container {
+  display: none;
+}
+
+#fq9-container {
+  display: none;
+}
+
+#fq10-container {
+  display: none;
 }

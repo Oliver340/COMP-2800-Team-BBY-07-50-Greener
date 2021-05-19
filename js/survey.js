@@ -97,9 +97,9 @@ $(function () {
   $('input:radio[name=tq5]').on("click", function () {
     $("#tq6-container").css("display", "block");
   });
-//end of serving up transport questions
+  //end of serving up transport questions
 
-//score will be calculated for this section and next section served up
+  //score will be calculated for this section and next section served up
   $("#transport-done").on("click", function (e) {
     e.preventDefault();
     let score = localStorage.getItem("score");
@@ -180,9 +180,33 @@ $(function () {
         */
   });
 
-function waterQuestions() {
-  
-}
+  var waterQs = ["#wq1-container", "#wq2-container", "#wq3-container", "#wq4-container", "#wq5-container", "#wq6-container", "#wq7-container", "#wq8-container", "#wq9-container", "#wq10-container"]
+
+  function waterQuestions() {
+    let someWaterQ = waterQs;
+    wqn1 = Math.floor(Math.random() * 10);
+    let selected_wq1 = someWaterQ[wqn1];
+    someWaterQ.splice(wqn1, 1);
+
+    $(selected_wq1).css("display", "block");
+
+    wqn2 = Math.floor(Math.random() * 9);
+    let selected_wq2 = someWaterQ[wqn2];
+    someWaterQ.splice(wqn2, 1);
+
+    $(selected_wq1).on("click", function () {
+      $(selected_wq2).css("display", "block");
+    });
+
+    wqn3 = Math.floor(Math.random() * 8);
+    let selected_wq3 = someWaterQ[wqn3];
+    someWaterQ.splice(wqn3, 1);
+
+    $(selected_wq2).on("click", function () {
+      $(selected_wq3).css("display", "block");
+    });
+
+  }
 
   $("#water-done").on("click", function (e) {
     e.preventDefault();
@@ -264,6 +288,34 @@ function waterQuestions() {
 
   });
 
+  var homeQs = ["#hq1-container", "#hq2-container", "#hq3-container", "#hq4-container", "#hq5-container", "#hq6-container", "#hq7-container", "#hq8-container", "#hq9-container", "#hq10-container"]
+
+  function homeQuestions() {
+    let someHomeQ = homeQs;
+    hqn1 = Math.floor(Math.random() * 10);
+    let selected_hq1 = someHomeQ[hqn1];
+    someHomeQ.splice(hqn1, 1);
+
+    $(selected_hq1).css("display", "block");
+
+    hqn2 = Math.floor(Math.random() * 9);
+    let selected_hq2 = someHomeQ[hqn2];
+    someHomeQ.splice(hqn2, 1);
+
+    $(selected_hq1).on("click", function () {
+      $(selected_hq2).css("display", "block");
+    });
+
+    hqn3 = Math.floor(Math.random() * 8);
+    let selected_hq3 = someHomeQ[hqn3];
+    someHomeQ.splice(hqn3, 1);
+
+    $(selected_hq2).on("click", function () {
+      $(selected_hq3).css("display", "block");
+    });
+
+  }
+
   $("#home-done").on("click", function (e) {
     e.preventDefault();
     let score = localStorage.getItem("score");
@@ -344,6 +396,34 @@ function waterQuestions() {
       */
 
   });
+
+  var foodQs = ["#fq1-container", "#fq2-container", "#fq3-container", "#fq4-container", "#fq5-container", "#fq6-container", "#fq7-container", "#fq8-container", "#fq9-container", "#fq10-container"]
+
+  function foodQuestions() {
+    let somefoodQ = foodQs;
+    fqn1 = Math.floor(Math.random() * 10);
+    let selected_fq1 = somefoodQ[fqn1];
+    somefoodQ.splice(fqn1, 1);
+
+    $(selected_fq1).css("display", "block");
+
+    fqn2 = Math.floor(Math.random() * 9);
+    let selected_fq2 = somefoodQ[fqn2];
+    somefoodQ.splice(fqn2, 1);
+
+    $(selected_fq1).on("click", function () {
+      $(selected_fq2).css("display", "block");
+    });
+
+    fqn3 = Math.floor(Math.random() * 8);
+    let selected_fq3 = somefoodQ[fqn3];
+    somefoodQ.splice(fqn3, 1);
+
+    $(selected_fq2).on("click", function () {
+      $(selected_fq3).css("display", "block");
+    });
+
+  }
 
   $("#food-done").on("click", function (e) {
     e.preventDefault();
