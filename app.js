@@ -661,6 +661,46 @@ function insertUser(username, firstName, lastName, pwd, callback) {
 
 }
 
+app.post('/set-old-score', function (req, res) {
+  console.log("setting score");
+  res.setHeader('Content-Type', 'application/json');    
+
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+  connection.connect();
+
+  connection.query('UPDATE user SET oldScore = ? WHERE username = ?',
+      [req.body.score, currentUser],
+      function (error, results, fields) {
+          if (error) {
+              throw error;
+          }
+          
+          res.send({
+              status: "success",
+              msg: "Score updated."
+          });
+
+      });
+  connection.end();
+});
+
+
 app.get('/get-old-score', function (req, res) {
 
   // THIS IS FOR LOCAL TESTING / DEVELOPMENT
