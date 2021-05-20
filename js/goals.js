@@ -18,37 +18,31 @@ slider1.addEventListener("input", function(){
 
 $(function () {
 
-    $("#finish").on("click", function () {
+    $("#set-goal").on("click", function () {
 
         newGoal();
-        goMain();
 
     });
 
+    $("#finish").on("click", function () {
+
+      goMain();
+
+  });
+
 });
 
+var oldScore = 0;
 function newGoal() {
     var calculateMultiplier = (100 - slider1.value) * 0.01;
 
-    var oldScore = 0;
-    $.ajax({
-      url: "/get-old-score",
-      dataType: "json",
-      type: "GET",
-      success: function (data) {
-          console.log(data);
-          if (data != null) {
-            oldScore = data;
-          }
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-          console.log("ERROR:", jqXHR, textStatus, errorThrown);
-      }
+    oldScore = getOldScore();
+    console.log("Old Score: " + oldScore);
 
-  });
-    
     var goal = oldScore * calculateMultiplier;
     console.log("Goal: " + goal);
+
+    $("#goal-value").html(goal);
 
     $.ajax({
       url: "/update-goal",
@@ -129,4 +123,31 @@ function changePage() {
   }
   document.getElementById('jquery-script').replaceWith(script1);
 
+}
+
+$(function() {
+  oldScore = getOldScore();
+  $("#old-score").html("Carbon Score: " + oldScore);
+});
+
+function getOldScore() {
+  $.ajax({
+    url: "/get-old-score",
+    dataType: "json",
+    type: "GET",
+    success: function (data) {
+        console.log("DATA: " + data[0].oldscore);
+        data = data[0].oldscore;
+        if (data != null) {
+          oldScore = data;
+        } else {
+          oldScore = 0;
+        }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+        console.log("ERROR:", jqXHR, textStatus, errorThrown);
+    }
+
+  });
+  return oldScore;
 }
