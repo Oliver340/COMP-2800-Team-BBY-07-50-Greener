@@ -7,12 +7,26 @@ const mysql = require('mysql2');
 const {
   JSDOM
 } = require('jsdom');
+// Required for Google OAuth
+const cookieParser = require('cookie-parser');
+const {
+  OAuth2Client
+} = require('google-auth-library');
+const CLIENT_ID = "323018649258-4ul4o7ceobbqt2u9kr3gh6g7vauoi9t7.apps.googleusercontent.com"
+const client = new OAuth2Client(CLIENT_ID);
+app.use(express.json());
+app.use(cookieParser());
 
 app.use('/js', express.static('js'));
 app.use('/css', express.static('css'));
 app.use('/images', express.static('images'));
 app.use('/html', express.static('html'));
 
+// Google OAuth token
+app.post('/login', function (req, res) {
+  let token = req.body.token;
+  console.log(token);
+});
 
 app.use(session({
   secret: 'super secret password',
