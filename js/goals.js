@@ -20,35 +20,49 @@ $(function () {
 
     $("#finish").on("click", function () {
 
-        newEmission();
+        newGoal();
         goMain();
 
     });
 
 });
 
-function newEmission() {
+function newGoal() {
     var calculateMultiplier = (100 - slider1.value) * 0.01;
 
     var oldScore = 0;
     $.ajax({
-        url: "/get-old-score",
-        type: "POST",
-        dataType: "JSON",
-        data: {
-        },
-        success: function (data) {
-            
-            oldScore = data
+      url: "/get-old-score",
+      dataType: "json",
+      type: "GET",
+      success: function (data) {
+          console.log(data);
+          if (data != null) {
+            oldScore = data;
+          }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+          console.log("ERROR:", jqXHR, textStatus, errorThrown);
+      }
 
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            $("#errorMsg").text(jqXHR.statusText);
-        }
-    });
+  });
     
     var goal = oldScore * calculateMultiplier;
     console.log("Goal: " + goal);
+
+    $.ajax({
+      url: "/update-goal",
+      dataType: "json",
+      type: "POST",
+      data: {userGoal: goal},
+      success: function (data) {
+          console.log(data);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+          console.log("ERROR:", jqXHR, textStatus, errorThrown);
+      }
+
+  });
 }
 
 function goMain() {

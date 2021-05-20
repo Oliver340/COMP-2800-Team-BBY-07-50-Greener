@@ -7,26 +7,12 @@ const mysql = require('mysql2');
 const {
   JSDOM
 } = require('jsdom');
-// Required for Google OAuth
-const cookieParser = require('cookie-parser');
-const {
-  OAuth2Client
-} = require('google-auth-library');
-const CLIENT_ID = "323018649258-4ul4o7ceobbqt2u9kr3gh6g7vauoi9t7.apps.googleusercontent.com"
-const client = new OAuth2Client(CLIENT_ID);
-app.use(express.json());
-app.use(cookieParser());
 
 app.use('/js', express.static('js'));
 app.use('/css', express.static('css'));
 app.use('/images', express.static('images'));
 app.use('/html', express.static('html'));
 
-// Google OAuth token
-app.post('/login', function (req, res) {
-  let token = req.body.token;
-  console.log(token);
-});
 
 app.use(session({
   secret: 'super secret password',
@@ -435,6 +421,7 @@ app.use(express.urlencoded({
   extended: true
 }))
 
+var currentUser;
 app.post('/authenticate', function (req, res) {
   console.log("authentication");
   res.setHeader('Content-Type', 'application/json');
@@ -446,6 +433,7 @@ app.post('/authenticate', function (req, res) {
           msg: "User account not found."
         });
       } else {
+        currentUser = req.body.loginUsername;
         req.session.loggedIn = true;
         req.session.name = rows.firstName;
         req.session.save(function (err) {})
@@ -508,6 +496,7 @@ app.post('/newUser', function (req, res) {
           msg: "This username already exists."
         });
       } else {
+        currentUser = req.body.signupUsername;
         req.session.loggedIn = true;
         req.session.name = rows.firstName;
         req.session.save(function (err) {})
@@ -578,30 +567,40 @@ function insertUser(username, firstName, lastName, pwd, callback) {
 
 }
 
+app.get('/get-old-score', function (req, res) {
 
-
-app.post('/get-old-score', function (req, res) {
-  console.log("getoldscore");
-  res.setHeader('Content-Type', 'application/json');
-  let results = getOldScore(
-    function (rows) {
-      if (rows == null) {
-        res.send({
-          status: "fail",
-          msg: "User account not found."
-        });
-      } else {
-        req.session.loggedIn = true;
-        req.session.name = rows.firstName;
-        req.session.save(function (err) {})
-        res.send();
-      }
+    // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+    const connection = mysql.createConnection({
+      host: 'localhost',
+      port: 3306,
+      user: 'root',
+      password: '',
+      database: 'accounts'
     });
+  
+    // THIS IS FOR LIVE SERVER
+    // const connection = mysql.createConnection({
+    //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+    //   port: 3306,
+    //   user: 'admin',
+    //   password: '50percentgreener',
+    //   database: 'accounts'
+    // });
 
+  connection.connect();
+  console.log("USER: " + currentUser);
+  connection.query('SELECT oldscore FROM user WHERE username = ?', [currentUser], function (error, results) {
+      if (error) {
+          throw error;
+      }
+      console.log('Rows returned are: ', results);
+      res.send(results);
+  });
+  connection.end();
 });
 
-
-function getOldScore(username, pwd, callback) {
+app.post('/update-goal', function (req, res) {
+  res.setHeader('Content-Type', 'application/json');
 
   // THIS IS FOR LOCAL TESTING / DEVELOPMENT
   const connection = mysql.createConnection({
@@ -620,23 +619,23 @@ function getOldScore(username, pwd, callback) {
   //   password: '50percentgreener',
   //   database: 'accounts'
   // });
+  connection.connect();
+  console.log("Data sent to db: " + req.body.userGoal);
+  connection.query('UPDATE user SET goal = ? WHERE username = ?',
+      [req.body.userGoal, currentUser],
+      function (error) {
+          if (error) {
+              throw error;
+          }
+          
+          res.send({
+              status: "success",
+              msg: "Record updated."
+          });
 
-  connection.query(
-    "SELECT * FROM user WHERE username = ?", [username],
-    function (error, results) {
-      if (error) {
-        throw error;
-      }
-
-      if (results.length > 0) {
-        return callback(results[0]);
-      } else {
-        return callback(null);
-      }
-
-    });
-
-}
+      });
+  connection.end();
+});
 
 app.get('/logout', function (req, res) {
   req.session.destroy(function (error) {
