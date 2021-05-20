@@ -209,6 +209,34 @@ app.get('/challenges', function (req, res) {
   }
 });
 
+app.get('/challenges-populate-water', function (req, res) {
+  res.setHeader('Content-Type', 'text/html');
+  fs.readFile('./json/water.json', (err, data) => {
+    res.send(data);
+  });
+});
+
+app.get('/challenges-populate-food', function (req, res) {
+  res.setHeader('Content-Type', 'text/html');
+  fs.readFile('./json/food.json', (err, data) => {
+    res.send(data);
+  });
+});
+
+app.get('/challenges-populate-commute', function (req, res) {
+  res.setHeader('Content-Type', 'text/html');
+  fs.readFile('./json/commute.json', (err, data) => {
+    res.send(data);
+  });
+});
+
+app.get('/challenges-populate-home', function (req, res) {
+  res.setHeader('Content-Type', 'text/html');
+  fs.readFile('./json/home.json', (err, data) => {
+    res.send(data);
+  });
+});
+
 app.get('/goals', function (req, res) {
   if (req.session.loggedIn) {
 
