@@ -45,12 +45,14 @@ app.post('/login', function (req, res) {
     });
     const payload = ticket.getPayload();
     const userid = payload['sub'];
-    const username = payload['name'];
     const email = payload['email'];
+    const firstname = payload['given_name'];
+    const lastname = payload['family_name'];
 
     console.log(payload);
     console.log(userid);
-    console.log(username);
+    console.log(firstname);
+    console.log(lastname);
     console.log(email);
   }
   verify()
@@ -58,44 +60,6 @@ app.post('/login', function (req, res) {
       res.send('success');
     }).catch(console.error);
 });
-
-async function addNewUser() {
-
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  const connection = mysql.createConnection({
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: '',
-    database: 'accounts'
-  });
-
-  // THIS IS FOR LIVE SERVER
-  // const connection = mysql.createConnection({
-  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-  //   port: 3306,
-  //   user: 'admin',
-  //   password: '50percentgreener',
-  //   database: 'accounts'
-  // });
-
-  connection.query(
-    "SELECT * FROM user WHERE username = ? AND password = ?", [username, pwd],
-    function (error, results) {
-      if (error) {
-        throw error;
-      }
-
-      if (results.length > 0) {
-        return callback(results[0]);
-      } else {
-        return callback(null);
-      }
-
-    });
-
-
-}
 
 
 app.get('/', function (req, res) {
@@ -521,9 +485,61 @@ app.post('/authenticate', function (req, res) {
         });
       }
     });
-
 });
 
+
+app.post('/authenticategoogle', function (req, res) {
+  console.log("authentication");
+  res.setHeader('Content-Type', 'application/json');
+
+  let token = req.body.token;
+  console.log(token);
+
+  async function verify() {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: CLIENT_ID
+    });
+    const payload = ticket.getPayload();
+    const userid = payload['sub'];
+    const email = payload['email'];
+    const firstname = payload['given_name'];
+    const lastname = payload['family_name'];
+
+    console.log(payload);
+    console.log(userid);
+    console.log(firstname);
+    console.log(lastname);
+    console.log(email);
+
+    let results = authenticate(email, userid,
+      function (rows) {
+        if (rows == null) {
+
+          insertUser(email, firstname, lastname, userid,
+            function (rows) {
+              currentUser = firstname;
+              req.session.loggedIn = true;
+              req.session.save(function (err) {});
+            });
+          res.send({
+            status: "success",
+            msg: "Added new user"
+          });
+        } else {
+          currentUser = rows.firstName;
+          req.session.loggedIn = true;
+          req.session.name = rows.firstName;
+          req.session.save(function (err) {})
+          res.send({
+            status: "success",
+            msg: "Logged in."
+          });
+        }
+      });
+  }
+  verify().catch(console.error);
+});
 
 function authenticate(username, pwd, callback) {
 
