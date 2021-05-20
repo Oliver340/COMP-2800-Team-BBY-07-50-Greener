@@ -82,6 +82,9 @@ async function initDB() {
         firstName varchar(30),
         lastName varchar(30),
         password varchar(30),
+        oldscore DECIMAL(7),
+        currentscore DECIMAL(7),
+        goal DECIMAL(7),
         PRIMARY KEY (ID));`;
 
   await connection.query(createDBAndTables);
@@ -555,6 +558,66 @@ function insertUser(username, firstName, lastName, pwd, callback) {
               return callback(null);
             }
           });
+      }
+
+    });
+
+}
+
+
+
+app.post('/get-old-score', function (req, res) {
+  console.log("getoldscore");
+  res.setHeader('Content-Type', 'application/json');
+  let results = getOldScore(
+    function (rows) {
+      if (rows == null) {
+        res.send({
+          status: "fail",
+          msg: "User account not found."
+        });
+      } else {
+        req.session.loggedIn = true;
+        req.session.name = rows.firstName;
+        req.session.save(function (err) {})
+        res.send();
+      }
+    });
+
+});
+
+
+function getOldScore(username, pwd, callback) {
+
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+  connection.query(
+    "SELECT * FROM user WHERE username = ?", [username],
+    function (error, results) {
+      if (error) {
+        throw error;
+      }
+
+      if (results.length > 0) {
+        return callback(results[0]);
+      } else {
+        return callback(null);
       }
 
     });
