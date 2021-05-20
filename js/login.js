@@ -35,19 +35,12 @@ $(function () {
 // Google Authentication
 function onSignIn(googleUser) {
   var id_token = googleUser.getAuthResponse().id_token;
-  console.log(id_token);
-
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
   var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/login');
+  xhr.open('POST', '/authenticate');
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.onload = function () {
-    console.log('Signed in as: ' + xhr.responseText);
+    console.log('Sign in: ' + xhr.responseText);
   };
   xhr.send(JSON.stringify({
     token: id_token
@@ -60,22 +53,6 @@ function signOut() {
     console.log('User signed out.');
   });
 }
-
-async function verify() {
-  const ticket = await client.verifyIdToken({
-    idToken: token,
-    audience: CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
-    // Or, if multiple clients access the backend:
-    //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-  });
-  const payload = ticket.getPayload();
-  const userid = payload['sub'];
-  // If request specified a G Suite domain:
-  // const domain = payload['hd'];
-}
-verify().catch(console.error);
-
-
 
 function goMain() {
   $.ajax({
