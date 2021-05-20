@@ -34,29 +34,30 @@ const client = new OAuth2Client(CLIENT_ID);
 app.use(express.json());
 
 // Google OAuth token
-// app.post('/authenticate', function (req, res) {
-//   let token = req.body.token;
-//   console.log(token);
+app.post('/login', function (req, res) {
+  let token = req.body.token;
+  console.log(token);
 
-//   async function verify() {
-//     const ticket = await client.verifyIdToken({
-//       idToken: token,
-//       audience: CLIENT_ID
-//     });
-//     const payload = ticket.getPayload();
-//     const userid = payload['sub'];
-//     const username = payload['name'];
-//     const email = payload['email'];
+  async function verify() {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: CLIENT_ID
+    });
+    const payload = ticket.getPayload();
+    const userid = payload['sub'];
+    const username = payload['name'];
+    const email = payload['email'];
 
-//     console.log(userid);
-//     console.log(username);
-//     console.log(email);
-//   }
-//   verify()
-//     .then(function () {
-//       res.send('success');
-//     }).catch(console.error);
-// });
+    console.log(payload);
+    console.log(userid);
+    console.log(username);
+    console.log(email);
+  }
+  verify()
+    .then(function () {
+      res.send('success');
+    }).catch(console.error);
+});
 
 async function addNewUser() {
 
@@ -644,34 +645,74 @@ function insertUser(username, firstName, lastName, pwd, callback) {
 
 }
 
+app.post('/set-old-score', function (req, res) {
+  console.log("setting score");
+  res.setHeader('Content-Type', 'application/json');    
+
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+  connection.connect();
+
+  connection.query('UPDATE user SET oldScore = ? WHERE username = ?',
+      [req.body.score, currentUser],
+      function (error, results, fields) {
+          if (error) {
+              throw error;
+          }
+          
+          res.send({
+              status: "success",
+              msg: "Score updated."
+          });
+
+      });
+  connection.end();
+});
+
+
 app.get('/get-old-score', function (req, res) {
 
-    // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-    const connection = mysql.createConnection({
-      host: 'localhost',
-      port: 3306,
-      user: 'root',
-      password: '',
-      database: 'accounts'
-    });
-  
-    // THIS IS FOR LIVE SERVER
-    // const connection = mysql.createConnection({
-    //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-    //   port: 3306,
-    //   user: 'admin',
-    //   password: '50percentgreener',
-    //   database: 'accounts'
-    // });
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
 
   connection.connect();
   console.log("USER: " + currentUser);
   connection.query('SELECT oldscore FROM user WHERE username = ?', [currentUser], function (error, results) {
-      if (error) {
-          throw error;
-      }
-      console.log('Rows returned are: ', results);
-      res.send(results);
+    if (error) {
+      throw error;
+    }
+    console.log('Rows returned are: ', results);
+    res.send(results);
   });
   connection.end();
 });
@@ -699,18 +740,18 @@ app.post('/update-goal', function (req, res) {
   connection.connect();
   console.log("Data sent to db: " + req.body.userGoal);
   connection.query('UPDATE user SET goal = ? WHERE username = ?',
-      [req.body.userGoal, currentUser],
-      function (error) {
-          if (error) {
-              throw error;
-          }
-          
-          res.send({
-              status: "success",
-              msg: "Record updated."
-          });
+    [req.body.userGoal, currentUser],
+    function (error) {
+      if (error) {
+        throw error;
+      }
 
+      res.send({
+        status: "success",
+        msg: "Record updated."
       });
+
+    });
   connection.end();
 });
 
