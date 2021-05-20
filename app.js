@@ -514,7 +514,7 @@ app.post('/authenticate', function (req, res) {
         currentUser = req.body.loginUsername;
         req.session.loggedIn = true;
         req.session.name = rows.firstName;
-        req.session.save(function (err) {})
+        req.session.save(function (err) { })
         res.send({
           status: "success",
           msg: "Logged in."
@@ -577,7 +577,7 @@ app.post('/newUser', function (req, res) {
         currentUser = req.body.signupUsername;
         req.session.loggedIn = true;
         req.session.name = rows.firstName;
-        req.session.save(function (err) {})
+        req.session.save(function (err) { })
         res.send({
           status: "success",
           msg: "Signed up."
@@ -647,7 +647,7 @@ function insertUser(username, firstName, lastName, pwd, callback) {
 
 app.post('/set-old-score', function (req, res) {
   console.log("setting score");
-  res.setHeader('Content-Type', 'application/json');    
+  res.setHeader('Content-Type', 'application/json');
 
   // THIS IS FOR LOCAL TESTING / DEVELOPMENT
   const connection = mysql.createConnection({
@@ -669,18 +669,18 @@ app.post('/set-old-score', function (req, res) {
   connection.connect();
 
   connection.query('UPDATE user SET oldScore = ? WHERE username = ?',
-      [req.body.score, currentUser],
-      function (error, results, fields) {
-          if (error) {
-              throw error;
-          }
-          
-          res.send({
-              status: "success",
-              msg: "Score updated."
-          });
+    [req.body.score, currentUser],
+    function (error, results, fields) {
+      if (error) {
+        throw error;
+      }
 
+      res.send({
+        status: "success",
+        msg: "Score updated."
       });
+
+    });
   connection.end();
 });
 
@@ -753,6 +753,123 @@ app.post('/update-goal', function (req, res) {
 
     });
   connection.end();
+});
+
+app.post('/changeUsername', function (req, res) {
+
+  res.setHeader('Content-Type', 'application/json');
+
+  let results = changeUser(req.body.changeUsername,
+    function (rows) {
+      if (rows == null) {
+        res.send({
+          status: "fail",
+          msg: "This username already exists. Try another one"
+        });
+      } else {
+        currentUser = req.body.changeUsername;
+
+        res.send({
+          status: "success",
+          msg: "Username updated."
+        });
+      }
+    });
+
+});
+
+
+function changeUser(newUsername, callback) {
+
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+  connection.query(
+    "SELECT * FROM user WHERE username = ?", [newUsername],
+    function (error, results) {
+      if (error) {
+        throw error;
+      }
+
+      if (results.length > 0) {
+        return callback(null);
+
+      } else {
+        connection.query('UPDATE user SET username = ? WHERE username = ?',
+          [newUsername, currentUser],
+          function (error, results) {
+            if (error) {
+              throw error;
+            }
+          });
+        connection.query(
+          "SELECT * FROM user WHERE username = ?", [newUsername],
+          function (error, results) {
+            if (error) {
+              throw error;
+            }
+
+            if (results.length > 0) {
+              return callback(results[0]);
+            } else {
+              return callback(null);
+            }
+          });
+      }
+    });
+    connection.end();
+}
+
+app.post('/changePassword', function (req, res) {
+
+  res.setHeader('Content-Type', 'application/json');
+
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+
+  connection.query('UPDATE user SET password = ? WHERE username = ?',
+    [req.body.changePassword, currentUser],
+    function (error, results) {
+      if (error) {
+        throw error;
+      }
+      res.send({
+        status: "success",
+        msg: "Password updated."
+      });
+    });
+    connection.end();
 });
 
 app.get('/logout', function (req, res) {
