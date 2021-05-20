@@ -21,6 +21,82 @@ app.use(session({
   saveUninitialized: true
 }));
 
+// Required for Google OAuth
+const cookieParser = require('cookie-parser');
+const {
+  OAuth2Client
+} = require('google-auth-library');
+const {
+  resourceUsage
+} = require('process');
+const CLIENT_ID = "323018649258-4ul4o7ceobbqt2u9kr3gh6g7vauoi9t7.apps.googleusercontent.com"
+const client = new OAuth2Client(CLIENT_ID);
+app.use(express.json());
+
+// Google OAuth token
+// app.post('/authenticate', function (req, res) {
+//   let token = req.body.token;
+//   console.log(token);
+
+//   async function verify() {
+//     const ticket = await client.verifyIdToken({
+//       idToken: token,
+//       audience: CLIENT_ID
+//     });
+//     const payload = ticket.getPayload();
+//     const userid = payload['sub'];
+//     const username = payload['name'];
+//     const email = payload['email'];
+
+//     console.log(userid);
+//     console.log(username);
+//     console.log(email);
+//   }
+//   verify()
+//     .then(function () {
+//       res.send('success');
+//     }).catch(console.error);
+// });
+
+async function addNewUser() {
+
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+  connection.query(
+    "SELECT * FROM user WHERE username = ? AND password = ?", [username, pwd],
+    function (error, results) {
+      if (error) {
+        throw error;
+      }
+
+      if (results.length > 0) {
+        return callback(results[0]);
+      } else {
+        return callback(null);
+      }
+
+    });
+
+
+}
+
+
 app.get('/', function (req, res) {
   let doc = fs.readFileSync('./html/skeleton.html', "utf8");
 
@@ -85,6 +161,7 @@ async function initDB() {
         oldscore DECIMAL(7),
         currentscore DECIMAL(7),
         goal DECIMAL(7),
+        email varchar(50),
         PRIMARY KEY (ID));`;
 
   await connection.query(createDBAndTables);
