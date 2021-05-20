@@ -101,10 +101,10 @@ $(function () {
         if (document.getElementById("challenges-identifier") != null) {
           var temp3 = "<script id='challenges-tabs-script' src='../js/tabs-challenges.js'></script>";
           var temp4 = "<script id='progressbar-script' src='https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.1.0/progressbar.js'></script>";
-
+          var temp5 = "<script id='challenges-populate' src='../js/challenges-populate.js'></script>"
           $("#challenges-tabs-script").replaceWith(temp3);
           $("#progressbar-script").replaceWith(temp4);
-
+          $("#challenges-populate").replaceWith(temp5);
         } else {
           console.log("redirect");
         }
@@ -164,7 +164,10 @@ $(function () {
         $("#client-script").replaceWith(temp2);
         if (document.getElementById("about-identifier") != null) {
           var temp3 = "<script id='about-script' src='../js/about.js'></script>";
+          var temp4 = "<script id='egg-script' src='../js/egg.js'></script>";
           $("#about-script").replaceWith(temp3);
+          $("#egg-script").replaceWith(temp4);
+
         } else {
           console.log("redirect");
         }

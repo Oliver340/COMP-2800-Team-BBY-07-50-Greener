@@ -326,34 +326,73 @@ $(function () {
 
 
     //this should serve up a goal setting page instead
-    /*
-      $.ajax({
-        url: "/mainpage",
+
+    goGoals();
+
+    
+  });
+
+
+  function goGoals() {
+    $.ajax({
+        url: "/goals",
         dataType: "html",
         type: "GET",
-        data: { format: "mainpage" },
+        data: { format: "goals" },
         success: function (data) {
           document.documentElement.innerHTML = data;
-          var temp1 = "<script id='jquery-script' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
-        var temp2 = "<script id='client-script' src='../js/client.js'></script>";
-        $("#jquery-script").replaceWith(temp1);
-        $("#client-script").replaceWith(temp2);
-        if (document.getElementById("mainpage-identifier") != null) {
-          var temp3 = "<script id='cloudflare-script' src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js'></script>";
-          var temp4 = "<script id='semicircle-script' src='../js/mainpage-semicircle.js'></script>";
-          var temp5 = "<script id='piechart-script' src='../js/mainpage-pie-chart.js'></script>";
-          var temp6 = "<script id='progressbar-script' src='https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.1.0/progressbar.min.js' charset='utf-8'></script>";
-          $("#cloudflare-script").replaceWith(temp3);
-          $("#semicircle-script").replaceWith(temp4);
-          $("#piechart-script").replaceWith(temp5);
-          $("#progressbar-script").replaceWith(temp6);
+          
+          if (document.getElementById("goals-identifier") != null) {
+            changeToGoalsPage();
+          } else {
+            console.log("redirect");
+          }
         },
         error: function (jqXHR, textStatus, errorThrown) {
           $("#content").text(jqXHR.statusText);
           console.log("ERROR:", jqXHR, textStatus, errorThrown);
         }
       });
-      */
+}
 
+  function changeToGoalsPage() {
+    var script1 = document.createElement('script');
+    script1.id = "jquery-script";
+    script1.src = "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js";
+    script1.type = "text/javascript";
+    script1.onload = function() {
+      var script2 = document.createElement('script');
+      script2.id = "client-script";
+      script2.src = "../js/client.js";
+      script2.type = "text/javascript";
+        script2.onload = function() {
+          var script3 = document.createElement('script');
+          script3.id = "progressbar-script";
+          script3.src = "https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.1.0/progressbar.js";
+          script3.type = "text/javascript";
+          script3.onload = function() {
+            var script4 = document.createElement('script');
+            script4.id = "challenges-tabs-script";
+            script4.src = "../js/tabs-challenges.js";
+            script4.type = "text/javascript";
+            script4.onload = function() {
+              var script5 = document.createElement('script');
+              script5.id = "goals-script";
+              script5.src = "../js/goals.js";
+              script5.type = "text/javascript";
+              document.getElementById('goals-script').replaceWith(script5);
+            }
+            document.getElementById('challenges-tabs-script').replaceWith(script4);
+          }
+          document.getElementById('progressbar-script').replaceWith(script3);
+        }
+        document.getElementById('client-script').replaceWith(script2);
+    }
+    document.getElementById('jquery-script').replaceWith(script1);
+  }
+  
+  $("#skip-survey").on("click", function (e) {
+    e.preventDefault();
+    goGoals();
   });
 });

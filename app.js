@@ -57,22 +57,22 @@ async function initDB() {
   const mysql = require('mysql2/promise');
 
   // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = await mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   multipleStatements: true
-  // });
-
-  // THIS IS FOR LIVE SERVER
   const connection = await mysql.createConnection({
-    host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+    host: 'localhost',
     port: 3306,
-    user: 'admin',
-    password: '50percentgreener',
+    user: 'root',
+    password: '',
     multipleStatements: true
   });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = await mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   multipleStatements: true
+  // });
 
   const createDBAndTables = `CREATE DATABASE IF NOT EXISTS accounts;
         use accounts;
@@ -209,6 +209,130 @@ app.get('/challenges', function (req, res) {
   }
 });
 
+app.get('/challenges-populate-water', function (req, res) {
+  res.setHeader('Content-Type', 'text/html');
+  fs.readFile('./json/water.json', (err, data) => {
+    var jsonObj = JSON.parse(data);
+    var numOfChallenges = 10 //Change here for number of challenges
+    var challenges = [];
+    while (challenges.length < 3) {
+      var rng = Math.floor(Math.random() * numOfChallenges);
+      var existFlag = false;
+      if (challenges.length == 0) {
+        challenges.push(rng);
+      } else {
+        for (let i = 0; i < challenges.length; i++) {
+          if (rng == challenges[i]) {
+            existFlag = true;
+            break;
+          };
+        };
+        if (existFlag == false) {
+          challenges.push(rng);
+        };
+      };
+    };
+    var dataToSend = [];
+    for (let i = 0; i < challenges.length; i++) {
+      dataToSend.push(jsonObj[challenges[i]])
+    };
+    res.send(dataToSend);
+  });
+});
+
+app.get('/challenges-populate-food', function (req, res) {
+  res.setHeader('Content-Type', 'text/html');
+  fs.readFile('./json/food.json', (err, data) => {
+    var jsonObj = JSON.parse(data);
+    var numOfChallenges = 10 //Change here for number of challenges
+    var challenges = [];
+    while (challenges.length < 3) {
+      var rng = Math.floor(Math.random() * numOfChallenges);
+      var existFlag = false;
+      if (challenges.length == 0) {
+        challenges.push(rng);
+      } else {
+        for (let i = 0; i < challenges.length; i++) {
+          if (rng == challenges[i]) {
+            existFlag = true;
+            break;
+          };
+        };
+        if (existFlag == false) {
+          challenges.push(rng);
+        };
+      };
+    };
+    var dataToSend = [];
+    for (let i = 0; i < challenges.length; i++) {
+      dataToSend.push(jsonObj[challenges[i]])
+    };
+    res.send(dataToSend);
+  });
+});
+
+app.get('/challenges-populate-commute', function (req, res) {
+  res.setHeader('Content-Type', 'text/html');
+  fs.readFile('./json/commute.json', (err, data) => {
+    var jsonObj = JSON.parse(data);
+    var numOfChallenges = 10 //Change here for number of challenges
+    var challenges = [];
+    while (challenges.length < 3) {
+      var rng = Math.floor(Math.random() * numOfChallenges);
+      var existFlag = false;
+      if (challenges.length == 0) {
+        challenges.push(rng);
+      } else {
+        for (let i = 0; i < challenges.length; i++) {
+          if (rng == challenges[i]) {
+            existFlag = true;
+            break;
+          };
+        };
+        if (existFlag == false) {
+          challenges.push(rng);
+        };
+      };
+    };
+    var dataToSend = [];
+    for (let i = 0; i < challenges.length; i++) {
+      dataToSend.push(jsonObj[challenges[i]])
+    };
+    res.send(dataToSend);
+  });
+});
+
+app.get('/challenges-populate-home', function (req, res) {
+  res.setHeader('Content-Type', 'text/html');
+  fs.readFile('./json/home.json', (err, data) => {
+    var jsonObj = JSON.parse(data);
+    var numOfChallenges = 10 //Change here for number of challenges
+    var challenges = [];
+    while (challenges.length < 3) {
+      var rng = Math.floor(Math.random() * numOfChallenges);
+      var existFlag = false;
+      if (challenges.length == 0) {
+        challenges.push(rng);
+      } else {
+        for (let i = 0; i < challenges.length; i++) {
+          if (rng == challenges[i]) {
+            existFlag = true;
+            break;
+          };
+        };
+        if (existFlag == false) {
+          challenges.push(rng);
+        };
+      };
+    };
+    var dataToSend = [];
+    for (let i = 0; i < challenges.length; i++) {
+      dataToSend.push(jsonObj[challenges[i]])
+    };
+    res.send(dataToSend);
+  });
+});
+
 app.get('/goals', function (req, res) {
   if (req.session.loggedIn) {
 
@@ -222,8 +346,8 @@ app.get('/goals', function (req, res) {
 
     $skeleton("#content-to-replace").empty();
     $skeleton("#content-to-replace").html($goals("body"));
-    $skeleton("#linkToCSS").attr("href", "css/challenges.css");
-    $skeleton("#linkToCSS2").attr("href", "css/barfiller.css");
+    // $skeleton("#linkToCSS").attr("href", "css/challenges.css");
+    // $skeleton("#linkToCSS2").attr("href", "css/barfiller.css");
     $skeleton("#linkToCSS3").attr("href", "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
     $skeleton("#linkToCSS4").attr("href", "css/goals.css");
 
@@ -288,6 +412,31 @@ app.get('/settings', function (req, res) {
   }
 });
 
+app.get('/survey-intro', function (req, res) {
+  if (req.session.loggedIn) {
+
+    let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+    let skeletonDOM = new JSDOM(skeleton);
+    let $skeleton = require("jquery")(skeletonDOM.window);
+
+    let survey = fs.readFileSync('./html/survey-intro.html', "utf8");
+    let surveyDOM = new JSDOM(survey);
+    let $survey = require("jquery")(surveyDOM.window);
+
+    $skeleton("#content-to-replace").empty();
+    $skeleton("#content-to-replace").html($survey("body"));
+    $skeleton("#linkToCSS").attr("href", "css/survey.css");
+
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
+
+    res.set('Server', '50Greener Engine');
+    res.set('X-Powered-By', '50Greener');
+    res.send(skeletonDOM.serialize());
+  } else {
+    res.redirect('/');
+  }
+});
+
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
@@ -320,22 +469,22 @@ app.post('/authenticate', function (req, res) {
 function authenticate(username, pwd, callback) {
 
   // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
   const connection = mysql.createConnection({
-    host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+    host: 'localhost',
     port: 3306,
-    user: 'admin',
-    password: '50percentgreener',
+    user: 'root',
+    password: '',
     database: 'accounts'
   });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
 
   connection.query(
     "SELECT * FROM user WHERE username = ? AND password = ?", [username, pwd],
@@ -382,22 +531,22 @@ app.post('/newUser', function (req, res) {
 function insertUser(username, firstName, lastName, pwd, callback) {
 
   // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
   const connection = mysql.createConnection({
-    host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+    host: 'localhost',
     port: 3306,
-    user: 'admin',
-    password: '50percentgreener',
+    user: 'root',
+    password: '',
     database: 'accounts'
   });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
 
   connection.query(
     "SELECT * FROM user WHERE username = ?", [username],
