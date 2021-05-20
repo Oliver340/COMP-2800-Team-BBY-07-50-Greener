@@ -212,28 +212,124 @@ app.get('/challenges', function (req, res) {
 app.get('/challenges-populate-water', function (req, res) {
   res.setHeader('Content-Type', 'text/html');
   fs.readFile('./json/water.json', (err, data) => {
-    res.send(data);
+    var jsonObj = JSON.parse(data);
+    var numOfChallenges = 10 //Change here for number of challenges
+    var challenges = [];
+    while (challenges.length < 3) {
+      var rng = Math.floor(Math.random() * numOfChallenges);
+      var existFlag = false;
+      if (challenges.length == 0) {
+        challenges.push(rng);
+      } else {
+        for (let i = 0; i < challenges.length; i++) {
+          if (rng == challenges[i]) {
+            existFlag = true;
+            break;
+          };
+        };
+        if (existFlag == false) {
+          challenges.push(rng);
+        };
+      };
+    };
+    var dataToSend = [];
+    for (let i = 0; i < challenges.length; i++) {
+      dataToSend.push(jsonObj[challenges[i]])
+    };
+    res.send(dataToSend);
   });
 });
 
 app.get('/challenges-populate-food', function (req, res) {
   res.setHeader('Content-Type', 'text/html');
   fs.readFile('./json/food.json', (err, data) => {
-    res.send(data);
+    var jsonObj = JSON.parse(data);
+    var numOfChallenges = 10 //Change here for number of challenges
+    var challenges = [];
+    while (challenges.length < 3) {
+      var rng = Math.floor(Math.random() * numOfChallenges);
+      var existFlag = false;
+      if (challenges.length == 0) {
+        challenges.push(rng);
+      } else {
+        for (let i = 0; i < challenges.length; i++) {
+          if (rng == challenges[i]) {
+            existFlag = true;
+            break;
+          };
+        };
+        if (existFlag == false) {
+          challenges.push(rng);
+        };
+      };
+    };
+    var dataToSend = [];
+    for (let i = 0; i < challenges.length; i++) {
+      dataToSend.push(jsonObj[challenges[i]])
+    };
+    res.send(dataToSend);
   });
 });
 
 app.get('/challenges-populate-commute', function (req, res) {
   res.setHeader('Content-Type', 'text/html');
   fs.readFile('./json/commute.json', (err, data) => {
-    res.send(data);
+    var jsonObj = JSON.parse(data);
+    var numOfChallenges = 10 //Change here for number of challenges
+    var challenges = [];
+    while (challenges.length < 3) {
+      var rng = Math.floor(Math.random() * numOfChallenges);
+      var existFlag = false;
+      if (challenges.length == 0) {
+        challenges.push(rng);
+      } else {
+        for (let i = 0; i < challenges.length; i++) {
+          if (rng == challenges[i]) {
+            existFlag = true;
+            break;
+          };
+        };
+        if (existFlag == false) {
+          challenges.push(rng);
+        };
+      };
+    };
+    var dataToSend = [];
+    for (let i = 0; i < challenges.length; i++) {
+      dataToSend.push(jsonObj[challenges[i]])
+    };
+    res.send(dataToSend);
   });
 });
 
 app.get('/challenges-populate-home', function (req, res) {
   res.setHeader('Content-Type', 'text/html');
   fs.readFile('./json/home.json', (err, data) => {
-    res.send(data);
+    var jsonObj = JSON.parse(data);
+    var numOfChallenges = 10 //Change here for number of challenges
+    var challenges = [];
+    while (challenges.length < 3) {
+      var rng = Math.floor(Math.random() * numOfChallenges);
+      var existFlag = false;
+      if (challenges.length == 0) {
+        challenges.push(rng);
+      } else {
+        for (let i = 0; i < challenges.length; i++) {
+          if (rng == challenges[i]) {
+            existFlag = true;
+            break;
+          };
+        };
+        if (existFlag == false) {
+          challenges.push(rng);
+        };
+      };
+    };
+    var dataToSend = [];
+    for (let i = 0; i < challenges.length; i++) {
+      dataToSend.push(jsonObj[challenges[i]])
+    };
+    res.send(dataToSend);
   });
 });
 
