@@ -436,7 +436,7 @@ $(function () {
   
   $("#food-done").on("click", function (e) {
     e.preventDefault();
-    let score = Number(localStorage.getItem("score"))
+    let score = Number(localStorage.getItem("score"));
 
     $('input:radio[name=fq1]').each(function () {
       if ($(this).is(':checked'))
@@ -492,10 +492,37 @@ $(function () {
     console.log("Total Score: " + localStorage.getItem("score"));
 
 
+    setScore(Number(localStorage.getItem("score")));
+
     goGoals();
 
 
   });
+
+  function setScore(oldScore) {
+    $.ajax({
+      url: "/set-old-score",
+      type: "POST",
+      dataType: "JSON",
+      data: {
+          score: oldScore
+          
+      },
+      success: function (data) {
+          if (data['status'] == "success") {
+
+              console.log(data['msg']);
+
+          } else {
+              $("#errorMsg").html(data['msg']);
+          }
+
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+          $("#errorMsg").text(jqXHR.statusText);
+      }
+  });
+  }
 
 
   function goGoals() {
