@@ -106,7 +106,7 @@ async function initDB() {
     results = await connection.query("INSERT INTO user (username, firstName, lastName, password) values ('arron_ferguson@bcit.ca', 'arron', 'f', 'admin')");
     console.log("Added one user record.");
   }
-  connection.end();
+  // connection.end();
 }
 
 app.get('/mainpage', function (req, res) {
@@ -447,7 +447,7 @@ app.post('/authenticate', function (req, res) {
         currentUser = req.body.loginUsername;
         req.session.loggedIn = true;
         req.session.name = rows.firstName;
-        req.session.save(function (err) { })
+        req.session.save(function (err) {})
         res.send({
           status: "success",
           msg: "Logged in."
@@ -487,9 +487,9 @@ app.post('/authenticategoogle', function (req, res) {
 
           insertUser(email, firstname, lastname, userid,
             function (rows) {
-              currentUser = firstname;
+              currentUser = rows.firstname;
               req.session.loggedIn = true;
-              req.session.save(function (err) { });
+              req.session.save(function (err) {});
             });
           res.send({
             status: "success",
@@ -499,7 +499,7 @@ app.post('/authenticategoogle', function (req, res) {
           currentUser = rows.firstName;
           req.session.loggedIn = true;
           req.session.name = rows.firstName;
-          req.session.save(function (err) { })
+          req.session.save(function (err) {})
           res.send({
             status: "success",
             msg: "Logged in."
@@ -564,7 +564,7 @@ app.post('/newUser', function (req, res) {
         currentUser = req.body.signupUsername;
         req.session.loggedIn = true;
         req.session.name = rows.firstName;
-        req.session.save(function (err) { })
+        req.session.save(function (err) {})
         res.send({
           status: "success",
           msg: "Signed up."
@@ -800,13 +800,13 @@ function deleteUser(username, password, callback) {
 app.get('/get-current-score', function (req, res) {
 
   // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  const connection = mysql.createConnection({
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: '',
-    database: 'accounts'
-  });
+  // const connection = mysql.createConnection({
+  //   host: 'localhost',
+  //   port: 3306,
+  //   user: 'root',
+  //   password: '',
+  //   database: 'accounts'
+  // });
 
   // THIS IS FOR LIVE SERVER
   // const connection = mysql.createConnection({
@@ -817,28 +817,28 @@ app.get('/get-current-score', function (req, res) {
   //   database: 'accounts'
   // });
 
-  connection.connect();
+  // connection.connect();
   console.log("USER: " + currentUser);
-  connection.query('SELECT currentscore FROM user WHERE username = ?', [currentUser], function (error, results) {
+  connection2.query('SELECT currentscore FROM user WHERE username = ?', [currentUser], function (error, results) {
     if (error) {
       throw error;
     }
     console.log('Rows returned are: ', results);
     res.send(results);
   });
-  connection.end();
+  // connection.end();
 });
 
 app.get('/get-goal', function (req, res) {
 
   // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  const connection = mysql.createConnection({
-    host: 'localhost',
-    port: 3306,
-    user: 'root',
-    password: '',
-    database: 'accounts'
-  });
+  // const connection = mysql.createConnection({
+  //   host: 'localhost',
+  //   port: 3306,
+  //   user: 'root',
+  //   password: '',
+  //   database: 'accounts'
+  // });
 
   // THIS IS FOR LIVE SERVER
   // const connection = mysql.createConnection({
@@ -849,16 +849,16 @@ app.get('/get-goal', function (req, res) {
   //   database: 'accounts'
   // });
 
-  connection.connect();
+  // connection.connect();
   console.log("USER: " + currentUser);
-  connection.query('SELECT goal FROM user WHERE username = ?', [currentUser], function (error, results) {
+  connection2.query('SELECT goal FROM user WHERE username = ?', [currentUser], function (error, results) {
     if (error) {
       throw error;
     }
     console.log('Rows returned are: ', results);
     res.send(results);
   });
-  connection.end();
+  // connection.end();
 });
 
 app.get('/logout', function (req, res) {
