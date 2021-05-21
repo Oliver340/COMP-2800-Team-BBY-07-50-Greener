@@ -94,6 +94,10 @@ async function initDB() {
         password varchar(30),
         oldscore DECIMAL(7),
         currentscore DECIMAL(7),
+        transportscore DECIMAL(7),
+        waterscore DECIMAL(7),
+        homescore DECIMAL(7),
+        foodscore DECIMAL(7),
         goal DECIMAL(7),
         email varchar(50),
         PRIMARY KEY (ID));`;
@@ -611,8 +615,8 @@ app.post('/set-old-score', function (req, res) {
   console.log("setting score");
   res.setHeader('Content-Type', 'application/json');
 
-  connection2.query('UPDATE user SET oldScore = ?, currentscore = ? WHERE username = ?',
-    [req.body.score, req.body.score, currentUser],
+  connection2.query('UPDATE user SET oldScore = ?, currentscore = ?, transportscore = ?, waterscore = ?, homescore = ?, foodscore = ? WHERE username = ?',
+    [req.body.score, req.body.score, req.body.tScore, req.body.wScore, req.body.hScore, req.body.fScore, currentUser],
     function (error, results, fields) {
       if (error) {
         throw error;

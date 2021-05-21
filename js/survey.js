@@ -1,7 +1,12 @@
 'use strict';
 
 
+var transportScore;
+var waterScore;
+var homeScore;
+var foodScore;
 $(function () {
+
   $("#survey-begin").on("click", function (e) {
     e.preventDefault();
     localStorage.setItem("score", "0");
@@ -210,7 +215,11 @@ $(function () {
             $("#content").text(jqXHR.statusText);
             console.log("ERROR:", jqXHR, textStatus, errorThrown);
           }
-        });    
+        });  
+        
+        
+    transportScore = score;
+    console.log("Transport Score: " + transportScore);
         
         
   });
@@ -218,7 +227,7 @@ $(function () {
 
   $("#water-done").on("click", function (e) {
     e.preventDefault();
-    let score = Number(localStorage.getItem("score"))
+    let score = Number(localStorage.getItem("score"));
     console.log(localStorage.getItem("score"));
 
     $('input:radio[name=wq1]').each(function () {
@@ -321,6 +330,9 @@ $(function () {
         }
       });
       
+      
+    waterScore = score - transportScore;
+    console.log("Water Score: " + waterScore);
 
   });
 
@@ -431,6 +443,9 @@ $(function () {
       });
       
 
+    homeScore = score - transportScore - waterScore;
+    console.log("Home Score: " + homeScore);
+
   });
 
   
@@ -491,6 +506,8 @@ $(function () {
     localStorage.setItem("score", score);
     console.log("Total Score: " + localStorage.getItem("score"));
 
+    foodScore = score - transportScore - waterScore - homeScore;
+    console.log("Food Score: " + foodScore);
 
     setScore(Number(localStorage.getItem("score")));
 
@@ -505,8 +522,11 @@ $(function () {
       type: "POST",
       dataType: "JSON",
       data: {
-          score: oldScore
-          
+          score: oldScore,
+          tScore: transportScore,
+          wScore: waterScore,
+          hScore: homeScore,
+          fScore: foodScore
       },
       success: function (data) {
           if (data['status'] == "success") {
