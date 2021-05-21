@@ -1,34 +1,7 @@
-body {
-    background-color: #e6f0e4;
-}
-
 .chartGauge {
     width: 80%;
-    margin: auto;
+    margin: 10vw auto;
 } 
-
-.chart-first {
-    fill: #1EA614;
-}
-.chart-second {
-    fill: #9FCC00;
-}
-
-.chart-third {
-    fill: #FDEF02;
-}
-
-.chart-fourth {
-    fill: #FFAF00;
-}
-
-.chart-fifth {
-    fill: #FE2B00;
-}
-
-.needle, .needle-center {
-    fill: #000000;
-}
 
 .text {
      color: "#112864";
@@ -38,12 +11,34 @@ body {
 svg {
     font: 10px sans-serif;
 }
-/** Code block end **/
-
 
 #pieContainer {
     position: relative;
-    margin: auto;
-    height: 30vh;
-    width: 40vw;
+    margin: 10vw auto;
+    height: 50vh;
+    width: 50vw;
 }
+
+#retake-survey {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    border-radius: 7px;
+    background-color: #3C7329;
+    color: white;
+    border: 0;
+    box-shadow: 2px 2px 5px black;
+    font-size: 1rem;
+  }
+
+  #welcomeMsg {
+    color: rgb(93, 184, 102);
+    font-size: 2rem;
+    padding: 1.5% 3%;
+  }
+
+  #chart-desc {
+      padding: 3%;
+  }

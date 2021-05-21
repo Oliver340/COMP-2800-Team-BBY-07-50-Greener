@@ -1,6 +1,6 @@
 var ctx = document.getElementById('myChart');
-ctx.height = 400;
-ctx.width = 400;
+// ctx.height = 400;
+// ctx.width = 400;
 
 var data = {
     labels: ['Transportation', 'Home', 'Water', 'Diet'],
@@ -24,7 +24,7 @@ var option = {
         legend: {
             labels: {
                 font: {
-                    size: 30
+                    size: 20
                 }
             }
         }

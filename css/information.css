@@ -1,10 +1,6 @@
-body {
-    background-color: #e6f0e4;
-}
-
 #tabmenu {
     list-style: none;
-    margin: 0 auto;
+    margin: 0 1vw;
     padding: 0;
 }
 
@@ -35,9 +31,9 @@ body {
 }
 
 .tab-body {
-    margin: 0 auto;
+    margin: 0 1vw;
     padding: 15px;
-    height: 90vh;
+    height: 72vh;
     background-color: #c8e9a7;
     border: 1px solid #5db866;
     border-radius: 0 10px 10px 10px;
@@ -46,4 +42,16 @@ body {
 
 .tab-body h4 {
     margin: 0;
+}
+
+#water, #food, #commute, #home, #links {
+    overflow-y: auto;
+}
+
+.tip {
+    font-weight: bold;
+}
+
+.url {
+    text-decoration: underline;
 }

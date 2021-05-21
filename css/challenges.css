@@ -1,6 +1,4 @@
-body {
-    background-color: #e6f0e4;
-}
+
 
 #tabmenu .tablink,
 #tabmenu .tablink-active {
@@ -43,6 +41,7 @@ body {
 
 #progress {
     height: 10px;
+    padding-bottom: 40px;
 }
 
 #progress>svg {

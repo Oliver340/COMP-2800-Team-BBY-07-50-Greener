@@ -7,12 +7,14 @@ const mysql = require('mysql2');
 const {
   JSDOM
 } = require('jsdom');
+const cors = require('cors');
 
 app.use('/js', express.static('js'));
 app.use('/css', express.static('css'));
 app.use('/images', express.static('images'));
 app.use('/html', express.static('html'));
 
+app.use(cors());
 
 app.use(session({
   secret: 'super secret password',
@@ -20,6 +22,14 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+
+// Required for Google OAuth
+const {
+  OAuth2Client
+} = require('google-auth-library');
+const CLIENT_ID = "757498049885-81jenot2i75onqm6uhrli9m6kv5dg3i8.apps.googleusercontent.com"
+const client = new OAuth2Client(CLIENT_ID);
+app.use(express.json());
 
 app.get('/', function (req, res) {
   let doc = fs.readFileSync('./html/skeleton.html', "utf8");
@@ -82,17 +92,18 @@ async function initDB() {
         firstName varchar(30),
         lastName varchar(30),
         password varchar(30),
+        oldscore DECIMAL(7),
+        currentscore DECIMAL(7),
+        transportscore DECIMAL(7),
+        waterscore DECIMAL(7),
+        homescore DECIMAL(7),
+        foodscore DECIMAL(7),
+        goal DECIMAL(7),
+        email varchar(50),
         PRIMARY KEY (ID));`;
 
   await connection.query(createDBAndTables);
-  let results = await connection.query("SELECT COUNT(*) FROM user");
-  let count = results[0][0]['COUNT(*)'];
-
-  if (count < 1) {
-    results = await connection.query("INSERT INTO user (username, firstName, lastName, password) values ('arron_ferguson@bcit.ca', 'arron', 'f', 'admin')");
-    console.log("Added one user record.");
-  }
-  connection.end();
+  // connection.end();
 }
 
 app.get('/mainpage', function (req, res) {
@@ -209,6 +220,130 @@ app.get('/challenges', function (req, res) {
   }
 });
 
+app.get('/challenges-populate-water', function (req, res) {
+  res.setHeader('Content-Type', 'text/html');
+  fs.readFile('./json/water.json', (err, data) => {
+    var jsonObj = JSON.parse(data);
+    var numOfChallenges = 10 //Change here for number of challenges
+    var challenges = [];
+    while (challenges.length < 3) {
+      var rng = Math.floor(Math.random() * numOfChallenges);
+      var existFlag = false;
+      if (challenges.length == 0) {
+        challenges.push(rng);
+      } else {
+        for (let i = 0; i < challenges.length; i++) {
+          if (rng == challenges[i]) {
+            existFlag = true;
+            break;
+          };
+        };
+        if (existFlag == false) {
+          challenges.push(rng);
+        };
+      };
+    };
+    var dataToSend = [];
+    for (let i = 0; i < challenges.length; i++) {
+      dataToSend.push(jsonObj[challenges[i]])
+    };
+    res.send(dataToSend);
+  });
+});
+
+app.get('/challenges-populate-food', function (req, res) {
+  res.setHeader('Content-Type', 'text/html');
+  fs.readFile('./json/food.json', (err, data) => {
+    var jsonObj = JSON.parse(data);
+    var numOfChallenges = 10 //Change here for number of challenges
+    var challenges = [];
+    while (challenges.length < 3) {
+      var rng = Math.floor(Math.random() * numOfChallenges);
+      var existFlag = false;
+      if (challenges.length == 0) {
+        challenges.push(rng);
+      } else {
+        for (let i = 0; i < challenges.length; i++) {
+          if (rng == challenges[i]) {
+            existFlag = true;
+            break;
+          };
+        };
+        if (existFlag == false) {
+          challenges.push(rng);
+        };
+      };
+    };
+    var dataToSend = [];
+    for (let i = 0; i < challenges.length; i++) {
+      dataToSend.push(jsonObj[challenges[i]])
+    };
+    res.send(dataToSend);
+  });
+});
+
+app.get('/challenges-populate-commute', function (req, res) {
+  res.setHeader('Content-Type', 'text/html');
+  fs.readFile('./json/commute.json', (err, data) => {
+    var jsonObj = JSON.parse(data);
+    var numOfChallenges = 10 //Change here for number of challenges
+    var challenges = [];
+    while (challenges.length < 3) {
+      var rng = Math.floor(Math.random() * numOfChallenges);
+      var existFlag = false;
+      if (challenges.length == 0) {
+        challenges.push(rng);
+      } else {
+        for (let i = 0; i < challenges.length; i++) {
+          if (rng == challenges[i]) {
+            existFlag = true;
+            break;
+          };
+        };
+        if (existFlag == false) {
+          challenges.push(rng);
+        };
+      };
+    };
+    var dataToSend = [];
+    for (let i = 0; i < challenges.length; i++) {
+      dataToSend.push(jsonObj[challenges[i]])
+    };
+    res.send(dataToSend);
+  });
+});
+
+app.get('/challenges-populate-home', function (req, res) {
+  res.setHeader('Content-Type', 'text/html');
+  fs.readFile('./json/home.json', (err, data) => {
+    var jsonObj = JSON.parse(data);
+    var numOfChallenges = 10 //Change here for number of challenges
+    var challenges = [];
+    while (challenges.length < 3) {
+      var rng = Math.floor(Math.random() * numOfChallenges);
+      var existFlag = false;
+      if (challenges.length == 0) {
+        challenges.push(rng);
+      } else {
+        for (let i = 0; i < challenges.length; i++) {
+          if (rng == challenges[i]) {
+            existFlag = true;
+            break;
+          };
+        };
+        if (existFlag == false) {
+          challenges.push(rng);
+        };
+      };
+    };
+    var dataToSend = [];
+    for (let i = 0; i < challenges.length; i++) {
+      dataToSend.push(jsonObj[challenges[i]])
+    };
+    res.send(dataToSend);
+  });
+});
+
 app.get('/goals', function (req, res) {
   if (req.session.loggedIn) {
 
@@ -222,8 +357,8 @@ app.get('/goals', function (req, res) {
 
     $skeleton("#content-to-replace").empty();
     $skeleton("#content-to-replace").html($goals("body"));
-    $skeleton("#linkToCSS").attr("href", "css/challenges.css");
-    $skeleton("#linkToCSS2").attr("href", "css/barfiller.css");
+    // $skeleton("#linkToCSS").attr("href", "css/challenges.css");
+    // $skeleton("#linkToCSS2").attr("href", "css/barfiller.css");
     $skeleton("#linkToCSS3").attr("href", "https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
     $skeleton("#linkToCSS4").attr("href", "css/goals.css");
 
@@ -263,6 +398,41 @@ app.get('/information', function (req, res) {
   }
 });
 
+app.get('/information-stuff', function (req, res) {
+  res.setHeader('Content-Type', 'text/html');
+  let flag = req.query['flag'];
+  if (flag == "water information") {
+    fs.readFile('./json/information-water.json', (err, data) => {
+      var jsonObj = JSON.parse(data);
+      res.send(jsonObj);
+    });
+  };
+  if (flag == "food information") {
+    fs.readFile('./json/information-food.json', (err, data) => {
+      var jsonObj = JSON.parse(data);
+      res.send(jsonObj);
+    });
+  };
+  if (flag == "commute information") {
+    fs.readFile('./json/information-commute.json', (err, data) => {
+      var jsonObj = JSON.parse(data);
+      res.send(jsonObj);
+    });
+  };
+  if (flag == "home information") {
+    fs.readFile('./json/information-home.json', (err, data) => {
+      var jsonObj = JSON.parse(data);
+      res.send(jsonObj);
+    });
+  };
+  if (flag == "other information") {
+    fs.readFile('./json/information-other.json', (err, data) => {
+      var jsonObj = JSON.parse(data);
+      res.send(jsonObj);
+    });
+  };
+});
+
 app.get('/settings', function (req, res) {
   if (req.session.loggedIn) {
 
@@ -288,12 +458,140 @@ app.get('/settings', function (req, res) {
   }
 });
 
+app.get('/survey-intro', function (req, res) {
+  if (req.session.loggedIn) {
+
+    let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+    let skeletonDOM = new JSDOM(skeleton);
+    let $skeleton = require("jquery")(skeletonDOM.window);
+
+    let survey = fs.readFileSync('./html/survey-intro.html', "utf8");
+    let surveyDOM = new JSDOM(survey);
+    let $survey = require("jquery")(surveyDOM.window);
+
+    $skeleton("#content-to-replace").empty();
+    $skeleton("#content-to-replace").html($survey("body"));
+    $skeleton("#linkToCSS").attr("href", "css/survey.css");
+
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
+
+    res.set('Server', '50Greener Engine');
+    res.set('X-Powered-By', '50Greener');
+    res.send(skeletonDOM.serialize());
+  } else {
+    res.redirect('/');
+  }
+});
+
+app.get('/survey-transport', function (req, res) {
+  if (req.session.loggedIn) {
+
+    let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+    let skeletonDOM = new JSDOM(skeleton);
+    let $skeleton = require("jquery")(skeletonDOM.window);
+
+    let survey = fs.readFileSync('./html/survey-transport.html', "utf8");
+    let surveyDOM = new JSDOM(survey);
+    let $survey = require("jquery")(surveyDOM.window);
+
+    $skeleton("#content-to-replace").empty();
+    $skeleton("#content-to-replace").html($survey("body"));
+    $skeleton("#linkToCSS").attr("href", "css/survey.css");
+
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
+
+    res.set('Server', '50Greener Engine');
+    res.set('X-Powered-By', '50Greener');
+    res.send(skeletonDOM.serialize());
+  } else {
+    res.redirect('/');
+  }
+});
+
+app.get('/survey-water', function (req, res) {
+  if (req.session.loggedIn) {
+
+    let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+    let skeletonDOM = new JSDOM(skeleton);
+    let $skeleton = require("jquery")(skeletonDOM.window);
+
+    let survey = fs.readFileSync('./html/survey-water.html', "utf8");
+    let surveyDOM = new JSDOM(survey);
+    let $survey = require("jquery")(surveyDOM.window);
+
+    $skeleton("#content-to-replace").empty();
+    $skeleton("#content-to-replace").html($survey("body"));
+    $skeleton("#linkToCSS").attr("href", "css/survey.css");
+
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
+
+    res.set('Server', '50Greener Engine');
+    res.set('X-Powered-By', '50Greener');
+    res.send(skeletonDOM.serialize());
+  } else {
+    res.redirect('/');
+  }
+});
+
+app.get('/survey-home', function (req, res) {
+  if (req.session.loggedIn) {
+
+    let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+    let skeletonDOM = new JSDOM(skeleton);
+    let $skeleton = require("jquery")(skeletonDOM.window);
+
+    let survey = fs.readFileSync('./html/survey-home.html', "utf8");
+    let surveyDOM = new JSDOM(survey);
+    let $survey = require("jquery")(surveyDOM.window);
+
+    $skeleton("#content-to-replace").empty();
+    $skeleton("#content-to-replace").html($survey("body"));
+    $skeleton("#linkToCSS").attr("href", "css/survey.css");
+
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
+
+    res.set('Server', '50Greener Engine');
+    res.set('X-Powered-By', '50Greener');
+    res.send(skeletonDOM.serialize());
+  } else {
+    res.redirect('/');
+  }
+});
+
+app.get('/survey-food', function (req, res) {
+  if (req.session.loggedIn) {
+
+    let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
+    let skeletonDOM = new JSDOM(skeleton);
+    let $skeleton = require("jquery")(skeletonDOM.window);
+
+    let survey = fs.readFileSync('./html/survey-food.html', "utf8");
+    let surveyDOM = new JSDOM(survey);
+    let $survey = require("jquery")(surveyDOM.window);
+
+    $skeleton("#content-to-replace").empty();
+    $skeleton("#content-to-replace").html($survey("body"));
+    $skeleton("#linkToCSS").attr("href", "css/survey.css");
+
+    $skeleton("#nav-login").replaceWith("<div id='nav-logout' class='options'>Log Out</div>");
+
+    res.set('Server', '50Greener Engine');
+    res.set('X-Powered-By', '50Greener');
+    res.send(skeletonDOM.serialize());
+  } else {
+    res.redirect('/');
+  }
+});
+
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }))
 
+var currentUser;
+
 app.post('/authenticate', function (req, res) {
+  connection.connect();
   console.log("authentication");
   res.setHeader('Content-Type', 'application/json');
   let results = authenticate(req.body.loginUsername, req.body.loginPassword,
@@ -304,6 +602,7 @@ app.post('/authenticate', function (req, res) {
           msg: "User account not found."
         });
       } else {
+        currentUser = req.body.loginUsername;
         req.session.loggedIn = true;
         req.session.name = rows.firstName;
         req.session.save(function (err) {})
@@ -313,29 +612,105 @@ app.post('/authenticate', function (req, res) {
         });
       }
     });
-
 });
+
+// THIS IS FOR LOCAL TESTING / DEVELOPMENT
+// const connection = mysql.createConnection({
+//   host: 'localhost',
+//   port: 3306,
+//   user: 'root',
+//   password: '',
+//   database: 'accounts'
+// });
+
+// THIS IS FOR LIVE SERVER
+const connection = mysql.createConnection({
+  host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  port: 3306,
+  user: 'admin',
+  password: '50percentgreener',
+  database: 'accounts'
+});
+
+// connection.connect();
+
+app.post('/authenticategoogle', function (req, res) {
+  console.log("authentication");
+  connection.connect();
+  res.setHeader('Content-Type', 'application/json');
+
+  let token = req.body.token;
+  console.log(token);
+
+  async function verify() {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: CLIENT_ID
+    });
+    const payload = ticket.getPayload();
+    const userid = payload['sub'];
+    const email = payload['email'];
+    const firstname = payload['given_name'];
+    const lastname = payload['family_name'];
+
+    console.log(payload);
+    console.log(userid);
+    console.log(firstname);
+    console.log(lastname);
+    console.log(email);
+
+    let results = authenticate(email, userid,
+      function (rows) {
+        if (rows == null) {
+
+          insertUser(email, firstname, lastname, userid,
+            function (rows) {
+              currentUser = rows.firstname;
+              req.session.loggedIn = true;
+              req.session.save(function (err) {});
+            });
+          res.send({
+            status: "success",
+            msg: "Added new user"
+          });
+        } else {
+          currentUser = rows.firstName;
+          req.session.loggedIn = true;
+          req.session.name = rows.firstName;
+          req.session.save(function (err) {})
+          res.send({
+            status: "success",
+            msg: "Logged in."
+          });
+        }
+      });
+  }
+  verify().catch(console.error);
+});
+
+// // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+// const connection2 = mysql.createConnection({
+//   host: 'localhost',
+//   port: 3306,
+//   user: 'root',
+//   password: '',
+//   database: 'accounts'
+// });
+
+// // THIS IS FOR LIVE SERVER
+// // const connection2 = mysql.createConnection({
+// //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+// //   port: 3306,
+// //   user: 'admin',
+// //   password: '50percentgreener',
+// //   database: 'accounts'
+// // });
+
+// connection2.connect();
+
 
 
 function authenticate(username, pwd, callback) {
-
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
-  const connection = mysql.createConnection({
-    host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-    port: 3306,
-    user: 'admin',
-    password: '50percentgreener',
-    database: 'accounts'
-  });
 
   connection.query(
     "SELECT * FROM user WHERE username = ? AND password = ?", [username, pwd],
@@ -355,6 +730,7 @@ function authenticate(username, pwd, callback) {
 }
 
 app.post('/newUser', function (req, res) {
+  connection.connect();
   console.log("new user");
   res.setHeader('Content-Type', 'application/json');
 
@@ -366,6 +742,7 @@ app.post('/newUser', function (req, res) {
           msg: "This username already exists."
         });
       } else {
+        currentUser = req.body.signupUsername;
         req.session.loggedIn = true;
         req.session.name = rows.firstName;
         req.session.save(function (err) {})
@@ -391,13 +768,13 @@ function insertUser(username, firstName, lastName, pwd, callback) {
   // });
 
   // THIS IS FOR LIVE SERVER
-  const connection = mysql.createConnection({
-    host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-    port: 3306,
-    user: 'admin',
-    password: '50percentgreener',
-    database: 'accounts'
-  });
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
 
   connection.query(
     "SELECT * FROM user WHERE username = ?", [username],
@@ -436,7 +813,371 @@ function insertUser(username, firstName, lastName, pwd, callback) {
 
 }
 
+app.post('/set-old-score', function (req, res) {
+  console.log("setting score");
+  res.setHeader('Content-Type', 'application/json');
+
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  // const connection = mysql.createConnection({
+  //   host: 'localhost',
+  //   port: 3306,
+  //   user: 'root',
+  //   password: '',
+  //   database: 'accounts'
+  // });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+
+  connection2.query('UPDATE user SET oldScore = ?, currentscore = ?, transportscore = ?, waterscore = ?, homescore = ?, foodscore = ? WHERE username = ?',
+    [req.body.score, req.body.score, req.body.tScore, req.body.wScore, req.body.hScore, req.body.fScore, currentUser],
+    function (error, results, fields) {
+      if (error) {
+        throw error;
+      }
+
+      res.send({
+        status: "success",
+        msg: "Score updated."
+      });
+
+    });
+  // connection.end();
+});
+
+
+app.get('/get-old-score', function (req, res) {
+
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  // const connection = mysql.createConnection({
+  //   host: 'localhost',
+  //   port: 3306,
+  //   user: 'root',
+  //   password: '',
+  //   database: 'accounts'
+  // });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+
+  console.log("USER: " + currentUser);
+  connection.query('SELECT oldscore FROM user WHERE username = ?', [currentUser], function (error, results) {
+    if (error) {
+      throw error;
+    }
+    console.log('Rows returned are: ', results);
+    res.send(results);
+  });
+  // connection.end();
+});
+
+app.post('/update-goal', function (req, res) {
+  res.setHeader('Content-Type', 'application/json');
+
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  // const connection = mysql.createConnection({
+  //   host: 'localhost',
+  //   port: 3306,
+  //   user: 'root',
+  //   password: '',
+  //   database: 'accounts'
+  // });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+  console.log("Data sent to db: " + req.body.userGoal);
+  connection.query('UPDATE user SET goal = ? WHERE username = ?',
+    [req.body.userGoal, currentUser],
+    function (error) {
+      if (error) {
+        throw error;
+      }
+
+      res.send({
+        status: "success",
+        msg: "Record updated."
+      });
+
+    });
+  // connection.end();
+});
+
+app.post('/changeUsername', function (req, res) {
+
+  res.setHeader('Content-Type', 'application/json');
+
+  let results = changeUser(req.body.changeUsername,
+    function (rows) {
+      if (rows == null) {
+        res.send({
+          status: "fail",
+          msg: "This username already exists. Try another one"
+        });
+      } else {
+        currentUser = req.body.changeUsername;
+
+        res.send({
+          status: "success",
+          msg: "Username updated."
+        });
+      }
+    });
+
+});
+
+
+function changeUser(newUsername, callback) {
+
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  // const connection = mysql.createConnection({
+  //   host: 'localhost',
+  //   port: 3306,
+  //   user: 'root',
+  //   password: '',
+  //   database: 'accounts'
+  // });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+
+
+  connection.query(
+    "SELECT * FROM user WHERE username = ?", [newUsername],
+    function (error, results) {
+      if (error) {
+        throw error;
+      }
+
+      if (results.length > 0) {
+        return callback(null);
+
+      } else {
+        connection.query('UPDATE user SET username = ? WHERE username = ?',
+          [newUsername, currentUser],
+          function (error, results) {
+            if (error) {
+              throw error;
+            }
+          });
+        connection.query(
+          "SELECT * FROM user WHERE username = ?", [newUsername],
+          function (error, results) {
+            if (error) {
+              throw error;
+            }
+
+            if (results.length > 0) {
+              return callback(results[0]);
+            } else {
+              return callback(null);
+            }
+          });
+      }
+    });
+
+}
+
+app.post('/changePassword', function (req, res) {
+
+  res.setHeader('Content-Type', 'application/json');
+
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  // const connection = mysql.createConnection({
+  //   host: 'localhost',
+  //   port: 3306,
+  //   user: 'root',
+  //   password: '',
+  //   database: 'accounts'
+  // });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+
+
+  connection.query('UPDATE user SET password = ? WHERE username = ?',
+    [req.body.changePassword, currentUser],
+    function (error, results) {
+      if (error) {
+        throw error;
+      }
+      res.send({
+        status: "success",
+        msg: "Password updated."
+      });
+    });
+
+});
+
+app.post('/deleteUser', function (req, res) {
+
+  res.setHeader('Content-Type', 'application/json');
+
+  let results = deleteUser(req.body.confirmUsername, req.body.confirmPassword,
+    function (success) {
+      if (success == null) {
+        res.send({
+          status: "fail",
+          msg: "The username and password entered do not match our records."
+        });
+      } else {
+        currentUser = req.body.changeUsername;
+
+        res.send({
+          status: "success",
+          msg: "User deleted."
+        });
+      }
+    });
+
+});
+
+
+function deleteUser(username, password, callback) {
+
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  // const connection = mysql.createConnection({
+  //   host: 'localhost',
+  //   port: 3306,
+  //   user: 'root',
+  //   password: '',
+  //   database: 'accounts'
+  // });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+
+
+  connection.query(
+    "SELECT * FROM user WHERE username = ? AND password = ?", [username, password],
+    function (error, results) {
+      if (error) {
+        throw error;
+      }
+
+      if (results.length == 0) {
+        return callback(null);
+
+      } else {
+        connection.query('DELETE FROM user WHERE username = ?',
+          [username],
+          function (error, results) {
+            if (error) {
+              throw error;
+            }
+            return callback("success");
+          });
+      }
+    });
+
+}
+
+app.get('/get-current-score', function (req, res) {
+
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  // const connection = mysql.createConnection({
+  //   host: 'localhost',
+  //   port: 3306,
+  //   user: 'root',
+  //   password: '',
+  //   database: 'accounts'
+  // });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+
+  console.log("USER: " + currentUser);
+  connection.query('SELECT currentscore FROM user WHERE username = ?', [currentUser], function (error, results) {
+    if (error) {
+      throw error;
+    }
+    console.log('Rows returned are: ', results);
+    res.send(results);
+  });
+  // connection.end();
+});
+
+app.get('/get-goal', function (req, res) {
+
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  // const connection = mysql.createConnection({
+  //   host: 'localhost',
+  //   port: 3306,
+  //   user: 'root',
+  //   password: '',
+  //   database: 'accounts'
+  // });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+  console.log("USER: " + currentUser);
+  connection.query('SELECT goal FROM user WHERE username = ?', [currentUser], function (error, results) {
+    if (error) {
+      throw error;
+    }
+    console.log('Rows returned are: ', results);
+    res.send(results);
+  });
+  // connection.end();
+});
+
 app.get('/logout', function (req, res) {
+  // connection.end();
   req.session.destroy(function (error) {
     if (error) {
       console.log(error);

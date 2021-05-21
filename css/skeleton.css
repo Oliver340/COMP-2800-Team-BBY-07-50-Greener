@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+
 body{
 	background-color: rgb(230, 240, 228);
 	margin: 0;
@@ -6,6 +8,7 @@ body{
     display: flex;
     flex-direction: column;
 	justify-content: space-between;
+	font-family: "Noto-Sans-JP", sans-serif;
 }
 nav{
 	background-color: rgb(200, 233, 167);
@@ -31,7 +34,7 @@ nav{
 	right: 1vw;
 }
 #logo{
-	width: 150px;
+	height: 100%;
 	margin-left: 2%;
 }
 #hammenu{
@@ -86,12 +89,6 @@ a{
 		margin-right: 1vw;
 		border-radius: 15px;
 	}
-	#dropdown:hover #dropdowncontent {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-direction: column;
-	}
 	#logo{
 		width: 25%;
 	}
@@ -101,9 +98,6 @@ a{
 		padding: 2vw;
 		width: 8vw;
 		border-radius: 15px;
-	}
-	#dropdown:hover #hammenu{
-		background-color: rgb(93, 184, 102);
 	}
 	footer{
 		position: sticky;
