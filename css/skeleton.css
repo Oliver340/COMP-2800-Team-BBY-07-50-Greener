@@ -31,7 +31,7 @@ nav{
 	right: 1vw;
 }
 #logo{
-	width: 150px;
+	height: 100%;
 	margin-left: 2%;
 }
 #hammenu{
@@ -86,12 +86,6 @@ a{
 		margin-right: 1vw;
 		border-radius: 15px;
 	}
-	#dropdown:hover #dropdowncontent {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-direction: column;
-	}
 	#logo{
 		width: 25%;
 	}
@@ -101,9 +95,6 @@ a{
 		padding: 2vw;
 		width: 8vw;
 		border-radius: 15px;
-	}
-	#dropdown:hover #hammenu{
-		background-color: rgb(93, 184, 102);
 	}
 	footer{
 		position: sticky;
