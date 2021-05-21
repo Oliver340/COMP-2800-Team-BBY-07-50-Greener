@@ -103,3 +103,23 @@ body {
   box-shadow: 2px 2px 5px black;
   grid-column: 2;
 }
+
+#user-errorMsg {
+  color: red;
+}
+
+#pass-errorMsg {
+  color: red;
+}
+
+#delete-errorMsg {
+  color: red;
+}
+
+#user-successMsg {
+  color: #2b611a;
+}
+
+#pass-successMsg {
+  color: #2b611a;
+}

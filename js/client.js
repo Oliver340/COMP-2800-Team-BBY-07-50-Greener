@@ -243,6 +243,70 @@ $(function () {
     });
   });
 
+  $("#change-user-save-btn").on("click", function () {
+    $.ajax({
+      url: "/changeUsername",
+      type: "POST",
+      dataType: "JSON",
+      data: {
+        changeUsername: $("#change-username").val()
+      },
+      success: function (data) {
+        if (data['status'] == "success") {
+
+          $("#user-errorMsg").html("");
+          $("#user-successMsg").html(data['msg']);
+          $("#change-username").val("");
+
+        } else {
+          $("#user-errorMsg").html(data['msg']);
+          $("#change-username").val("");
+        }
+
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        $("#errorMsg").text(jqXHR.statusText);
+      }
+    });
+
+  });
+
+  $("#change-user-clear-btn").on("click", function () {
+    $("#change-username").val("");
+  });
+
+  $("#change-pass-save-btn").on("click", function () {
+    $.ajax({
+      url: "/changePassword",
+      type: "POST",
+      dataType: "JSON",
+      data: {
+        changePassword: $("#change-password").val()
+      },
+      success: function (data) {
+        if (data['status'] == "success") {
+
+          $("#pass-errorMsg").html("");
+          $("#pass-successMsg").html(data['msg']);
+          $("#change-password").val("");
+
+        } else {
+          $("#pass-errorMsg").html(data['msg']);
+          $("#change-password").val("");
+        }
+
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        $("#errorMsg").text(jqXHR.statusText);
+      }
+    });
+
+  });
+
+  $("#change-pass-clear-btn").on("click", function () {
+    $("#change-password").val("");
+  });
+
   $("#nav-login").on("click", function () {
     $.ajax({
       url: "/login",
