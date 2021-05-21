@@ -21,6 +21,7 @@ $(function () {
     $("#set-goal").on("click", function () {
 
       newGoal();
+      $("#finish").css("display", "block");
 
     });
 
