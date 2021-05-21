@@ -2,6 +2,21 @@
 
 $(function () {
 
+  $(".options").on("click", function () {
+    $("#dropdowncontent").css("display", "none");
+  });
+
+  $("#hammenu").on("click", function () {
+    $("#dropdowncontent").css("display", "flex");
+    $("#dropdowncontent").css("justify-content", "center");
+    $("#dropdowncontent").css("align-items", "center");
+    $("#dropdowncontent").css("flex-direction", "column");
+  });
+
+  $("#dropdown").on("click", function () {
+    $("#hammenu").css("background-color", "rgb(93, 184, 102)");
+  });
+
   $("#index-signup").on("click", function () {
     $.ajax({
       url: "/signup",
