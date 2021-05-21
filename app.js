@@ -503,29 +503,47 @@ app.post('/authenticategoogle', function (req, res) {
   verify().catch(console.error);
 });
 
-// THIS IS FOR LOCAL TESTING / DEVELOPMENT
-const connection2 = mysql.createConnection({
-  host: 'localhost',
-  port: 3306,
-  user: 'root',
-  password: '',
-  database: 'accounts'
-});
-
-// THIS IS FOR LIVE SERVER
+// // THIS IS FOR LOCAL TESTING / DEVELOPMENT
 // const connection2 = mysql.createConnection({
-//   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+//   host: 'localhost',
 //   port: 3306,
-//   user: 'admin',
-//   password: '50percentgreener',
+//   user: 'root',
+//   password: '',
 //   database: 'accounts'
 // });
 
-connection2.connect();
+// // THIS IS FOR LIVE SERVER
+// // const connection2 = mysql.createConnection({
+// //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+// //   port: 3306,
+// //   user: 'admin',
+// //   password: '50percentgreener',
+// //   database: 'accounts'
+// // });
+
+// connection2.connect();
 
 function authenticate(username, pwd, callback) {
 
-  connection2.query(
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+  connection.query(
     "SELECT * FROM user WHERE username = ? AND password = ?", [username, pwd],
     function (error, results) {
       if (error) {
@@ -570,7 +588,25 @@ app.post('/newUser', function (req, res) {
 
 function insertUser(username, firstName, lastName, pwd, callback) {
 
-  connection2.query(
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+  connection.query(
     "SELECT * FROM user WHERE username = ?", [username],
     function (error, results) {
       if (error) {
@@ -581,14 +617,14 @@ function insertUser(username, firstName, lastName, pwd, callback) {
         return callback(null);
 
       } else {
-        connection2.query(
+        connection.query(
           "INSERT INTO user (username, firstName, lastName, password) values (?, ?, ?, ?)", [username, firstName, lastName, pwd],
           function (error, results) {
             if (error) {
               throw error;
             }
           });
-        connection2.query(
+        connection.query(
           "SELECT * FROM user WHERE username = ? AND password = ?", [username, pwd],
           function (error, results) {
             if (error) {
@@ -611,7 +647,26 @@ app.post('/set-old-score', function (req, res) {
   console.log("setting score");
   res.setHeader('Content-Type', 'application/json');
 
-  connection2.query('UPDATE user SET oldScore = ?, currentscore = ? WHERE username = ?',
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+  connection.connect();
+
+  connection.query('UPDATE user SET oldScore = ?, currentscore = ? WHERE username = ?',
     [req.body.score, req.body.score, currentUser],
     function (error, results, fields) {
       if (error) {
@@ -624,27 +679,65 @@ app.post('/set-old-score', function (req, res) {
       });
 
     });
-
+  connection.end();
 });
 
 
 app.get('/get-old-score', function (req, res) {
 
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+  connection.connect();
   console.log("USER: " + currentUser);
-  connection2.query('SELECT oldscore FROM user WHERE username = ?', [currentUser], function (error, results) {
+  connection.query('SELECT oldscore FROM user WHERE username = ?', [currentUser], function (error, results) {
     if (error) {
       throw error;
     }
     console.log('Rows returned are: ', results);
     res.send(results);
   });
+  connection.end();
 });
 
 app.post('/update-goal', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+  connection.connect();
   console.log("Data sent to db: " + req.body.userGoal);
-  connection2.query('UPDATE user SET goal = ? WHERE username = ?',
+  connection.query('UPDATE user SET goal = ? WHERE username = ?',
     [req.body.userGoal, currentUser],
     function (error) {
       if (error) {
@@ -657,7 +750,7 @@ app.post('/update-goal', function (req, res) {
       });
 
     });
-
+  connection.end();
 });
 
 app.post('/changeUsername', function (req, res) {
@@ -686,7 +779,27 @@ app.post('/changeUsername', function (req, res) {
 
 function changeUser(newUsername, callback) {
 
-  connection2.query(
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+  connection.connect();
+
+  connection.query(
     "SELECT * FROM user WHERE username = ?", [newUsername],
     function (error, results) {
       if (error) {
@@ -697,14 +810,14 @@ function changeUser(newUsername, callback) {
         return callback(null);
 
       } else {
-        connection2.query('UPDATE user SET username = ? WHERE username = ?',
+        connection.query('UPDATE user SET username = ? WHERE username = ?',
           [newUsername, currentUser],
           function (error, results) {
             if (error) {
               throw error;
             }
           });
-        connection2.query(
+        connection.query(
           "SELECT * FROM user WHERE username = ?", [newUsername],
           function (error, results) {
             if (error) {
@@ -726,7 +839,27 @@ app.post('/changePassword', function (req, res) {
 
   res.setHeader('Content-Type', 'application/json');
 
-  connection2.query('UPDATE user SET password = ? WHERE username = ?',
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+  connection.connect();
+
+  connection.query('UPDATE user SET password = ? WHERE username = ?',
     [req.body.changePassword, currentUser],
     function (error, results) {
       if (error) {
@@ -766,7 +899,27 @@ app.post('/deleteUser', function (req, res) {
 
 function deleteUser(username, password, callback) {
 
-  connection2.query(
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+  connection.connect();
+
+  connection.query(
     "SELECT * FROM user WHERE username = ? AND password = ?", [username, password],
     function (error, results) {
       if (error) {
@@ -777,7 +930,7 @@ function deleteUser(username, password, callback) {
         return callback(null);
 
       } else {
-        connection2.query('DELETE FROM user WHERE username = ?',
+        connection.query('DELETE FROM user WHERE username = ?',
           [username],
           function (error, results) {
             if (error) {
@@ -793,13 +946,13 @@ function deleteUser(username, password, callback) {
 app.get('/get-current-score', function (req, res) {
 
   // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
 
   // THIS IS FOR LIVE SERVER
   // const connection = mysql.createConnection({
@@ -810,9 +963,9 @@ app.get('/get-current-score', function (req, res) {
   //   database: 'accounts'
   // });
 
-  // connection.connect();
+  connection.connect();
   console.log("USER: " + currentUser);
-  connection2.query('SELECT currentscore FROM user WHERE username = ?', [currentUser], function (error, results) {
+  connection.query('SELECT currentscore FROM user WHERE username = ?', [currentUser], function (error, results) {
     if (error) {
       throw error;
     }
@@ -825,13 +978,13 @@ app.get('/get-current-score', function (req, res) {
 app.get('/get-goal', function (req, res) {
 
   // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
 
   // THIS IS FOR LIVE SERVER
   // const connection = mysql.createConnection({
@@ -843,18 +996,18 @@ app.get('/get-goal', function (req, res) {
   // });
 
   console.log("USER: " + currentUser);
-  connection2.query('SELECT goal FROM user WHERE username = ?', [currentUser], function (error, results) {
+  connection.query('SELECT goal FROM user WHERE username = ?', [currentUser], function (error, results) {
     if (error) {
       throw error;
     }
     console.log('Rows returned are: ', results);
     res.send(results);
   });
-  // connection.end();
+  connection.end();
 });
 
 app.get('/logout', function (req, res) {
-  // connection2.end();
+  connection.end();
   req.session.destroy(function (error) {
     if (error) {
       console.log(error);
