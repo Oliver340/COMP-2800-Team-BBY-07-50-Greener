@@ -849,7 +849,7 @@ app.get('/get-goal', function (req, res) {
   //   database: 'accounts'
   // });
 
-  // connection.connect();
+  connection.connect();
   console.log("USER: " + currentUser);
   connection2.query('SELECT goal FROM user WHERE username = ?', [currentUser], function (error, results) {
     if (error) {
@@ -862,7 +862,7 @@ app.get('/get-goal', function (req, res) {
 });
 
 app.get('/logout', function (req, res) {
-  connection2.end();
+  // connection2.end();
   req.session.destroy(function (error) {
     if (error) {
       console.log(error);
