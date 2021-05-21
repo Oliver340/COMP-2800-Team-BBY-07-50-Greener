@@ -1,15 +1,18 @@
 #index-heading {
-  font-size: 16pt;
+  padding: 3%;
+}
+
+h1 {
+  margin: 0;
 }
 
 #index-description {
-  font-size: 16pt;
+  padding: 3%;
 }
 
 #login-signup {
   width: 100%;
   text-align: center;
-  margin-top: 50px;
 }
 
 #index-signup {
