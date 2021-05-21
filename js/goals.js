@@ -20,7 +20,7 @@ $(function () {
 
     $("#set-goal").on("click", function () {
 
-        newGoal();
+      newGoal();
 
     });
 
@@ -36,7 +36,7 @@ var oldScore = 0;
 function newGoal() {
     var calculateMultiplier = (100 - slider1.value) * 0.01;
 
-    oldScore = getOldScore();
+    getOldScore();
     console.log("Old Score: " + oldScore);
 
     var goal = oldScore * calculateMultiplier;
@@ -126,7 +126,7 @@ function changePage() {
 }
 
 $(function() {
-  oldScore = getOldScore();
+  getOldScore();
   $("#old-score").html("Carbon Score: " + oldScore);
 });
 
@@ -149,5 +149,4 @@ function getOldScore() {
     }
 
   });
-  return oldScore;
 }

@@ -771,6 +771,70 @@ app.post('/update-goal', function (req, res) {
   connection.end();
 });
 
+app.get('/get-current-score', function (req, res) {
+
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+  connection.connect();
+  console.log("USER: " + currentUser);
+  connection.query('SELECT currentscore FROM user WHERE username = ?', [currentUser], function (error, results) {
+    if (error) {
+      throw error;
+    }
+    console.log('Rows returned are: ', results);
+    res.send(results);
+  });
+  connection.end();
+});
+
+app.get('/get-goal', function (req, res) {
+
+  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
+  const connection = mysql.createConnection({
+    host: 'localhost',
+    port: 3306,
+    user: 'root',
+    password: '',
+    database: 'accounts'
+  });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   database: 'accounts'
+  // });
+
+  connection.connect();
+  console.log("USER: " + currentUser);
+  connection.query('SELECT goal FROM user WHERE username = ?', [currentUser], function (error, results) {
+    if (error) {
+      throw error;
+    }
+    console.log('Rows returned are: ', results);
+    res.send(results);
+  });
+  connection.end();
+});
+
 app.get('/logout', function (req, res) {
   req.session.destroy(function (error) {
     if (error) {
