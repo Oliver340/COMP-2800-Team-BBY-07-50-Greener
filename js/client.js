@@ -133,6 +133,8 @@ $(function () {
         if (document.getElementById("information-identifier") != null) {
           var temp3 = "<script id='information-tabs-script' src='../js/tabs-information.js'></script>";
           $("#information-tabs-script").replaceWith(temp3);
+          var temp4 = "<script id='client-script' src='../js/information-populate.js'></script>"
+          $("#information-populate").replaceWith(temp4);
         } else {
           console.log("redirect");
         }

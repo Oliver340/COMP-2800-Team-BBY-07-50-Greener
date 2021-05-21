@@ -387,6 +387,41 @@ app.get('/information', function (req, res) {
   }
 });
 
+app.get('/information-stuff', function (req, res) {
+  res.setHeader('Content-Type', 'text/html');
+  let flag = req.query['flag'];
+  if (flag == "water information") {
+    fs.readFile('./json/information-water.json', (err, data) => {
+      var jsonObj = JSON.parse(data);
+      res.send(jsonObj);
+    });
+  };
+  if (flag == "food information") {
+    fs.readFile('./json/information-food.json', (err, data) => {
+      var jsonObj = JSON.parse(data);
+      res.send(jsonObj);
+    });
+  };
+  if (flag == "commute information") {
+    fs.readFile('./json/information-commute.json', (err, data) => {
+      var jsonObj = JSON.parse(data);
+      res.send(jsonObj);
+    });
+  };
+  if (flag == "home information") {
+    fs.readFile('./json/information-home.json', (err, data) => {
+      var jsonObj = JSON.parse(data);
+      res.send(jsonObj);
+    });
+  };
+  if (flag == "other information") {
+    fs.readFile('./json/information-other.json', (err, data) => {
+      var jsonObj = JSON.parse(data);
+      res.send(jsonObj);
+    });
+  };
+});
+
 app.get('/settings', function (req, res) {
   if (req.session.loggedIn) {
 
