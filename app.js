@@ -99,13 +99,6 @@ async function initDB() {
         PRIMARY KEY (ID));`;
 
   await connection.query(createDBAndTables);
-  // let results = await connection.query("SELECT COUNT(*) FROM user");
-  // let count = results[0][0]['COUNT(*)'];
-
-  // if (count < 1) {
-  //   results = await connection.query("INSERT INTO user (username, firstName, lastName, password) values ('arron_ferguson@bcit.ca', 'arron', 'f', 'admin')");
-  //   console.log("Added one user record.");
-  // }
   // connection.end();
 }
 
