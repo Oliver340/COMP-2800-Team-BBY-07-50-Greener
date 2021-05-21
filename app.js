@@ -447,7 +447,7 @@ app.post('/authenticate', function (req, res) {
         currentUser = req.body.loginUsername;
         req.session.loggedIn = true;
         req.session.name = rows.firstName;
-        req.session.save(function (err) {})
+        req.session.save(function (err) { })
         res.send({
           status: "success",
           msg: "Logged in."
@@ -489,7 +489,7 @@ app.post('/authenticategoogle', function (req, res) {
             function (rows) {
               currentUser = firstname;
               req.session.loggedIn = true;
-              req.session.save(function (err) {});
+              req.session.save(function (err) { });
             });
           res.send({
             status: "success",
@@ -499,7 +499,7 @@ app.post('/authenticategoogle', function (req, res) {
           currentUser = rows.firstName;
           req.session.loggedIn = true;
           req.session.name = rows.firstName;
-          req.session.save(function (err) {})
+          req.session.save(function (err) { })
           res.send({
             status: "success",
             msg: "Logged in."
@@ -527,6 +527,8 @@ const connection2 = mysql.createConnection({
 //   password: '50percentgreener',
 //   database: 'accounts'
 // });
+
+connection2.connect();
 
 function authenticate(username, pwd, callback) {
 
@@ -562,7 +564,7 @@ app.post('/newUser', function (req, res) {
         currentUser = req.body.signupUsername;
         req.session.loggedIn = true;
         req.session.name = rows.firstName;
-        req.session.save(function (err) {})
+        req.session.save(function (err) { })
         res.send({
           status: "success",
           msg: "Signed up."
@@ -616,8 +618,6 @@ app.post('/set-old-score', function (req, res) {
   console.log("setting score");
   res.setHeader('Content-Type', 'application/json');
 
-  connection2.connect();
-
   connection2.query('UPDATE user SET oldScore = ?, currentscore = ? WHERE username = ?',
     [req.body.score, req.body.score, currentUser],
     function (error, results, fields) {
@@ -631,13 +631,12 @@ app.post('/set-old-score', function (req, res) {
       });
 
     });
-  connection2.end();
+
 });
 
 
 app.get('/get-old-score', function (req, res) {
 
-  connection2.connect();
   console.log("USER: " + currentUser);
   connection2.query('SELECT oldscore FROM user WHERE username = ?', [currentUser], function (error, results) {
     if (error) {
@@ -646,13 +645,11 @@ app.get('/get-old-score', function (req, res) {
     console.log('Rows returned are: ', results);
     res.send(results);
   });
-  connection2.end();
 });
 
 app.post('/update-goal', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
-  connection2.connect();
   console.log("Data sent to db: " + req.body.userGoal);
   connection2.query('UPDATE user SET goal = ? WHERE username = ?',
     [req.body.userGoal, currentUser],
@@ -667,7 +664,7 @@ app.post('/update-goal', function (req, res) {
       });
 
     });
-  connection2.end();
+
 });
 
 app.post('/changeUsername', function (req, res) {
@@ -729,7 +726,7 @@ function changeUser(newUsername, callback) {
           });
       }
     });
-  connection2.end();
+
 }
 
 app.post('/changePassword', function (req, res) {
@@ -747,8 +744,58 @@ app.post('/changePassword', function (req, res) {
         msg: "Password updated."
       });
     });
-  connection2.end();
+
 });
+
+app.post('/deleteUser', function (req, res) {
+
+  res.setHeader('Content-Type', 'application/json');
+
+  let results = deleteUser(req.body.confirmUsername, req.body.confirmPassword,
+    function (success) {
+      if (success == null) {
+        res.send({
+          status: "fail",
+          msg: "The username and password entered do not match our records."
+        });
+      } else {
+        currentUser = req.body.changeUsername;
+
+        res.send({
+          status: "success",
+          msg: "User deleted."
+        });
+      }
+    });
+
+});
+
+
+function deleteUser(username, password, callback) {
+
+  connection2.query(
+    "SELECT * FROM user WHERE username = ? AND password = ?", [username, password],
+    function (error, results) {
+      if (error) {
+        throw error;
+      }
+
+      if (results.length == 0) {
+        return callback(null);
+
+      } else {
+        connection2.query('DELETE FROM user WHERE username = ?',
+          [username],
+          function (error, results) {
+            if (error) {
+              throw error;
+            }
+            return callback("success");
+          });
+      }
+    });
+
+}
 
 app.get('/get-current-score', function (req, res) {
 
@@ -815,6 +862,7 @@ app.get('/get-goal', function (req, res) {
 });
 
 app.get('/logout', function (req, res) {
+  connection2.end();
   req.session.destroy(function (error) {
     if (error) {
       console.log(error);
