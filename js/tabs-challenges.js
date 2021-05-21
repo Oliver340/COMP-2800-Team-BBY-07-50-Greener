@@ -1,3 +1,7 @@
+var currentscore = 0;
+var goal = 0;
+var line;
+
 $(function () {
 
     $('.tab-body').toggle();
@@ -26,15 +30,92 @@ $(function () {
         $(`#${tabID}`).attr('style', 'display: none');
     }
 
-    var line = new ProgressBar.Line('#progress', {
-        color: '#FCB03C',
+    line = new ProgressBar.Line('#progress', {
+        color: '#3c7329',
         strokeWidth: 1,
         trailColor: '#d73242',
         trailWidth: 1,
         duration: 2000,
-        easing: 'easeInOut'
+        easing: 'easeInOut',
+        svgStyle: {width: '100%', height: '100%'},
+        text: {
+            style: {
+                position: 'relative',
+                color: "black",
+                "margin-top": "10px"
+            },
+            autoStyleContainer: false
+        },
+        from: {color: '#FFEA82'},
+        to: {color: '#ED6A5A'},
+        step: (state, bar) => {
+            bar.setText(Math.round(bar.value() * 100) + '% of your goal is complete');
+        }
     });
+    
 
-    line.animate(0.6);
+    getCurrentScore();
+
+    
+
+    
 
 });
+
+function animate() {
+
+    console.log(currentscore);
+    console.log(goal);
+    if (currentscore != 0 && goal != 0) {
+        var percentComplete = goal / currentscore;
+        console.log("%: " + percentComplete);
+        line.animate(percentComplete);
+    } else {
+        line.animate(0);
+    }
+
+}
+
+function getCurrentScore() {
+    $.ajax({
+      url: "/get-current-score",
+      dataType: "json",
+      type: "GET",
+      success: function (data) {
+          console.log("Current Score: " + data[0].currentscore);
+          data = data[0].currentscore;
+          if (data != null) {
+            currentscore = data;
+            getGoal();
+          } else {
+            currentscore = 0;
+          }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+          console.log("ERROR:", jqXHR, textStatus, errorThrown);
+      }
+  
+    });
+  }
+
+function getGoal() {
+    $.ajax({
+        url: "/get-goal",
+        dataType: "json",
+        type: "GET",
+        success: function (data) {
+            console.log("Goal: " + data[0].goal);
+            data = data[0].goal;
+            if (data != null) {
+                goal = data;
+                animate();
+            } else {
+                goal = 0;
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR:", jqXHR, textStatus, errorThrown);
+        }
+    
+    });
+}
