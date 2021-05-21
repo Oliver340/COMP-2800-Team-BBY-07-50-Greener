@@ -618,8 +618,8 @@ app.post('/set-old-score', function (req, res) {
 
   connection2.connect();
 
-  connection2.query('UPDATE user SET oldScore = ? WHERE username = ?',
-    [req.body.score, currentUser],
+  connection2.query('UPDATE user SET oldScore = ?, currentscore = ? WHERE username = ?',
+    [req.body.score, req.body.score, currentUser],
     function (error, results, fields) {
       if (error) {
         throw error;
