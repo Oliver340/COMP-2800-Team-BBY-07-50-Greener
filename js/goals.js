@@ -127,8 +127,12 @@ function changePage() {
 
 $(function() {
   getOldScore();
-  $("#old-score").html("Carbon Score: " + oldScore);
 });
+
+
+function setScore() {
+  $("#old-score").html("Carbon Score: " + oldScore);
+}
 
 function getOldScore() {
   $.ajax({
@@ -140,8 +144,10 @@ function getOldScore() {
         data = data[0].oldscore;
         if (data != null) {
           oldScore = data;
+          setScore();
         } else {
           oldScore = 0;
+          setScore();
         }
     },
     error: function (jqXHR, textStatus, errorThrown) {
