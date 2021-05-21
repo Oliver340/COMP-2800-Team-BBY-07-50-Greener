@@ -842,7 +842,6 @@ app.get('/get-goal', function (req, res) {
   //   database: 'accounts'
   // });
 
-  connection.connect();
   console.log("USER: " + currentUser);
   connection2.query('SELECT goal FROM user WHERE username = ?', [currentUser], function (error, results) {
     if (error) {
