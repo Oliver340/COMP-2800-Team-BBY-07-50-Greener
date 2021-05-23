@@ -23,6 +23,8 @@ app.use(session({
   saveUninitialized: true
 }));
 
+initDB();
+
 // Required for Google OAuth
 const {
   OAuth2Client
@@ -67,22 +69,22 @@ async function initDB() {
   const mysql = require('mysql2/promise');
 
   // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = await mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   multipleStatements: true
-  // });
-
-  // THIS IS FOR LIVE SERVER
   const connection = await mysql.createConnection({
-    host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+    host: 'localhost',
     port: 3306,
-    user: 'admin',
-    password: '50percentgreener',
+    user: 'root',
+    password: '',
     multipleStatements: true
   });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = await mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   multipleStatements: true
+  // });
 
   const createDBAndTables = `CREATE DATABASE IF NOT EXISTS accounts;
         use accounts;
@@ -426,7 +428,7 @@ app.get('/information-stuff', function (req, res) {
     });
   };
   if (flag == "other information") {
-    fs.readFile('./json/information-other.json', (err, data) => {
+    fs.readFile('./json/information-links.json', (err, data) => {
       var jsonObj = JSON.parse(data);
       res.send(jsonObj);
     });
@@ -615,22 +617,22 @@ app.post('/authenticate', function (req, res) {
 });
 
 // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-// const connection = mysql.createConnection({
-//   host: 'localhost',
-//   port: 3306,
-//   user: 'root',
-//   password: '',
-//   database: 'accounts'
-// });
-
-// THIS IS FOR LIVE SERVER
 const connection = mysql.createConnection({
-  host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  host: 'localhost',
   port: 3306,
-  user: 'admin',
-  password: '50percentgreener',
+  user: 'root',
+  password: '',
   database: 'accounts'
 });
+
+// THIS IS FOR LIVE SERVER
+// const connection = mysql.createConnection({
+//   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+//   port: 3306,
+//   user: 'admin',
+//   password: '50percentgreener',
+//   database: 'accounts'
+// });
 
 // connection.connect();
 

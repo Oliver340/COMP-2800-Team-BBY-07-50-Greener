@@ -1,5 +1,4 @@
 $(function() {
-
     
     $("#water-tab").on('click', function() {
         $.ajax({
@@ -107,6 +106,29 @@ $(function() {
                 $("#food-content").empty();
                 $("#commute-content").empty();
                 $("#other-content").empty();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $("#content").text(jqXHR.statusText);
+                console.log("ERROR:", jqXHR, textStatus, errorThrown);
+            }
+        });
+    });
+
+    $("#links-tab").on('click', function() {
+        $.ajax({
+            url: "/information-stuff",
+            type: "GET",
+            dataType: "json",
+            data: { flag: "other information" },
+            success: function (data) {
+                for (let i = 0; i < data.length; i++) {
+                    var tip = "<p class='tip'>" + data[i].tip + "</p><p class='reason'>" + data[i].body + "</p><p class='url'>Click <a href='"+ data[i].link +"'>here </a>for more information</p>";
+                    $("#other-content").append(tip);
+                }
+                $("#water-content").empty();
+                $("#food-content").empty();
+                $("#commute-content").empty();
+                $("#home-content").empty();
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $("#content").text(jqXHR.statusText);
