@@ -31,6 +31,7 @@ const CLIENT_ID = "757498049885-81jenot2i75onqm6uhrli9m6kv5dg3i8.apps.googleuser
 const client = new OAuth2Client(CLIENT_ID);
 app.use(express.json());
 
+initDB();
 app.get('/', function (req, res) {
   let doc = fs.readFileSync('./html/skeleton.html', "utf8");
 
@@ -67,22 +68,22 @@ async function initDB() {
   const mysql = require('mysql2/promise');
 
   // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = await mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   multipleStatements: true
-  // });
-
-  // THIS IS FOR LIVE SERVER
   const connection = await mysql.createConnection({
-    host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+    host: 'localhost',
     port: 3306,
-    user: 'admin',
-    password: '50percentgreener',
+    user: 'root',
+    password: '',
     multipleStatements: true
   });
+
+  // THIS IS FOR LIVE SERVER
+  // const connection = await mysql.createConnection({
+  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  //   port: 3306,
+  //   user: 'admin',
+  //   password: '50percentgreener',
+  //   multipleStatements: true
+  // });
 
   const createDBAndTables = `CREATE DATABASE IF NOT EXISTS accounts;
         use accounts;
@@ -456,22 +457,22 @@ app.post('/authenticate', function (req, res) {
 });
 
 // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-// const connection = mysql.createConnection({
-//   host: 'localhost',
-//   port: 3306,
-//   user: 'root',
-//   password: '',
-//   database: 'accounts'
-// });
-
-// THIS IS FOR LIVE SERVER
 const connection = mysql.createConnection({
-  host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+  host: 'localhost',
   port: 3306,
-  user: 'admin',
-  password: '50percentgreener',
+  user: 'root',
+  password: '',
   database: 'accounts'
 });
+
+// THIS IS FOR LIVE SERVER
+// const connection = mysql.createConnection({
+//   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
+//   port: 3306,
+//   user: 'admin',
+//   password: '50percentgreener',
+//   database: 'accounts'
+// });
 
 // connection.connect();
 
@@ -505,8 +506,8 @@ app.post('/authenticategoogle', function (req, res) {
         if (rows == null) {
 
           insertUser(email, firstname, lastname, userid,
-            function (rows) {
-              currentUser = rows.firstname;
+            function () {
+              currentUser = email;
               req.session.loggedIn = true;
               req.session.save(function (err) {});
             });
@@ -515,7 +516,7 @@ app.post('/authenticategoogle', function (req, res) {
             msg: "Added new user"
           });
         } else {
-          currentUser = rows.firstName;
+          currentUser = rows.username;
           req.session.loggedIn = true;
           req.session.name = rows.firstName;
           req.session.save(function (err) {})
@@ -677,7 +678,7 @@ app.post('/set-old-score', function (req, res) {
   // });
 
 
-  connection2.query('UPDATE user SET oldScore = ?, currentscore = ?, transportscore = ?, waterscore = ?, homescore = ?, foodscore = ? WHERE username = ?',
+  connection.query('UPDATE user SET oldscore = ?, currentscore = ?, transportscore = ?, waterscore = ?, homescore = ?, foodscore = ? WHERE username = ?',
     [req.body.score, req.body.score, req.body.tScore, req.body.wScore, req.body.hScore, req.body.fScore, currentUser],
     function (error, results, fields) {
       if (error) {
