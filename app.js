@@ -637,12 +637,11 @@ const connection = mysql.createConnection({
 // connection.connect();
 
 app.post('/authenticategoogle', function (req, res) {
-  console.log("authentication");
+  console.log("authentication by google");
   connection.connect();
   res.setHeader('Content-Type', 'application/json');
 
   let token = req.body.token;
-  console.log(token);
 
   async function verify() {
     const ticket = await client.verifyIdToken({
@@ -655,19 +654,13 @@ app.post('/authenticategoogle', function (req, res) {
     const firstname = payload['given_name'];
     const lastname = payload['family_name'];
 
-    console.log(payload);
-    console.log(userid);
-    console.log(firstname);
-    console.log(lastname);
-    console.log(email);
-
     let results = authenticate(email, userid,
       function (rows) {
         if (rows == null) {
 
           insertUser(email, firstname, lastname, userid,
-            function (rows) {
-              currentUser = rows.firstname;
+            function () {
+              currentUser = email;
               req.session.loggedIn = true;
               req.session.save(function (err) {});
             });
@@ -676,7 +669,7 @@ app.post('/authenticategoogle', function (req, res) {
             msg: "Added new user"
           });
         } else {
-          currentUser = rows.firstName;
+          currentUser = rows.username;
           req.session.loggedIn = true;
           req.session.name = rows.firstName;
           req.session.save(function (err) {})
