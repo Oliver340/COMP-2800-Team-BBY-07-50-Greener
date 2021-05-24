@@ -1,7 +1,9 @@
 "use strict";
 $(function () {
 
-  $("#login-btn").on("click", function () {
+  $("#login-btn").on("click", function (e) {
+
+    e.preventDefault();
 
     $.ajax({
       url: "/authenticate",

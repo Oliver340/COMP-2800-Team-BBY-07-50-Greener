@@ -1,7 +1,9 @@
 "use strict";
 $(function () {
 
-    $("#signup-btn").on("click", function () {
+    $("#signup-btn").on("click", function (e) {
+
+      e.preventDefault();
 
         $.ajax({
             url: "/newUser",

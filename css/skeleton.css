@@ -115,3 +115,11 @@ a{
 		margin: 15%;
 	}
 }
+
+.mandatory {
+	color: red;
+}
+
+input:invalid {
+  border: red solid 3px;
+}

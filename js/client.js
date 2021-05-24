@@ -260,7 +260,10 @@ $(function () {
     });
   });
 
-  $("#change-user-save-btn").on("click", function () {
+  $("#change-user-save-btn").on("click", function (e) {
+
+    e.preventDefault();
+
     $.ajax({
       url: "/changeUsername",
       type: "POST",
@@ -292,7 +295,10 @@ $(function () {
     $("#change-username").val("");
   });
 
-  $("#change-pass-save-btn").on("click", function () {
+  $("#change-pass-save-btn").on("click", function (e) {
+
+    e.preventDefault();
+
     $.ajax({
       url: "/changePassword",
       type: "POST",
@@ -324,7 +330,10 @@ $(function () {
     $("#change-password").val("");
   });
 
-  $("#delete-btn").on("click", function () {
+  $("#delete-btn").on("click", function (e) {
+
+    e.preventDefault();
+
     $.ajax({
       url: "/deleteUser",
       type: "POST",
