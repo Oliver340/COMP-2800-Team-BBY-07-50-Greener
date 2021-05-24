@@ -13,18 +13,19 @@
     <div id="signup-identifier"></div>
     <div id="signup-container">
       <form>
-        <label for="username">Username:</label></br>
-        <input type="text" id="signup-username" name="username" placeholder="Username"></br></br>
+        <p class="mandatory">Mandatory fields marked with an *</p>
+        <label for="username"><span class="mandatory">*</span>Username:</label></br>
+        <input type="text" id="signup-username" name="username" pattern="[A-Za-z0-9]{3,20}" placeholder="Username" required></br></br>
         <div id="name-container">
         <div id="first-name-container">
-        <label for="first-name">First Name: </label></br><input type="text" id="signup-first-name" name="first-name" placeholder="First Name"></br>
+        <label for="first-name"><span class="mandatory">*</span>First Name: </label></br><input type="text" id="signup-first-name" name="first-name" pattern="[A-Za-z]{3,20}" placeholder="First Name" required></br>
         </div><div id="last-name-container">
-        <label for="last-name">Last Name: </label></br><input type="text" id="signup-last-name" name="last-name" placeholder="Last Name"></br></br>
+        <label for="last-name"><span class="mandatory">*</span>Last Name: </label></br><input type="text" id="signup-last-name" name="last-name" pattern="[A-Za-z]{3,20}" placeholder="Last Name" required></br></br>
         </div></div>
-        <label for="password">Password:</label></br>
-        <input type="password" id="signup-password" name="password" placeholder="Password"></br>
+        <label for="password"><span class="mandatory">*</span>Password:</label></br>
+        <input type="password" id="signup-password" name="password" pattern=".{6,}" placeholder="Password" required></br>
         <div id="errorMsg"></div></br>
-        <input type="button" id="signup-btn" value="Sign up"/>
+        <input type="submit" id="signup-btn" value="Sign up"/>
       </form>
     </div>
     

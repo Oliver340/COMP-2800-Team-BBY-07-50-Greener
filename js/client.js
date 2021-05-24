@@ -2,6 +2,21 @@
 
 $(function () {
 
+  $(".options").on("click", function () {
+    $("#dropdowncontent").css("display", "none");
+  });
+
+  $("#hammenu").on("click", function () {
+    $("#dropdowncontent").css("display", "flex");
+    $("#dropdowncontent").css("justify-content", "center");
+    $("#dropdowncontent").css("align-items", "center");
+    $("#dropdowncontent").css("flex-direction", "column");
+  });
+
+  $("#dropdown").on("click", function () {
+    $("#hammenu").css("background-color", "rgb(93, 184, 102)");
+  });
+
   $("#index-signup").on("click", function () {
     $.ajax({
       url: "/signup",
@@ -39,9 +54,11 @@ $(function () {
         var temp1 = "<script src='../js/login.js'></script>";
         var temp2 = "<script id='client-script' src='../js/client.js'></script>";
         var temp3 = "<script id='jquery-script' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
+        var temp4 = "<script id='google-script' src='https://apis.google.com/js/platform.js' async defer></script>";
         $("#login-script").replaceWith(temp1);
         $("#client-script").replaceWith(temp2);
         $("#jquery-script").replaceWith(temp3);
+        $("#google-script").replaceWith(temp4);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         $("#content").text(jqXHR.statusText);
@@ -101,10 +118,10 @@ $(function () {
         if (document.getElementById("challenges-identifier") != null) {
           var temp3 = "<script id='challenges-tabs-script' src='../js/tabs-challenges.js'></script>";
           var temp4 = "<script id='progressbar-script' src='https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.1.0/progressbar.js'></script>";
-
+          var temp5 = "<script id='challenges-populate' src='../js/challenges-populate.js'></script>"
           $("#challenges-tabs-script").replaceWith(temp3);
           $("#progressbar-script").replaceWith(temp4);
-
+          $("#challenges-populate").replaceWith(temp5);
         } else {
           console.log("redirect");
         }
@@ -133,6 +150,8 @@ $(function () {
         if (document.getElementById("information-identifier") != null) {
           var temp3 = "<script id='information-tabs-script' src='../js/tabs-information.js'></script>";
           $("#information-tabs-script").replaceWith(temp3);
+          var temp4 = "<script id='client-script' src='../js/information-populate.js'></script>"
+          $("#information-populate").replaceWith(temp4);
         } else {
           console.log("redirect");
         }
@@ -164,7 +183,10 @@ $(function () {
         $("#client-script").replaceWith(temp2);
         if (document.getElementById("about-identifier") != null) {
           var temp3 = "<script id='about-script' src='../js/about.js'></script>";
+          var temp4 = "<script id='egg-script' src='../js/egg.js'></script>";
           $("#about-script").replaceWith(temp3);
+          $("#egg-script").replaceWith(temp4);
+
         } else {
           console.log("redirect");
         }
@@ -238,6 +260,130 @@ $(function () {
     });
   });
 
+  $("#change-user-save-btn").on("click", function (e) {
+
+    e.preventDefault();
+
+    $.ajax({
+      url: "/changeUsername",
+      type: "POST",
+      dataType: "JSON",
+      data: {
+        changeUsername: $("#change-username").val()
+      },
+      success: function (data) {
+        if (data['status'] == "success") {
+
+          $("#user-errorMsg").html("");
+          $("#user-successMsg").html(data['msg']);
+          $("#change-username").val("");
+
+        } else {
+          $("#user-errorMsg").html(data['msg']);
+          $("#change-username").val("");
+        }
+
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        $("#errorMsg").text(jqXHR.statusText);
+      }
+    });
+
+  });
+
+  $("#change-user-clear-btn").on("click", function () {
+    $("#change-username").val("");
+  });
+
+  $("#change-pass-save-btn").on("click", function (e) {
+
+    e.preventDefault();
+
+    $.ajax({
+      url: "/changePassword",
+      type: "POST",
+      dataType: "JSON",
+      data: {
+        changePassword: $("#change-password").val()
+      },
+      success: function (data) {
+        if (data['status'] == "success") {
+
+          $("#pass-errorMsg").html("");
+          $("#pass-successMsg").html(data['msg']);
+          $("#change-password").val("");
+
+        } else {
+          $("#pass-errorMsg").html(data['msg']);
+          $("#change-password").val("");
+        }
+
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        $("#errorMsg").text(jqXHR.statusText);
+      }
+    });
+
+  });
+
+  $("#change-pass-clear-btn").on("click", function () {
+    $("#change-password").val("");
+  });
+
+  $("#delete-btn").on("click", function (e) {
+
+    e.preventDefault();
+
+    $.ajax({
+      url: "/deleteUser",
+      type: "POST",
+      dataType: "JSON",
+      data: {
+        confirmUsername: $("#delete-account-user").val(),
+        confirmPassword: $("#delete-account-pass").val()
+      },
+      success: function (data) {
+        if (data['status'] == "success") {
+
+          $.ajax({
+            url: "/logout",
+            dataType: "html",
+            type: "GET",
+            data: {
+              format: "logout"
+            },
+            success: function (data) {
+              document.documentElement.innerHTML = data;
+              var temp1 = "<script id='jquery-script' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
+              var temp2 = "<script id='client-script' src='../js/client.js'></script>";
+              $("#jquery-script").replaceWith(temp1);
+              $("#client-script").replaceWith(temp2);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              $("#content").text(jqXHR.statusText);
+              console.log("ERROR:", jqXHR, textStatus, errorThrown);
+            }
+          });
+
+        } else {
+          $("#delete-errorMsg").html(data['msg']);
+          $("#delete-account-user").val("");
+          $("#delete-account-pass").val("");
+        }
+
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        $("#errorMsg").text(jqXHR.statusText);
+      }
+    });
+
+  });
+
+  $("#delete-clear-btn").on("click", function () {
+    $("#delete-account-user").val("");
+    $("#delete-account-pass").val("");
+  });
+
   $("#nav-login").on("click", function () {
     $.ajax({
       url: "/login",
@@ -284,4 +430,54 @@ $(function () {
     });
   });
 
+  $("#retake-survey").on("click", function () {
+    goSurvey();
+  });
+
 });
+
+function goSurvey() {
+  $.ajax({
+    url: "/survey-intro",
+    dataType: "html",
+    type: "GET",
+    data: {
+      format: "survey-intro"
+    },
+    success: function (data) {
+      document.documentElement.innerHTML = data;
+
+      if (document.getElementById("survey-intro-identifier") != null) {
+        changeToSurveyPage();
+      } else {
+        console.log("redirect");
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      $("#content").text(jqXHR.statusText);
+      console.log("ERROR:", jqXHR, textStatus, errorThrown);
+    }
+  });
+}
+
+function changeToSurveyPage() {
+  var script1 = document.createElement('script');
+  script1.id = "jquery-script";
+  script1.src = "https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js";
+  script1.type = "text/javascript";
+  script1.onload = function () {
+    // var script2 = document.createElement('script');
+    // script2.id = "client-script";
+    // script2.src = "../js/client.js";
+    // script2.type = "text/javascript";
+    //   script2.onload = function() {
+    var script3 = document.createElement('script');
+    script3.id = "survey-script";
+    script3.src = "../js/survey.js";
+    script3.type = "text/javascript";
+    document.getElementById('survey-script').replaceWith(script3);
+  }
+  //     document.getElementById('client-script').replaceWith(script2);
+  // }
+  document.getElementById('jquery-script').replaceWith(script1);
+}

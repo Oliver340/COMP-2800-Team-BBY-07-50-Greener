@@ -1,8 +1,3 @@
-body {
-  background-color: #E6F0E4;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 #settings-container {
   background-color: #C8E9A7;
   border-radius: 10px;
@@ -20,11 +15,11 @@ body {
   width: 95%;
 }
 
-#buttons {
+.buttons {
   display: grid;
 }
 
-#save-btn {
+#change-user-save-btn {
   display: block;
   margin: 0 10px 0 auto;
   padding: 10px 20px;
@@ -36,7 +31,7 @@ body {
   grid-column: 1;
 }
 
-#clear-btn {
+#change-user-clear-btn {
   display: block;
   margin: 0 auto 0 10px;
   padding: 10px 20px;
@@ -46,4 +41,80 @@ body {
   border: 0;
   box-shadow: 2px 2px 5px black;
   grid-column: 2;
+}
+
+#change-pass-save-btn {
+  display: block;
+  margin: 0 10px 0 auto;
+  padding: 10px 20px;
+  border-radius: 7px;
+  background-color: #3C7329;
+  color: white;
+  border: 0;
+  box-shadow: 2px 2px 5px black;
+  grid-column: 1;
+}
+
+#change-pass-clear-btn {
+  display: block;
+  margin: 0 auto 0 10px;
+  padding: 10px 20px;
+  border-radius: 7px;
+  background-color: #5DB866;
+  color: white;
+  border: 0;
+  box-shadow: 2px 2px 5px black;
+  grid-column: 2;
+}
+
+#delete-account-user {
+  width: 95%;
+}
+
+#delete-account-pass {
+  width: 95%;
+}
+
+#delete-btn {
+  display: block;
+  margin: 0 10px 0 auto;
+  padding: 10px 20px;
+  border-radius: 7px;
+  background-color:#D72E2E;
+  color: white;
+  border: 0;
+  box-shadow: 2px 2px 5px black;
+  grid-column: 1;
+}
+
+#delete-clear-btn {
+  display: block;
+  margin: 0 auto 0 10px;
+  padding: 10px 20px;
+  border-radius: 7px;
+  background-color: #5DB866;
+  color: white;
+  border: 0;
+  box-shadow: 2px 2px 5px black;
+  grid-column: 2;
+}
+
+#user-errorMsg {
+  color: red;
+}
+
+#pass-errorMsg {
+  color: red;
+}
+
+#delete-errorMsg {
+  color: red;
+}
+
+#user-successMsg {
+  color: #2b611a;
+}
+
+#pass-successMsg {
+  color: #2b611a;
 }

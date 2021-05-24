@@ -1,20 +1,18 @@
-body {
-  background-color: #E6F0E4;
-  font-family: Arial, Helvetica, sans-serif;
+#index-heading {
+  padding: 3%;
 }
 
-#index-heading {
-  font-size: 16pt;
+h1 {
+  margin: 0;
 }
 
 #index-description {
-  font-size: 16pt;
+  padding: 3%;
 }
 
 #login-signup {
   width: 100%;
   text-align: center;
-  margin-top: 50px;
 }
 
 #index-signup {
@@ -36,4 +34,13 @@ body {
   border: 0;
   font-size: 12pt;
   box-shadow: 2px 2px 7px black;
+}
+
+a {
+  color: #326821;
+  text-decoration: underline;
+}
+
+#city-desc {
+  padding: 3%;
 }
