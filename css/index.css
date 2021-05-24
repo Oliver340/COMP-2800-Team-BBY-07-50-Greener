@@ -35,3 +35,12 @@ h1 {
   font-size: 12pt;
   box-shadow: 2px 2px 7px black;
 }
+
+a {
+  color: #326821;
+  text-decoration: underline;
+}
+
+#city-desc {
+  padding: 3%;
+}

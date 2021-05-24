@@ -838,7 +838,7 @@ app.post('/set-old-score', function (req, res) {
   // });
 
 
-  connection2.query('UPDATE user SET oldScore = ?, currentscore = ?, transportscore = ?, waterscore = ?, homescore = ?, foodscore = ? WHERE username = ?',
+  connection.query('UPDATE user SET oldScore = ?, currentscore = ?, transportscore = ?, waterscore = ?, homescore = ?, foodscore = ? WHERE username = ?',
     [req.body.score, req.body.score, req.body.tScore, req.body.wScore, req.body.hScore, req.body.fScore, currentUser],
     function (error, results, fields) {
       if (error) {
