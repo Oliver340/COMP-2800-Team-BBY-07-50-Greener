@@ -107,7 +107,6 @@ function setWaterScore(score) {
         type: "POST",
         data: {wscore: score},
         success: function (data) {
-            console.log(data);
             getCurrentScore();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -124,7 +123,6 @@ function setFoodScore(score) {
         type: "POST",
         data: {fscore: score},
         success: function (data) {
-            console.log(data);
             getCurrentScore();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -141,7 +139,6 @@ function setCommuteScore(score) {
         type: "POST",
         data: {tscore: score},
         success: function (data) {
-            console.log(data);
             getCurrentScore();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -158,7 +155,6 @@ function setHomeScore(score) {
         type: "POST",
         data: {hscore: score},
         success: function (data) {
-            console.log(data);
             getCurrentScore();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -172,14 +168,11 @@ function setHomeScore(score) {
 
 function animate() {
 
-    console.log(currentscore);
-    console.log(goal);
     if (currentscore != 0 && goal != 0) {
         var percentComplete = goal / currentscore;
         if (percentComplete >= 1) {
             percentComplete = 1;
         }
-        console.log("%: " + percentComplete);
         line.animate(percentComplete);
     } else {
         line.animate(0);
@@ -193,7 +186,6 @@ function getCurrentScore() {
       dataType: "json",
       type: "GET",
       success: function (data) {
-          console.log("Current Score: " + data[0].currentscore);
           data = data[0].currentscore;
           if (data != null) {
             currentscore = data;
@@ -215,7 +207,6 @@ function getGoal() {
         dataType: "json",
         type: "GET",
         success: function (data) {
-            console.log("Goal: " + data[0].goal);
             data = data[0].goal;
             if (data != null) {
                 goal = data;

@@ -38,10 +38,8 @@ function newGoal() {
     var calculateMultiplier = (100 - slider1.value) * 0.01;
 
     getOldScore();
-    console.log("Old Score: " + oldScore);
 
     var goal = oldScore * calculateMultiplier;
-    console.log("Goal: " + goal);
 
     $("#goal-value").html(goal);
 
@@ -143,7 +141,6 @@ function getOldScore() {
     dataType: "json",
     type: "GET",
     success: function (data) {
-        console.log("DATA: " + data[0].oldscore);
         data = data[0].oldscore;
         if (data != null) {
           oldScore = data;

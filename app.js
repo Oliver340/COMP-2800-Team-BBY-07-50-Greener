@@ -113,7 +113,6 @@ async function initDB() {
 }
 
 app.get('/mainpage', function (req, res) {
-  console.log("mainpage");
   if (req.session.loggedIn) {
 
     let skeletonFile = fs.readFileSync('./html/skeleton.html', "utf8");
@@ -181,7 +180,6 @@ app.get('/get-Average', function (req, res) {
     if (error) {
       throw error;
     }
-    console.log('Rows returned are: ', results);
     res.send(results);
   });
 });
@@ -191,7 +189,6 @@ app.get('/get-Minimum', function (req, res) {
     if (error) {
       throw error;
     }
-    console.log('Rows returned are: ', results);
     res.send(results);
   });
 });
@@ -201,7 +198,6 @@ app.get('/get-Maximum', function (req, res) {
     if (error) {
       throw error;
     }
-    console.log('Rows returned are: ', results);
     res.send(results);
   });
 });
@@ -671,7 +667,6 @@ app.post('/authenticate', [
     if (!errors.isEmpty()) {
       return res.status(422).jsonp(errors.array());
     } else {
-      console.log("authentication");
       res.setHeader('Content-Type', 'application/json');
       let results = authenticate(req.body.loginUsername, req.body.loginPassword,
         function (rows) {
@@ -717,7 +712,6 @@ var connection = mysql.createPool({
 // });
 
 app.post('/authenticategoogle', function (req, res) {
-  console.log("authentication by google");
   res.setHeader('Content-Type', 'application/json');
 
   let token = req.body.token;
@@ -865,7 +859,6 @@ function insertUser(username, firstName, lastName, pwd, callback) {
 }
 
 app.post('/set-old-score', function (req, res) {
-  console.log("setting score");
   res.setHeader('Content-Type', 'application/json');
 
   connection.query('UPDATE user SET oldScore = ?, currentscore = ?, transportscore = ?, waterscore = ?, homescore = ?, foodscore = ? WHERE username = ?',
@@ -886,7 +879,6 @@ app.post('/set-old-score', function (req, res) {
 });
 
 app.post('/update-water', function (req, res) {
-  console.log("updating score from challenges");
   res.setHeader('Content-Type', 'application/json');
 
   connection.query('SELECT currentscore, waterscore FROM user WHERE username = ?', [currentUser], function (error, results) {
@@ -913,7 +905,6 @@ app.post('/update-water', function (req, res) {
 });
 
 app.post('/update-food', function (req, res) {
-  console.log("updating score from challenges");
   res.setHeader('Content-Type', 'application/json');
 
   connection.query('SELECT currentscore, foodscore FROM user WHERE username = ?', [currentUser], function (error, results) {
@@ -940,7 +931,6 @@ app.post('/update-food', function (req, res) {
 });
 
 app.post('/update-transport', function (req, res) {
-  console.log("updating score from challenges");
   res.setHeader('Content-Type', 'application/json');
 
   connection.query('SELECT currentscore, transportscore FROM user WHERE username = ?', [currentUser], function (error, results) {
@@ -967,7 +957,6 @@ app.post('/update-transport', function (req, res) {
 });
 
 app.post('/update-home', function (req, res) {
-  console.log("updating score from challenges");
   res.setHeader('Content-Type', 'application/json');
 
   connection.query('SELECT currentscore, homescore FROM user WHERE username = ?', [currentUser], function (error, results) {
@@ -996,12 +985,10 @@ app.post('/update-home', function (req, res) {
 
 app.get('/get-old-score', function (req, res) {
 
-  console.log("USER: " + currentUser);
   connection.query('SELECT oldscore FROM user WHERE username = ?', [currentUser], function (error, results) {
     if (error) {
       throw error;
     }
-    console.log('Rows returned are: ', results);
     res.send(results);
   });
   // connection.end();
@@ -1011,7 +998,6 @@ app.get('/get-old-score', function (req, res) {
 app.post('/update-goal', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
 
-  console.log("Data sent to db: " + req.body.userGoal);
   connection.query('UPDATE user SET goal = ? WHERE username = ?',
     [req.body.userGoal, currentUser],
     function (error) {
@@ -1180,12 +1166,10 @@ function deleteUser(username, password, callback) {
 
 app.get('/get-current-score', function (req, res) {
 
-  console.log("USER: " + currentUser);
   connection.query('SELECT currentscore FROM user WHERE username = ?', [currentUser], function (error, results) {
     if (error) {
       throw error;
     }
-    console.log('Rows returned are: ', results);
     res.send(results);
   });
   // connection.end();
@@ -1194,12 +1178,10 @@ app.get('/get-current-score', function (req, res) {
 
 app.get('/get-goal', function (req, res) {
 
-  console.log("USER: " + currentUser);
   connection.query('SELECT goal FROM user WHERE username = ?', [currentUser], function (error, results) {
     if (error) {
       throw error;
     }
-    console.log('Rows returned are: ', results);
     res.send(results);
   });
   // connection.end();

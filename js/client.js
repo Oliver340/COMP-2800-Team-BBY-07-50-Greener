@@ -497,7 +497,6 @@ function goSurvey() {
       if (document.getElementById("survey-intro-identifier") != null) {
         changeToSurveyPage();
       } else {
-        console.log("redirect");
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
