@@ -108,7 +108,7 @@ async function initDB() {
 
   await connection.query(createDBAndTables);
 
-  // connection.end();
+  await connection.end();
 
 }
 
@@ -821,7 +821,6 @@ function insertUser(username, firstName, lastName, pwd, callback) {
                 if (error) {
                   throw error;
                 }
-    
                 if (results.length > 0) {
                   return callback(results[0]);
                 } else {
@@ -829,7 +828,6 @@ function insertUser(username, firstName, lastName, pwd, callback) {
                 }
               });
           });
-        
       }
 
     });
