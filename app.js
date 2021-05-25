@@ -23,8 +23,6 @@ app.use(session({
   saveUninitialized: true
 }));
 
-initDB();
-
 // Required for Google OAuth
 const {
   OAuth2Client
@@ -134,6 +132,42 @@ app.get('/mainpage', function (req, res) {
   } else {
     res.redirect('/');
   }
+});
+
+app.get('/get-breakdown-transport', function (req, res) {
+  connection.query('SELECT transportscore FROM user WHERE username = ?', [currentUser], function (error, transportscore) {
+    if (error) {
+      throw error;
+    }
+    res.send(transportscore);
+  });
+});
+
+app.get('/get-breakdown-water', function (req, res) {
+  connection.query('SELECT waterscore FROM user WHERE username = ?', [currentUser], function (error, waterscore) {
+    if (error) {
+      throw error;
+    }
+    res.send(waterscore);
+  });
+});
+
+app.get('/get-breakdown-home', function (req, res) {
+  connection.query('SELECT homescore FROM user WHERE username = ?', [currentUser], function (error, homescore) {
+    if (error) {
+      throw error;
+    }
+    res.send(homescore);
+  });
+});
+
+app.get('/get-breakdown-food', function (req, res) {
+  connection.query('SELECT foodscore FROM user WHERE username = ?', [currentUser], function (error, foodscore) {
+    if (error) {
+      throw error;
+    }
+    res.send(foodscore);
+  });
 });
 
 app.get('/signup', function (req, res) {
