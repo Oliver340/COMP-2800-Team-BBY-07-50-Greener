@@ -8,6 +8,7 @@ const {
   JSDOM
 } = require('jsdom');
 const cors = require('cors');
+const { check, validationResult } = require('express-validator');
 
 app.use('/js', express.static('js'));
 app.use('/css', express.static('css'));
@@ -592,29 +593,38 @@ app.use(express.urlencoded({
 
 var currentUser;
 
-app.post('/authenticate', function (req, res) {
-  connection.connect();
-  console.log("authentication");
-  res.setHeader('Content-Type', 'application/json');
-  let results = authenticate(req.body.loginUsername, req.body.loginPassword,
-    function (rows) {
-      if (rows == null) {
-        res.send({
-          status: "fail",
-          msg: "User account not found."
+app.post('/authenticate', [
+  check('loginUsername').trim().escape().notEmpty().withMessage("Enter username"),
+  check('loginPassword').trim().escape().notEmpty().withMessage("Enter password"),
+],
+  function (req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).jsonp(errors.array());
+    } else {
+      connection.connect();
+      console.log("authentication");
+      res.setHeader('Content-Type', 'application/json');
+      let results = authenticate(req.body.loginUsername, req.body.loginPassword,
+        function (rows) {
+          if (rows == null) {
+            res.send({
+              status: "fail",
+              msg: "User account not found."
+            });
+          } else {
+            currentUser = req.body.loginUsername;
+            req.session.loggedIn = true;
+            req.session.name = rows.firstName;
+            req.session.save(function (err) { })
+            res.send({
+              status: "success",
+              msg: "Logged in."
+            });
+          }
         });
-      } else {
-        currentUser = req.body.loginUsername;
-        req.session.loggedIn = true;
-        req.session.name = rows.firstName;
-        req.session.save(function (err) {})
-        res.send({
-          status: "success",
-          msg: "Logged in."
-        });
-      }
-    });
-});
+    }
+  });
 
 // THIS IS FOR LOCAL TESTING / DEVELOPMENT
 const connection = mysql.createConnection({
@@ -669,7 +679,7 @@ app.post('/authenticategoogle', function (req, res) {
             function (rows) {
               currentUser = rows.firstname;
               req.session.loggedIn = true;
-              req.session.save(function (err) {});
+              req.session.save(function (err) { });
             });
           res.send({
             status: "success",
@@ -679,7 +689,7 @@ app.post('/authenticategoogle', function (req, res) {
           currentUser = rows.firstName;
           req.session.loggedIn = true;
           req.session.name = rows.firstName;
-          req.session.save(function (err) {})
+          req.session.save(function (err) { })
           res.send({
             status: "success",
             msg: "Logged in."
@@ -747,7 +757,7 @@ app.post('/newUser', function (req, res) {
         currentUser = req.body.signupUsername;
         req.session.loggedIn = true;
         req.session.name = rows.firstName;
-        req.session.save(function (err) {})
+        req.session.save(function (err) { })
         res.send({
           status: "success",
           msg: "Signed up."

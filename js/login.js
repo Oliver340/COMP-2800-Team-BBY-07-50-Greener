@@ -25,8 +25,16 @@ $(function () {
         }
 
       },
-      error: function (jqXHR, textStatus, errorThrown) {
-        $("#errorMsg").text(jqXHR.statusText);
+      error: function (data) {
+        var errors = JSON.parse(data.responseText);
+        var errorsContainer = $('#errorMsg');
+        errorsContainer.innerHTML = '';
+        var errorsList = '';
+
+        for (var i = 0; i < errors.length; i++) {
+          errorsList += '<li>' + errors[i].msg + '</li>';
+        }
+        errorsContainer.html(errorsList);
       }
     });
 
