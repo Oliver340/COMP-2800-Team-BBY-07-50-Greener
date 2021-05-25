@@ -665,7 +665,7 @@ app.post('/authenticate', [
   });
 
 // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-const connection = mysql.createPool({
+var connection = mysql.createPool({
   host: 'localhost',
   port: 3306,
   user: 'root',
