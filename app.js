@@ -597,11 +597,11 @@ app.post('/authenticate', [
   check('loginPassword').trim().escape().notEmpty().withMessage("Enter password"),
 ],
   function (req, res) {
-    const errors = validationResult(req);
+    let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).jsonp(errors.array());
     } else {
-      connection.connect();
+
       console.log("authentication");
       res.setHeader('Content-Type', 'application/json');
       let results = authenticate(req.body.loginUsername, req.body.loginPassword,
@@ -626,7 +626,7 @@ app.post('/authenticate', [
   });
 
 // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-var connection = mysql.createPool({
+const connection = mysql.createPool({
   host: 'localhost',
   port: 3306,
   user: 'root',
@@ -714,7 +714,7 @@ app.post('/newUser', [
   check('signupPassword').trim().escape().notEmpty().withMessage("Enter password").isLength({ min: 6 }).withMessage("Password must contain at least 6 characters"),
 ],
   function (req, res) {
-    const errors = validationResult(req);
+    let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).jsonp(errors.array());
     } else {
@@ -839,7 +839,7 @@ app.post('/changeUsername', [
   check('changeUsername').trim().escape().notEmpty().withMessage("Enter username").isLength({ min: 3, max: 20 }).withMessage("Username must be between 3-20 characters").isAlphanumeric().withMessage("Username can only contain letters/numbers"),
 ], function (req, res) {
 
-  const errors = validationResult(req);
+  let errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).jsonp(errors.array());
   } else {
@@ -908,7 +908,7 @@ app.post('/changePassword', [
   check('changePassword').trim().escape().notEmpty().withMessage("Enter password").isLength({ min: 6 }).withMessage("Password must contain at least 6 characters"),
 ], function (req, res) {
 
-  const errors = validationResult(req);
+  let errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).jsonp(errors.array());
   } else {
