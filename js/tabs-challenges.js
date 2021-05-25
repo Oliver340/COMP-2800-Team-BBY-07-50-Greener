@@ -57,10 +57,102 @@ $(function () {
     getCurrentScore();
 
     
-
-    
+    $('#water').on("click", '.check', function(e){
+        let checkedElement = e.target.checked;
+        let points = e.target.nextSibling.innerHTML;
+        let onlyPoints = parseInt(points);
+        setWaterScore(onlyPoints);
+    });
+    $('#food').on("click", '.check', function(e){
+        let checkedElement = e.target.checked;
+        let points = e.target.nextSibling.innerHTML;
+        let onlyPoints = parseInt(points);
+        setFoodScore(onlyPoints);
+    });
+    $('#commute').on("click", '.check', function(e){
+        let checkedElement = e.target.checked;
+        let points = e.target.nextSibling.innerHTML;
+        let onlyPoints = parseInt(points);
+        setCommuteScore(onlyPoints);
+    });
+    $('#home').on("click", '.check', function(e){
+        let checkedElement = e.target.checked;
+        let points = e.target.nextSibling.innerHTML;
+        let onlyPoints = parseInt(points);
+        setHomeScore(onlyPoints);
+    });
 
 });
+
+function setWaterScore(score) {
+    $.ajax({
+        url: "/update-water",
+        dataType: "json",
+        type: "POST",
+        data: {wscore: score},
+        success: function (data) {
+            console.log(data);
+            getCurrentScore();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR:", jqXHR, textStatus, errorThrown);
+        }
+  
+    });
+}
+
+function setFoodScore(score) {
+    $.ajax({
+        url: "/update-food",
+        dataType: "json",
+        type: "POST",
+        data: {fscore: score},
+        success: function (data) {
+            console.log(data);
+            getCurrentScore();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR:", jqXHR, textStatus, errorThrown);
+        }
+  
+    });
+}
+
+function setCommuteScore(score) {
+    $.ajax({
+        url: "/update-transport",
+        dataType: "json",
+        type: "POST",
+        data: {tscore: score},
+        success: function (data) {
+            console.log(data);
+            getCurrentScore();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR:", jqXHR, textStatus, errorThrown);
+        }
+  
+    });
+}
+
+function setHomeScore(score) {
+    $.ajax({
+        url: "/update-home",
+        dataType: "json",
+        type: "POST",
+        data: {hscore: score},
+        success: function (data) {
+            console.log(data);
+            getCurrentScore();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR:", jqXHR, textStatus, errorThrown);
+        }
+  
+    });
+}
+
+
 
 function animate() {
 
