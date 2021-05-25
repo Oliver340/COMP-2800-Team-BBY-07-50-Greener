@@ -637,7 +637,7 @@ app.post('/authenticate', [
     check('loginPassword').trim().escape().notEmpty().withMessage("Enter password"),
   ],
   function (req, res) {
-    const errors = validationResult(req);
+    let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).jsonp(errors.array());
     } else {
@@ -665,7 +665,7 @@ app.post('/authenticate', [
   });
 
 // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-var connection = mysql.createPool({
+const connection = mysql.createPool({
   host: 'localhost',
   port: 3306,
   user: 'root',
@@ -768,7 +768,7 @@ app.post('/newUser', [
     }).withMessage("Password must contain at least 6 characters"),
   ],
   function (req, res) {
-    const errors = validationResult(req);
+    let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).jsonp(errors.array());
     } else {
@@ -899,7 +899,7 @@ app.post('/changeUsername', [
   }).withMessage("Username must be between 3-20 characters").isAlphanumeric().withMessage("Username can only contain letters/numbers"),
 ], function (req, res) {
 
-  const errors = validationResult(req);
+  let errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).jsonp(errors.array());
   } else {
@@ -970,7 +970,7 @@ app.post('/changePassword', [
   }).withMessage("Password must contain at least 6 characters"),
 ], function (req, res) {
 
-  const errors = validationResult(req);
+  let errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).jsonp(errors.array());
   } else {
