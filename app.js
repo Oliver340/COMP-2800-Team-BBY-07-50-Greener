@@ -815,20 +815,21 @@ function insertUser(username, firstName, lastName, pwd, callback) {
             if (error) {
               throw error;
             }
+            connection.query(
+              "SELECT * FROM user WHERE username = ? AND password = ?", [username, pwd],
+              function (error, results) {
+                if (error) {
+                  throw error;
+                }
+    
+                if (results.length > 0) {
+                  return callback(results[0]);
+                } else {
+                  return callback(null);
+                }
+              });
           });
-        connection.query(
-          "SELECT * FROM user WHERE username = ? AND password = ?", [username, pwd],
-          function (error, results) {
-            if (error) {
-              throw error;
-            }
-
-            if (results.length > 0) {
-              return callback(results[0]);
-            } else {
-              return callback(null);
-            }
-          });
+        
       }
 
     });
