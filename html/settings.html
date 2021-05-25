@@ -16,7 +16,7 @@
   <div id="settings-container">
     <form>
       <label for="change-username">Change Username:</label></br>
-      <input type="text" id="change-username" name="change-username" pattern="[A-Za-z0-9]{3,20}" placeholder="New Username" required></br>
+      <input type="text" id="change-username" name="change-username" placeholder="New Username"></br>
       <div id="user-successMsg"></div>
       <div id="user-errorMsg"></div></br>
       <div class="buttons">
@@ -26,7 +26,7 @@
     </form></br></br>
     <form>
       <label for="change-password">Change Password:</label></br>
-      <input type="password" id="change-password" name="change-password" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{6,}$" placeholder="New Password" required></br>
+      <input type="password" id="change-password" name="change-password" placeholder="New Password" ></br>
       <div id="pass-successMsg"></div>
       <div id="pass-errorMsg"></div></br>
       <div class="buttons">
@@ -36,8 +36,8 @@
     </form></br></br>
     <form>
       <label for="delete-account">Delete Account? Confirm by entering username and password.</label></br>
-      <input type="text" id="delete-account-user" name="delete-account" placeholder="Confirm Username" required></br>
-      <input type="text" id="delete-account-pass" name="delete-account" placeholder="Confirm Password" required></br>
+      <input type="text" id="delete-account-user" name="delete-account" placeholder="Confirm Username"></br>
+      <input type="text" id="delete-account-pass" name="delete-account" placeholder="Confirm Password"></br>
       <div id="delete-errorMsg"></div></br>
       <div class="buttons">
         <input type="submit" id="delete-btn" value="Delete" />

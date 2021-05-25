@@ -8,6 +8,7 @@ const {
   JSDOM
 } = require('jsdom');
 const cors = require('cors');
+const { check, validationResult } = require('express-validator');
 
 app.use('/js', express.static('js'));
 app.use('/css', express.static('css'));
@@ -69,7 +70,7 @@ async function initDB() {
   const mysql = require('mysql2/promise');
 
   // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  const connection = await mysql.createConnection({
+  var connection = await mysql.createPool({
     host: 'localhost',
     port: 3306,
     user: 'root',
@@ -78,7 +79,7 @@ async function initDB() {
   });
 
   // THIS IS FOR LIVE SERVER
-  // const connection = await mysql.createConnection({
+  // var connection = await mysql.createPool({
   //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
   //   port: 3306,
   //   user: 'admin',
@@ -87,7 +88,6 @@ async function initDB() {
   // });
 
   const createDBAndTables = `CREATE DATABASE IF NOT EXISTS accounts;
-        use accounts;
         CREATE TABLE IF NOT EXISTS user (
         ID int NOT NULL AUTO_INCREMENT,
         username varchar(30),
@@ -104,7 +104,7 @@ async function initDB() {
         email varchar(50),
         PRIMARY KEY (ID));`;
 
-  await connection.query(createDBAndTables);
+  await connection.getConnection(createDBAndTables);
   // connection.end();
 }
 
@@ -592,32 +592,41 @@ app.use(express.urlencoded({
 
 var currentUser;
 
-app.post('/authenticate', function (req, res) {
-  connection.connect();
-  console.log("authentication");
-  res.setHeader('Content-Type', 'application/json');
-  let results = authenticate(req.body.loginUsername, req.body.loginPassword,
-    function (rows) {
-      if (rows == null) {
-        res.send({
-          status: "fail",
-          msg: "User account not found."
+app.post('/authenticate', [
+  check('loginUsername').trim().escape().notEmpty().withMessage("Enter username"),
+  check('loginPassword').trim().escape().notEmpty().withMessage("Enter password"),
+],
+  function (req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).jsonp(errors.array());
+    } else {
+      connection.connect();
+      console.log("authentication");
+      res.setHeader('Content-Type', 'application/json');
+      let results = authenticate(req.body.loginUsername, req.body.loginPassword,
+        function (rows) {
+          if (rows == null) {
+            res.send({
+              status: "fail",
+              msg: "User account not found."
+            });
+          } else {
+            currentUser = req.body.loginUsername;
+            req.session.loggedIn = true;
+            req.session.name = rows.firstName;
+            req.session.save(function (err) { })
+            res.send({
+              status: "success",
+              msg: "Logged in."
+            });
+          }
         });
-      } else {
-        currentUser = req.body.loginUsername;
-        req.session.loggedIn = true;
-        req.session.name = rows.firstName;
-        req.session.save(function (err) {})
-        res.send({
-          status: "success",
-          msg: "Logged in."
-        });
-      }
-    });
-});
+    }
+  });
 
 // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-const connection = mysql.createConnection({
+var connection = mysql.createPool({
   host: 'localhost',
   port: 3306,
   user: 'root',
@@ -626,7 +635,7 @@ const connection = mysql.createConnection({
 });
 
 // THIS IS FOR LIVE SERVER
-// const connection = mysql.createConnection({
+// var connection = mysql.createPool({
 //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
 //   port: 3306,
 //   user: 'admin',
@@ -634,11 +643,8 @@ const connection = mysql.createConnection({
 //   database: 'accounts'
 // });
 
-// connection.connect();
-
 app.post('/authenticategoogle', function (req, res) {
   console.log("authentication by google");
-  connection.connect();
   res.setHeader('Content-Type', 'application/json');
 
   let token = req.body.token;
@@ -662,7 +668,7 @@ app.post('/authenticategoogle', function (req, res) {
             function () {
               currentUser = email;
               req.session.loggedIn = true;
-              req.session.save(function (err) {});
+              req.session.save(function (err) { });
             });
           res.send({
             status: "success",
@@ -672,10 +678,10 @@ app.post('/authenticategoogle', function (req, res) {
           currentUser = rows.username;
           req.session.loggedIn = true;
           req.session.name = rows.firstName;
-          req.session.save(function (err) {})
+          req.session.save(function (err) { })
           res.send({
             status: "success",
-            msg: "Logged in."
+            msg: "Logged in"
           });
         }
       });
@@ -683,30 +689,7 @@ app.post('/authenticategoogle', function (req, res) {
   verify().catch(console.error);
 });
 
-// // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-// const connection2 = mysql.createConnection({
-//   host: 'localhost',
-//   port: 3306,
-//   user: 'root',
-//   password: '',
-//   database: 'accounts'
-// });
-
-// // THIS IS FOR LIVE SERVER
-// // const connection2 = mysql.createConnection({
-// //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-// //   port: 3306,
-// //   user: 'admin',
-// //   password: '50percentgreener',
-// //   database: 'accounts'
-// // });
-
-// connection2.connect();
-
-
-
 function authenticate(username, pwd, callback) {
-
   connection.query(
     "SELECT * FROM user WHERE username = ? AND password = ?", [username, pwd],
     function (error, results) {
@@ -724,52 +707,42 @@ function authenticate(username, pwd, callback) {
 
 }
 
-app.post('/newUser', function (req, res) {
-  connection.connect();
-  console.log("new user");
-  res.setHeader('Content-Type', 'application/json');
+app.post('/newUser', [
+  check('signupUsername').trim().escape().notEmpty().withMessage("Enter username").isLength({ min: 3, max: 20 }).withMessage("Username must be between 3-20 characters").isAlphanumeric().withMessage("Username can only contain letters/numbers"),
+  check('signupFirstName').trim().escape().notEmpty().withMessage("Enter first name").isLength({ min: 3, max: 20 }).withMessage("First name must be between 3-20 characters").isAlpha().withMessage("First name can only contain letters"),
+  check('signupLastName').trim().escape().notEmpty().withMessage("Enter last name").isLength({ min: 3, max: 20 }).withMessage("Last name must be between 3-20 characters").isAlpha().withMessage("Last name can only contain letters"),
+  check('signupPassword').trim().escape().notEmpty().withMessage("Enter password").isLength({ min: 6 }).withMessage("Password must contain at least 6 characters"),
+],
+  function (req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).jsonp(errors.array());
+    } else {
+      res.setHeader('Content-Type', 'application/json');
 
-  let results = insertUser(req.body.signupUsername, req.body.signupFirstName, req.body.signupLastName, req.body.signupPassword,
-    function (rows) {
-      if (rows == null) {
-        res.send({
-          status: "fail",
-          msg: "This username already exists."
+      let results = insertUser(req.body.signupUsername, req.body.signupFirstName, req.body.signupLastName, req.body.signupPassword,
+        function (rows) {
+          if (rows == null) {
+            res.send({
+              status: "fail",
+              msg: "This username already exists."
+            });
+          } else {
+            currentUser = req.body.signupUsername;
+            req.session.loggedIn = true;
+            req.session.name = rows.firstName;
+            req.session.save(function (err) { })
+            res.send({
+              status: "success",
+              msg: "Signed up."
+            });
+          }
         });
-      } else {
-        currentUser = req.body.signupUsername;
-        req.session.loggedIn = true;
-        req.session.name = rows.firstName;
-        req.session.save(function (err) {})
-        res.send({
-          status: "success",
-          msg: "Signed up."
-        });
-      }
-    });
-
-});
+    }
+  });
 
 
 function insertUser(username, firstName, lastName, pwd, callback) {
-
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
-  // const connection = mysql.createConnection({
-  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-  //   port: 3306,
-  //   user: 'admin',
-  //   password: '50percentgreener',
-  //   database: 'accounts'
-  // });
 
   connection.query(
     "SELECT * FROM user WHERE username = ?", [username],
@@ -812,25 +785,6 @@ app.post('/set-old-score', function (req, res) {
   console.log("setting score");
   res.setHeader('Content-Type', 'application/json');
 
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
-  // const connection = mysql.createConnection({
-  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-  //   port: 3306,
-  //   user: 'admin',
-  //   password: '50percentgreener',
-  //   database: 'accounts'
-  // });
-
-
   connection.query('UPDATE user SET oldScore = ?, currentscore = ?, transportscore = ?, waterscore = ?, homescore = ?, foodscore = ? WHERE username = ?',
     [req.body.score, req.body.score, req.body.tScore, req.body.wScore, req.body.hScore, req.body.fScore, currentUser],
     function (error, results, fields) {
@@ -850,25 +804,6 @@ app.post('/set-old-score', function (req, res) {
 
 app.get('/get-old-score', function (req, res) {
 
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
-  // const connection = mysql.createConnection({
-  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-  //   port: 3306,
-  //   user: 'admin',
-  //   password: '50percentgreener',
-  //   database: 'accounts'
-  // });
-
-
   console.log("USER: " + currentUser);
   connection.query('SELECT oldscore FROM user WHERE username = ?', [currentUser], function (error, results) {
     if (error) {
@@ -882,24 +817,6 @@ app.get('/get-old-score', function (req, res) {
 
 app.post('/update-goal', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
-  // const connection = mysql.createConnection({
-  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-  //   port: 3306,
-  //   user: 'admin',
-  //   password: '50percentgreener',
-  //   database: 'accounts'
-  // });
 
   console.log("Data sent to db: " + req.body.userGoal);
   connection.query('UPDATE user SET goal = ? WHERE username = ?',
@@ -918,51 +835,38 @@ app.post('/update-goal', function (req, res) {
   // connection.end();
 });
 
-app.post('/changeUsername', function (req, res) {
+app.post('/changeUsername', [
+  check('changeUsername').trim().escape().notEmpty().withMessage("Enter username").isLength({ min: 3, max: 20 }).withMessage("Username must be between 3-20 characters").isAlphanumeric().withMessage("Username can only contain letters/numbers"),
+], function (req, res) {
 
-  res.setHeader('Content-Type', 'application/json');
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).jsonp(errors.array());
+  } else {
 
-  let results = changeUser(req.body.changeUsername,
-    function (rows) {
-      if (rows == null) {
-        res.send({
-          status: "fail",
-          msg: "This username already exists. Try another one"
-        });
-      } else {
-        currentUser = req.body.changeUsername;
+    res.setHeader('Content-Type', 'application/json');
 
-        res.send({
-          status: "success",
-          msg: "Username updated."
-        });
-      }
-    });
+    let results = changeUser(req.body.changeUsername,
+      function (rows) {
+        if (rows == null) {
+          res.send({
+            status: "fail",
+            msg: "This username already exists. Try another one"
+          });
+        } else {
+          currentUser = req.body.changeUsername;
 
+          res.send({
+            status: "success",
+            msg: "Username updated."
+          });
+        }
+      });
+  }
 });
 
 
 function changeUser(newUsername, callback) {
-
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
-  // const connection = mysql.createConnection({
-  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-  //   port: 3306,
-  //   user: 'admin',
-  //   password: '50percentgreener',
-  //   database: 'accounts'
-  // });
-
-
 
   connection.query(
     "SELECT * FROM user WHERE username = ?", [newUsername],
@@ -1000,29 +904,16 @@ function changeUser(newUsername, callback) {
 
 }
 
-app.post('/changePassword', function (req, res) {
+app.post('/changePassword', [
+  check('changePassword').trim().escape().notEmpty().withMessage("Enter password").isLength({ min: 6 }).withMessage("Password must contain at least 6 characters"),
+], function (req, res) {
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).jsonp(errors.array());
+  } else {
 
   res.setHeader('Content-Type', 'application/json');
-
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
-  // const connection = mysql.createConnection({
-  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-  //   port: 3306,
-  //   user: 'admin',
-  //   password: '50percentgreener',
-  //   database: 'accounts'
-  // });
-
-
 
   connection.query('UPDATE user SET password = ? WHERE username = ?',
     [req.body.changePassword, currentUser],
@@ -1035,7 +926,7 @@ app.post('/changePassword', function (req, res) {
         msg: "Password updated."
       });
     });
-
+  }
 });
 
 app.post('/deleteUser', function (req, res) {
@@ -1064,26 +955,6 @@ app.post('/deleteUser', function (req, res) {
 
 function deleteUser(username, password, callback) {
 
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
-  // const connection = mysql.createConnection({
-  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-  //   port: 3306,
-  //   user: 'admin',
-  //   password: '50percentgreener',
-  //   database: 'accounts'
-  // });
-
-
-
   connection.query(
     "SELECT * FROM user WHERE username = ? AND password = ?", [username, password],
     function (error, results) {
@@ -1110,25 +981,6 @@ function deleteUser(username, password, callback) {
 
 app.get('/get-current-score', function (req, res) {
 
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
-  // const connection = mysql.createConnection({
-  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-  //   port: 3306,
-  //   user: 'admin',
-  //   password: '50percentgreener',
-  //   database: 'accounts'
-  // });
-
-
   console.log("USER: " + currentUser);
   connection.query('SELECT currentscore FROM user WHERE username = ?', [currentUser], function (error, results) {
     if (error) {
@@ -1141,24 +993,6 @@ app.get('/get-current-score', function (req, res) {
 });
 
 app.get('/get-goal', function (req, res) {
-
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
-  // const connection = mysql.createConnection({
-  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-  //   port: 3306,
-  //   user: 'admin',
-  //   password: '50percentgreener',
-  //   database: 'accounts'
-  // });
 
   console.log("USER: " + currentUser);
   connection.query('SELECT goal FROM user WHERE username = ?', [currentUser], function (error, results) {
