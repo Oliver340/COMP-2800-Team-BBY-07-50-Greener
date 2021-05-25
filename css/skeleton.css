@@ -115,3 +115,7 @@ a{
 		margin: 15%;
 	}
 }
+
+.mandatory {
+	color: red;
+}
