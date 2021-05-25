@@ -62,9 +62,9 @@ $(function () {
         let points = e.target.nextSibling.innerHTML;
         let onlyPoints = parseInt(points);
         if (checkedElement == true) {
-            setWaterScore(onlyPoints);
-        } else {
             setWaterScore(onlyPoints * -1);
+        } else {
+            setWaterScore(onlyPoints);
         }
     });
     $('#food').on("click", '.check', function(e){
@@ -72,9 +72,9 @@ $(function () {
         let points = e.target.nextSibling.innerHTML;
         let onlyPoints = parseInt(points);
         if (checkedElement == true) {
-            setFoodScore(onlyPoints);
-        } else {
             setFoodScore(onlyPoints * -1);
+        } else {
+            setFoodScore(onlyPoints);
         }
     });
     $('#commute').on("click", '.check', function(e){
@@ -82,9 +82,9 @@ $(function () {
         let points = e.target.nextSibling.innerHTML;
         let onlyPoints = parseInt(points);
         if (checkedElement == true) {
-            setCommuteScore(onlyPoints);
-        } else {
             setCommuteScore(onlyPoints * -1);
+        } else {
+            setCommuteScore(onlyPoints);
         }
     });
     $('#home').on("click", '.check', function(e){
@@ -92,9 +92,9 @@ $(function () {
         let points = e.target.nextSibling.innerHTML;
         let onlyPoints = parseInt(points);
         if (checkedElement == true) {
-            setHomeScore(onlyPoints);
-        } else {
             setHomeScore(onlyPoints * -1);
+        } else {
+            setHomeScore(onlyPoints);
         }
     });
 
@@ -176,6 +176,9 @@ function animate() {
     console.log(goal);
     if (currentscore != 0 && goal != 0) {
         var percentComplete = goal / currentscore;
+        if (percentComplete >= 1) {
+            percentComplete = 1;
+        }
         console.log("%: " + percentComplete);
         line.animate(percentComplete);
     } else {
