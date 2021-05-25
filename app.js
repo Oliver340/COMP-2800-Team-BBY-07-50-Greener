@@ -834,64 +834,134 @@ function insertUser(username, firstName, lastName, pwd, callback) {
 
 }
 
-// app.post('/set-old-score', function (req, res) {
-//   console.log("setting score");
-//   res.setHeader('Content-Type', 'application/json');
-
-//   connection.query('UPDATE user SET oldScore = ?, currentscore = ?, transportscore = ?, waterscore = ?, homescore = ?, foodscore = ? WHERE username = ?',
-//     [req.body.score, req.body.score, req.body.tScore, req.body.wScore, req.body.hScore, req.body.fScore, currentUser],
-//     function (error, results, fields) {
-//       if (error) {
-//         throw error;
-//       }
-
-//       res.send({
-//         status: "success",
-//         msg: "Score updated."
-//       });
-
-//     });
-//   // connection.end();
-
-// });
-
-
-
 app.post('/set-old-score', function (req, res) {
   console.log("setting score");
   res.setHeader('Content-Type', 'application/json');
 
-  let newscore, newwaterscore;
+  connection.query('UPDATE user SET oldScore = ?, currentscore = ?, transportscore = ?, waterscore = ?, homescore = ?, foodscore = ? WHERE username = ?',
+    [req.body.score, req.body.score, req.body.tScore, req.body.wScore, req.body.hScore, req.body.fScore, currentUser],
+    function (error, results, fields) {
+      if (error) {
+        throw error;
+      }
+
+      res.send({
+        status: "success",
+        msg: "Score updated."
+      });
+
+    });
+  // connection.end();
+
+});
+
+app.post('/update-water', function (req, res) {
+  console.log("updating score from challenges");
+  res.setHeader('Content-Type', 'application/json');
 
   connection.query('SELECT currentscore, waterscore FROM user WHERE username = ?', [currentUser], function (error, results) {
     if (error) {
       throw error;
     }
-    newscore = parseInt(results[0].currentscore) + parseInt(req.body.wscore);
-    newwaterscore = parseInt(results[0].waterscore) + parseInt(req.body.wscore);
-    console.log('Rows returned are: ', results);
-    console.log("New current score: " + newscore + " new waterscore:" + newwaterscore);
+    let newscore = parseInt(results[0].currentscore) + parseInt(req.body.wscore);
+    let newwaterscore = parseInt(results[0].waterscore) + parseInt(req.body.wscore);
+
+    connection.query('UPDATE user SET currentscore = ?, waterscore = ? WHERE username = ?',
+      [newscore, newwaterscore, currentUser],
+      function (error, results, fields) {
+        if (error) {
+          throw error;
+        }
+
+        res.send({
+          status: "success",
+          msg: "Score updated."
+        });
+
+      });
   });
-
-
-  // connection.query('UPDATE user SET currentscore = ?, waterscore = ? WHERE username = ?',
-  //   [req.body.wscore + data.currentscore, req.body.fScore, currentUser],
-  //   function (error, results, fields) {
-  //     if (error) {
-  //       throw error;
-  //     }
-
-  //     res.send({
-  //       status: "success",
-  //       msg: "Score updated."
-  //     });
-
-  //   });
-  // connection.end();
-
 });
 
+app.post('/update-food', function (req, res) {
+  console.log("updating score from challenges");
+  res.setHeader('Content-Type', 'application/json');
 
+  connection.query('SELECT currentscore, foodscore FROM user WHERE username = ?', [currentUser], function (error, results) {
+    if (error) {
+      throw error;
+    }
+    let newscore = parseInt(results[0].currentscore) + parseInt(req.body.fscore);
+    let newfoodscore = parseInt(results[0].foodscore) + parseInt(req.body.fscore);
+
+    connection.query('UPDATE user SET currentscore = ?, foodscore = ? WHERE username = ?',
+      [newscore, newfoodscore, currentUser],
+      function (error, results, fields) {
+        if (error) {
+          throw error;
+        }
+
+        res.send({
+          status: "success",
+          msg: "Score updated."
+        });
+
+      });
+  });
+});
+
+app.post('/update-transport', function (req, res) {
+  console.log("updating score from challenges");
+  res.setHeader('Content-Type', 'application/json');
+
+  connection.query('SELECT currentscore, transportscore FROM user WHERE username = ?', [currentUser], function (error, results) {
+    if (error) {
+      throw error;
+    }
+    let newscore = parseInt(results[0].currentscore) + parseInt(req.body.tscore);
+    let newtransportscore = parseInt(results[0].transportscore) + parseInt(req.body.tscore);
+
+    connection.query('UPDATE user SET currentscore = ?, transportscore = ? WHERE username = ?',
+      [newscore, newtransportscore, currentUser],
+      function (error, results, fields) {
+        if (error) {
+          throw error;
+        }
+
+        res.send({
+          status: "success",
+          msg: "Score updated."
+        });
+
+      });
+  });
+});
+
+app.post('/update-home', function (req, res) {
+  console.log("updating score from challenges");
+  res.setHeader('Content-Type', 'application/json');
+
+  connection.query('SELECT currentscore, homescore FROM user WHERE username = ?', [currentUser], function (error, results) {
+    if (error) {
+      throw error;
+    }
+    let newscore = parseInt(results[0].currentscore) + parseInt(req.body.hscore);
+    let newhomescore = parseInt(results[0].homescore) + parseInt(req.body.hscore);
+
+    connection.query('UPDATE user SET currentscore = ?, homescore = ? WHERE username = ?',
+      [newscore, newhomescore, currentUser],
+      function (error, results, fields) {
+        if (error) {
+          throw error;
+        }
+
+        res.send({
+          status: "success",
+          msg: "Score updated."
+        });
+
+      });
+  });
+});
 
 
 app.get('/get-old-score', function (req, res) {
