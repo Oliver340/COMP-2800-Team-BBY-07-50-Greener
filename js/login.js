@@ -50,21 +50,25 @@ function onSignIn(googleUser) {
   xhr.open('POST', '/authenticategoogle');
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.onload = function () {
-    console.log('Sign in: ' + xhr.responseText);
-    goMain();
-    signOut();
+
+    // https://stackoverflow.com/questions/24546483/how-to-get-data-field-from-xhr-responsetext/37785293
+    // How to get data from xhr responseText - Answered Jul 3 '14 at 6:35 by Sudhir Bastakoti
+    var resdata = xhr.responseText;
+    var authenticateText = JSON.parse(resdata);
+    console.log('Sign in: ' + authenticateText['msg']);
+
+    if (authenticateText['msg'] == "Logged in") {
+      goMain();
+      signOut();
+    } else {
+      goSurvey();
+      signOut();
+    }
   };
   xhr.send(JSON.stringify({
     token: id_token
   }));
 };
-
-function signOut() {
-  var auth2 = gapi.auth2.getAuthInstance();
-  auth2.signOut().then(function () {
-    console.log('User signed out.');
-  });
-}
 
 function goMain() {
   $.ajax({
@@ -79,6 +83,39 @@ function goMain() {
 
       if (document.getElementById("mainpage-identifier") != null) {
         changePage();
+      } else {
+        console.log("redirect");
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      $("#content").text(jqXHR.statusText);
+      console.log("ERROR:", jqXHR, textStatus, errorThrown);
+    }
+  });
+}
+
+
+// Google signout function
+function signOut() {
+  var auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
+    console.log('User signed out.');
+  });
+}
+
+function goSurvey() {
+  $.ajax({
+    url: "/survey-intro",
+    dataType: "html",
+    type: "GET",
+    data: {
+      format: "survey-intro"
+    },
+    success: function (data) {
+      document.documentElement.innerHTML = data;
+
+      if (document.getElementById("survey-intro-identifier") != null) {
+        changeToSurveyPage();
       } else {
         console.log("redirect");
       }
@@ -131,5 +168,7 @@ function changePage() {
     document.getElementById('client-script').replaceWith(script2);
   }
   document.getElementById('jquery-script').replaceWith(script1);
+  var temp7 = '<script id="tweet-script" async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
+  $("#tweet-script").replaceWith(temp7);
 
 }

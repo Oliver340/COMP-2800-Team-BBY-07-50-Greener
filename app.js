@@ -70,7 +70,7 @@ async function initDB() {
   const mysql = require('mysql2/promise');
 
   // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  const connection = await mysql.createConnection({
+  var connection = await mysql.createPool({
     host: 'localhost',
     port: 3306,
     user: 'root',
@@ -79,7 +79,7 @@ async function initDB() {
   });
 
   // THIS IS FOR LIVE SERVER
-  // const connection = await mysql.createConnection({
+  // var connection = await mysql.createPool({
   //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
   //   port: 3306,
   //   user: 'admin',
@@ -88,7 +88,6 @@ async function initDB() {
   // });
 
   const createDBAndTables = `CREATE DATABASE IF NOT EXISTS accounts;
-        use accounts;
         CREATE TABLE IF NOT EXISTS user (
         ID int NOT NULL AUTO_INCREMENT,
         username varchar(30),
@@ -105,7 +104,7 @@ async function initDB() {
         email varchar(50),
         PRIMARY KEY (ID));`;
 
-  await connection.query(createDBAndTables);
+  await connection.getConnection(createDBAndTables);
   // connection.end();
 }
 
@@ -627,7 +626,7 @@ app.post('/authenticate', [
   });
 
 // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-const connection = mysql.createConnection({
+var connection = mysql.createPool({
   host: 'localhost',
   port: 3306,
   user: 'root',
@@ -636,7 +635,7 @@ const connection = mysql.createConnection({
 });
 
 // THIS IS FOR LIVE SERVER
-// const connection = mysql.createConnection({
+// var connection = mysql.createPool({
 //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
 //   port: 3306,
 //   user: 'admin',
@@ -644,15 +643,11 @@ const connection = mysql.createConnection({
 //   database: 'accounts'
 // });
 
-// connection.connect();
-
 app.post('/authenticategoogle', function (req, res) {
-  console.log("authentication");
-  connection.connect();
+  console.log("authentication by google");
   res.setHeader('Content-Type', 'application/json');
 
   let token = req.body.token;
-  console.log(token);
 
   async function verify() {
     const ticket = await client.verifyIdToken({
@@ -665,19 +660,13 @@ app.post('/authenticategoogle', function (req, res) {
     const firstname = payload['given_name'];
     const lastname = payload['family_name'];
 
-    console.log(payload);
-    console.log(userid);
-    console.log(firstname);
-    console.log(lastname);
-    console.log(email);
-
     let results = authenticate(email, userid,
       function (rows) {
         if (rows == null) {
 
           insertUser(email, firstname, lastname, userid,
-            function (rows) {
-              currentUser = rows.firstname;
+            function () {
+              currentUser = email;
               req.session.loggedIn = true;
               req.session.save(function (err) { });
             });
@@ -686,13 +675,13 @@ app.post('/authenticategoogle', function (req, res) {
             msg: "Added new user"
           });
         } else {
-          currentUser = rows.firstName;
+          currentUser = rows.username;
           req.session.loggedIn = true;
           req.session.name = rows.firstName;
           req.session.save(function (err) { })
           res.send({
             status: "success",
-            msg: "Logged in."
+            msg: "Logged in"
           });
         }
       });
@@ -700,30 +689,7 @@ app.post('/authenticategoogle', function (req, res) {
   verify().catch(console.error);
 });
 
-// // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-// const connection2 = mysql.createConnection({
-//   host: 'localhost',
-//   port: 3306,
-//   user: 'root',
-//   password: '',
-//   database: 'accounts'
-// });
-
-// // THIS IS FOR LIVE SERVER
-// // const connection2 = mysql.createConnection({
-// //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-// //   port: 3306,
-// //   user: 'admin',
-// //   password: '50percentgreener',
-// //   database: 'accounts'
-// // });
-
-// connection2.connect();
-
-
-
 function authenticate(username, pwd, callback) {
-
   connection.query(
     "SELECT * FROM user WHERE username = ? AND password = ?", [username, pwd],
     function (error, results) {
@@ -742,7 +708,6 @@ function authenticate(username, pwd, callback) {
 }
 
 app.post('/newUser', function (req, res) {
-  connection.connect();
   console.log("new user");
   res.setHeader('Content-Type', 'application/json');
 
@@ -769,24 +734,6 @@ app.post('/newUser', function (req, res) {
 
 
 function insertUser(username, firstName, lastName, pwd, callback) {
-
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
-  // const connection = mysql.createConnection({
-  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-  //   port: 3306,
-  //   user: 'admin',
-  //   password: '50percentgreener',
-  //   database: 'accounts'
-  // });
 
   connection.query(
     "SELECT * FROM user WHERE username = ?", [username],
@@ -829,26 +776,7 @@ app.post('/set-old-score', function (req, res) {
   console.log("setting score");
   res.setHeader('Content-Type', 'application/json');
 
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
-  // const connection = mysql.createConnection({
-  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-  //   port: 3306,
-  //   user: 'admin',
-  //   password: '50percentgreener',
-  //   database: 'accounts'
-  // });
-
-
-  connection2.query('UPDATE user SET oldScore = ?, currentscore = ?, transportscore = ?, waterscore = ?, homescore = ?, foodscore = ? WHERE username = ?',
+  connection.query('UPDATE user SET oldScore = ?, currentscore = ?, transportscore = ?, waterscore = ?, homescore = ?, foodscore = ? WHERE username = ?',
     [req.body.score, req.body.score, req.body.tScore, req.body.wScore, req.body.hScore, req.body.fScore, currentUser],
     function (error, results, fields) {
       if (error) {
@@ -867,25 +795,6 @@ app.post('/set-old-score', function (req, res) {
 
 app.get('/get-old-score', function (req, res) {
 
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
-  // const connection = mysql.createConnection({
-  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-  //   port: 3306,
-  //   user: 'admin',
-  //   password: '50percentgreener',
-  //   database: 'accounts'
-  // });
-
-
   console.log("USER: " + currentUser);
   connection.query('SELECT oldscore FROM user WHERE username = ?', [currentUser], function (error, results) {
     if (error) {
@@ -899,24 +808,6 @@ app.get('/get-old-score', function (req, res) {
 
 app.post('/update-goal', function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
-  // const connection = mysql.createConnection({
-  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-  //   port: 3306,
-  //   user: 'admin',
-  //   password: '50percentgreener',
-  //   database: 'accounts'
-  // });
 
   console.log("Data sent to db: " + req.body.userGoal);
   connection.query('UPDATE user SET goal = ? WHERE username = ?',
@@ -961,26 +852,6 @@ app.post('/changeUsername', function (req, res) {
 
 function changeUser(newUsername, callback) {
 
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
-  // const connection = mysql.createConnection({
-  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-  //   port: 3306,
-  //   user: 'admin',
-  //   password: '50percentgreener',
-  //   database: 'accounts'
-  // });
-
-
-
   connection.query(
     "SELECT * FROM user WHERE username = ?", [newUsername],
     function (error, results) {
@@ -1020,26 +891,6 @@ function changeUser(newUsername, callback) {
 app.post('/changePassword', function (req, res) {
 
   res.setHeader('Content-Type', 'application/json');
-
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
-  // const connection = mysql.createConnection({
-  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-  //   port: 3306,
-  //   user: 'admin',
-  //   password: '50percentgreener',
-  //   database: 'accounts'
-  // });
-
-
 
   connection.query('UPDATE user SET password = ? WHERE username = ?',
     [req.body.changePassword, currentUser],
@@ -1081,26 +932,6 @@ app.post('/deleteUser', function (req, res) {
 
 function deleteUser(username, password, callback) {
 
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
-  // const connection = mysql.createConnection({
-  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-  //   port: 3306,
-  //   user: 'admin',
-  //   password: '50percentgreener',
-  //   database: 'accounts'
-  // });
-
-
-
   connection.query(
     "SELECT * FROM user WHERE username = ? AND password = ?", [username, password],
     function (error, results) {
@@ -1127,25 +958,6 @@ function deleteUser(username, password, callback) {
 
 app.get('/get-current-score', function (req, res) {
 
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
-  // const connection = mysql.createConnection({
-  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-  //   port: 3306,
-  //   user: 'admin',
-  //   password: '50percentgreener',
-  //   database: 'accounts'
-  // });
-
-
   console.log("USER: " + currentUser);
   connection.query('SELECT currentscore FROM user WHERE username = ?', [currentUser], function (error, results) {
     if (error) {
@@ -1158,24 +970,6 @@ app.get('/get-current-score', function (req, res) {
 });
 
 app.get('/get-goal', function (req, res) {
-
-  // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  // const connection = mysql.createConnection({
-  //   host: 'localhost',
-  //   port: 3306,
-  //   user: 'root',
-  //   password: '',
-  //   database: 'accounts'
-  // });
-
-  // THIS IS FOR LIVE SERVER
-  // const connection = mysql.createConnection({
-  //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
-  //   port: 3306,
-  //   user: 'admin',
-  //   password: '50percentgreener',
-  //   database: 'accounts'
-  // });
 
   console.log("USER: " + currentUser);
   connection.query('SELECT goal FROM user WHERE username = ?', [currentUser], function (error, results) {
