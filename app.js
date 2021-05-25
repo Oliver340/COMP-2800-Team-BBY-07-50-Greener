@@ -8,7 +8,10 @@ const {
   JSDOM
 } = require('jsdom');
 const cors = require('cors');
-const { check, validationResult } = require('express-validator');
+const {
+  check,
+  validationResult
+} = require('express-validator');
 
 app.use('/js', express.static('js'));
 app.use('/css', express.static('css'));
@@ -68,7 +71,7 @@ async function initDB() {
   const mysql = require('mysql2/promise');
 
   // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-  var connection = await mysql.createPool({
+  var connection = await mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
@@ -77,7 +80,7 @@ async function initDB() {
   });
 
   // THIS IS FOR LIVE SERVER
-  // var connection = await mysql.createPool({
+  // var connection = await mysql.createConnection({
   //   host: 'aa1epf9tbswcoc5.cochyvrjmhpf.us-west-2.rds.amazonaws.com',
   //   port: 3306,
   //   user: 'admin',
@@ -86,6 +89,7 @@ async function initDB() {
   // });
 
   const createDBAndTables = `CREATE DATABASE IF NOT EXISTS accounts;
+        use accounts;
         CREATE TABLE IF NOT EXISTS user (
         ID int NOT NULL AUTO_INCREMENT,
         username varchar(30),
@@ -102,8 +106,10 @@ async function initDB() {
         email varchar(50),
         PRIMARY KEY (ID));`;
 
-  await connection.getConnection(createDBAndTables);
+  await connection.query(createDBAndTables);
+
   // connection.end();
+
 }
 
 app.get('/mainpage', function (req, res) {
@@ -627,15 +633,14 @@ app.use(express.urlencoded({
 var currentUser;
 
 app.post('/authenticate', [
-  check('loginUsername').trim().escape().notEmpty().withMessage("Enter username"),
-  check('loginPassword').trim().escape().notEmpty().withMessage("Enter password"),
-],
+    check('loginUsername').trim().escape().notEmpty().withMessage("Enter username"),
+    check('loginPassword').trim().escape().notEmpty().withMessage("Enter password"),
+  ],
   function (req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).jsonp(errors.array());
     } else {
-      connection.connect();
       console.log("authentication");
       res.setHeader('Content-Type', 'application/json');
       let results = authenticate(req.body.loginUsername, req.body.loginPassword,
@@ -649,7 +654,7 @@ app.post('/authenticate', [
             currentUser = req.body.loginUsername;
             req.session.loggedIn = true;
             req.session.name = rows.firstName;
-            req.session.save(function (err) { })
+            req.session.save(function (err) {})
             res.send({
               status: "success",
               msg: "Logged in."
@@ -665,7 +670,9 @@ var connection = mysql.createPool({
   port: 3306,
   user: 'root',
   password: '',
-  database: 'accounts'
+  database: 'accounts',
+  connectionLimit: 10,
+  queueLimit: 0
 });
 
 // THIS IS FOR LIVE SERVER
@@ -674,7 +681,9 @@ var connection = mysql.createPool({
 //   port: 3306,
 //   user: 'admin',
 //   password: '50percentgreener',
-//   database: 'accounts'
+//   database: 'accounts',
+//   connectionLimit: 10,
+//   queueLimit: 0
 // });
 
 app.post('/authenticategoogle', function (req, res) {
@@ -702,7 +711,7 @@ app.post('/authenticategoogle', function (req, res) {
             function () {
               currentUser = email;
               req.session.loggedIn = true;
-              req.session.save(function (err) { });
+              req.session.save(function (err) {});
             });
           res.send({
             status: "success",
@@ -712,7 +721,7 @@ app.post('/authenticategoogle', function (req, res) {
           currentUser = rows.username;
           req.session.loggedIn = true;
           req.session.name = rows.firstName;
-          req.session.save(function (err) { })
+          req.session.save(function (err) {})
           res.send({
             status: "success",
             msg: "Logged in"
@@ -742,11 +751,22 @@ function authenticate(username, pwd, callback) {
 }
 
 app.post('/newUser', [
-  check('signupUsername').trim().escape().notEmpty().withMessage("Enter username").isLength({ min: 3, max: 20 }).withMessage("Username must be between 3-20 characters").isAlphanumeric().withMessage("Username can only contain letters/numbers"),
-  check('signupFirstName').trim().escape().notEmpty().withMessage("Enter first name").isLength({ min: 3, max: 20 }).withMessage("First name must be between 3-20 characters").isAlpha().withMessage("First name can only contain letters"),
-  check('signupLastName').trim().escape().notEmpty().withMessage("Enter last name").isLength({ min: 3, max: 20 }).withMessage("Last name must be between 3-20 characters").isAlpha().withMessage("Last name can only contain letters"),
-  check('signupPassword').trim().escape().notEmpty().withMessage("Enter password").isLength({ min: 6 }).withMessage("Password must contain at least 6 characters"),
-],
+    check('signupUsername').trim().escape().notEmpty().withMessage("Enter username").isLength({
+      min: 3,
+      max: 20
+    }).withMessage("Username must be between 3-20 characters").isAlphanumeric().withMessage("Username can only contain letters/numbers"),
+    check('signupFirstName').trim().escape().notEmpty().withMessage("Enter first name").isLength({
+      min: 3,
+      max: 20
+    }).withMessage("First name must be between 3-20 characters").isAlpha().withMessage("First name can only contain letters"),
+    check('signupLastName').trim().escape().notEmpty().withMessage("Enter last name").isLength({
+      min: 3,
+      max: 20
+    }).withMessage("Last name must be between 3-20 characters").isAlpha().withMessage("Last name can only contain letters"),
+    check('signupPassword').trim().escape().notEmpty().withMessage("Enter password").isLength({
+      min: 6
+    }).withMessage("Password must contain at least 6 characters"),
+  ],
   function (req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -765,7 +785,7 @@ app.post('/newUser', [
             currentUser = req.body.signupUsername;
             req.session.loggedIn = true;
             req.session.name = rows.firstName;
-            req.session.save(function (err) { })
+            req.session.save(function (err) {})
             res.send({
               status: "success",
               msg: "Signed up."
@@ -833,6 +853,7 @@ app.post('/set-old-score', function (req, res) {
 
     });
   // connection.end();
+
 });
 
 
@@ -847,6 +868,7 @@ app.get('/get-old-score', function (req, res) {
     res.send(results);
   });
   // connection.end();
+
 });
 
 app.post('/update-goal', function (req, res) {
@@ -867,10 +889,14 @@ app.post('/update-goal', function (req, res) {
 
     });
   // connection.end();
+
 });
 
 app.post('/changeUsername', [
-  check('changeUsername').trim().escape().notEmpty().withMessage("Enter username").isLength({ min: 3, max: 20 }).withMessage("Username must be between 3-20 characters").isAlphanumeric().withMessage("Username can only contain letters/numbers"),
+  check('changeUsername').trim().escape().notEmpty().withMessage("Enter username").isLength({
+    min: 3,
+    max: 20
+  }).withMessage("Username must be between 3-20 characters").isAlphanumeric().withMessage("Username can only contain letters/numbers"),
 ], function (req, res) {
 
   const errors = validationResult(req);
@@ -939,7 +965,9 @@ function changeUser(newUsername, callback) {
 }
 
 app.post('/changePassword', [
-  check('changePassword').trim().escape().notEmpty().withMessage("Enter password").isLength({ min: 6 }).withMessage("Password must contain at least 6 characters"),
+  check('changePassword').trim().escape().notEmpty().withMessage("Enter password").isLength({
+    min: 6
+  }).withMessage("Password must contain at least 6 characters"),
 ], function (req, res) {
 
   const errors = validationResult(req);
@@ -947,19 +975,19 @@ app.post('/changePassword', [
     return res.status(422).jsonp(errors.array());
   } else {
 
-  res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Type', 'application/json');
 
-  connection.query('UPDATE user SET password = ? WHERE username = ?',
-    [req.body.changePassword, currentUser],
-    function (error, results) {
-      if (error) {
-        throw error;
-      }
-      res.send({
-        status: "success",
-        msg: "Password updated."
+    connection.query('UPDATE user SET password = ? WHERE username = ?',
+      [req.body.changePassword, currentUser],
+      function (error, results) {
+        if (error) {
+          throw error;
+        }
+        res.send({
+          status: "success",
+          msg: "Password updated."
+        });
       });
-    });
   }
 });
 
@@ -1024,6 +1052,7 @@ app.get('/get-current-score', function (req, res) {
     res.send(results);
   });
   // connection.end();
+
 });
 
 app.get('/get-goal', function (req, res) {
@@ -1037,10 +1066,10 @@ app.get('/get-goal', function (req, res) {
     res.send(results);
   });
   // connection.end();
+
 });
 
 app.get('/logout', function (req, res) {
-  // connection.end();
   req.session.destroy(function (error) {
     if (error) {
       console.log(error);
