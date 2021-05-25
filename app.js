@@ -834,26 +834,64 @@ function insertUser(username, firstName, lastName, pwd, callback) {
 
 }
 
+// app.post('/set-old-score', function (req, res) {
+//   console.log("setting score");
+//   res.setHeader('Content-Type', 'application/json');
+
+//   connection.query('UPDATE user SET oldScore = ?, currentscore = ?, transportscore = ?, waterscore = ?, homescore = ?, foodscore = ? WHERE username = ?',
+//     [req.body.score, req.body.score, req.body.tScore, req.body.wScore, req.body.hScore, req.body.fScore, currentUser],
+//     function (error, results, fields) {
+//       if (error) {
+//         throw error;
+//       }
+
+//       res.send({
+//         status: "success",
+//         msg: "Score updated."
+//       });
+
+//     });
+//   // connection.end();
+
+// });
+
+
+
 app.post('/set-old-score', function (req, res) {
   console.log("setting score");
   res.setHeader('Content-Type', 'application/json');
 
-  connection.query('UPDATE user SET oldScore = ?, currentscore = ?, transportscore = ?, waterscore = ?, homescore = ?, foodscore = ? WHERE username = ?',
-    [req.body.score, req.body.score, req.body.tScore, req.body.wScore, req.body.hScore, req.body.fScore, currentUser],
-    function (error, results, fields) {
-      if (error) {
-        throw error;
-      }
+  let newscore, newwaterscore;
 
-      res.send({
-        status: "success",
-        msg: "Score updated."
-      });
+  connection.query('SELECT currentscore, waterscore FROM user WHERE username = ?', [currentUser], function (error, results) {
+    if (error) {
+      throw error;
+    }
+    newscore = parseInt(results[0].currentscore) + parseInt(req.body.wscore);
+    newwaterscore = parseInt(results[0].waterscore) + parseInt(req.body.wscore);
+    console.log('Rows returned are: ', results);
+    console.log("New current score: " + newscore + " new waterscore:" + newwaterscore);
+  });
 
-    });
+
+  // connection.query('UPDATE user SET currentscore = ?, waterscore = ? WHERE username = ?',
+  //   [req.body.wscore + data.currentscore, req.body.fScore, currentUser],
+  //   function (error, results, fields) {
+  //     if (error) {
+  //       throw error;
+  //     }
+
+  //     res.send({
+  //       status: "success",
+  //       msg: "Score updated."
+  //     });
+
+  //   });
   // connection.end();
 
 });
+
+
 
 
 app.get('/get-old-score', function (req, res) {
