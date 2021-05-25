@@ -176,6 +176,36 @@ app.get('/get-breakdown-food', function (req, res) {
   });
 });
 
+app.get('/get-Average', function (req, res) {
+  connection.query('SELECT AVG(currentscore) AS average FROM user', function (error, results) {
+    if (error) {
+      throw error;
+    }
+    console.log('Rows returned are: ', results);
+    res.send(results);
+  });
+});
+
+app.get('/get-Minimum', function (req, res) {
+  connection.query('SELECT MIN(currentscore) AS minimum FROM user', function (error, results) {
+    if (error) {
+      throw error;
+    }
+    console.log('Rows returned are: ', results);
+    res.send(results);
+  });
+});
+
+app.get('/get-Maximum', function (req, res) {
+  connection.query('SELECT MAX(currentscore) AS maximum FROM user', function (error, results) {
+    if (error) {
+      throw error;
+    }
+    console.log('Rows returned are: ', results);
+    res.send(results);
+  });
+});
+
 app.get('/signup', function (req, res) {
   let skeleton = fs.readFileSync('./html/skeleton.html', "utf8");
   let skeletonDOM = new JSDOM(skeleton);
