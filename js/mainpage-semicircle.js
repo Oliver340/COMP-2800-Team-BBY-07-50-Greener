@@ -77,6 +77,7 @@ function getCurrentScore() {
             console.log("current score " + data[0].currentscore);
             if (data != null) {
                 currentscore = data[0].currentscore;
+                $("#carbon-score").html("Carbon Score: " + currentscore);
                 calculate();
             } else {
                 currentscore = 0;
