@@ -108,7 +108,7 @@ async function initDB() {
 
   await connection.query(createDBAndTables);
 
-  // connection.end();
+  await connection.end();
 
 }
 
@@ -173,6 +173,36 @@ app.get('/get-breakdown-food', function (req, res) {
       throw error;
     }
     res.send(foodscore);
+  });
+});
+
+app.get('/get-Average', function (req, res) {
+  connection.query('SELECT AVG(currentscore) AS average FROM user', function (error, results) {
+    if (error) {
+      throw error;
+    }
+    console.log('Rows returned are: ', results);
+    res.send(results);
+  });
+});
+
+app.get('/get-Minimum', function (req, res) {
+  connection.query('SELECT MIN(currentscore) AS minimum FROM user', function (error, results) {
+    if (error) {
+      throw error;
+    }
+    console.log('Rows returned are: ', results);
+    res.send(results);
+  });
+});
+
+app.get('/get-Maximum', function (req, res) {
+  connection.query('SELECT MAX(currentscore) AS maximum FROM user', function (error, results) {
+    if (error) {
+      throw error;
+    }
+    console.log('Rows returned are: ', results);
+    res.send(results);
   });
 });
 
@@ -665,7 +695,7 @@ app.post('/authenticate', [
   });
 
 // THIS IS FOR LOCAL TESTING / DEVELOPMENT
-const connection = mysql.createPool({
+var connection = mysql.createPool({
   host: 'localhost',
   port: 3306,
   user: 'root',
@@ -821,7 +851,6 @@ function insertUser(username, firstName, lastName, pwd, callback) {
                 if (error) {
                   throw error;
                 }
-    
                 if (results.length > 0) {
                   return callback(results[0]);
                 } else {
@@ -829,7 +858,6 @@ function insertUser(username, firstName, lastName, pwd, callback) {
                 }
               });
           });
-        
       }
 
     });
@@ -855,6 +883,114 @@ app.post('/set-old-score', function (req, res) {
     });
   // connection.end();
 
+});
+
+app.post('/update-water', function (req, res) {
+  console.log("updating score from challenges");
+  res.setHeader('Content-Type', 'application/json');
+
+  connection.query('SELECT currentscore, waterscore FROM user WHERE username = ?', [currentUser], function (error, results) {
+    if (error) {
+      throw error;
+    }
+    let newscore = parseInt(results[0].currentscore) + parseInt(req.body.wscore);
+    let newwaterscore = parseInt(results[0].waterscore) + parseInt(req.body.wscore);
+
+    connection.query('UPDATE user SET currentscore = ?, waterscore = ? WHERE username = ?',
+      [newscore, newwaterscore, currentUser],
+      function (error, results, fields) {
+        if (error) {
+          throw error;
+        }
+
+        res.send({
+          status: "success",
+          msg: "Score updated."
+        });
+
+      });
+  });
+});
+
+app.post('/update-food', function (req, res) {
+  console.log("updating score from challenges");
+  res.setHeader('Content-Type', 'application/json');
+
+  connection.query('SELECT currentscore, foodscore FROM user WHERE username = ?', [currentUser], function (error, results) {
+    if (error) {
+      throw error;
+    }
+    let newscore = parseInt(results[0].currentscore) + parseInt(req.body.fscore);
+    let newfoodscore = parseInt(results[0].foodscore) + parseInt(req.body.fscore);
+
+    connection.query('UPDATE user SET currentscore = ?, foodscore = ? WHERE username = ?',
+      [newscore, newfoodscore, currentUser],
+      function (error, results, fields) {
+        if (error) {
+          throw error;
+        }
+
+        res.send({
+          status: "success",
+          msg: "Score updated."
+        });
+
+      });
+  });
+});
+
+app.post('/update-transport', function (req, res) {
+  console.log("updating score from challenges");
+  res.setHeader('Content-Type', 'application/json');
+
+  connection.query('SELECT currentscore, transportscore FROM user WHERE username = ?', [currentUser], function (error, results) {
+    if (error) {
+      throw error;
+    }
+    let newscore = parseInt(results[0].currentscore) + parseInt(req.body.tscore);
+    let newtransportscore = parseInt(results[0].transportscore) + parseInt(req.body.tscore);
+
+    connection.query('UPDATE user SET currentscore = ?, transportscore = ? WHERE username = ?',
+      [newscore, newtransportscore, currentUser],
+      function (error, results, fields) {
+        if (error) {
+          throw error;
+        }
+
+        res.send({
+          status: "success",
+          msg: "Score updated."
+        });
+
+      });
+  });
+});
+
+app.post('/update-home', function (req, res) {
+  console.log("updating score from challenges");
+  res.setHeader('Content-Type', 'application/json');
+
+  connection.query('SELECT currentscore, homescore FROM user WHERE username = ?', [currentUser], function (error, results) {
+    if (error) {
+      throw error;
+    }
+    let newscore = parseInt(results[0].currentscore) + parseInt(req.body.hscore);
+    let newhomescore = parseInt(results[0].homescore) + parseInt(req.body.hscore);
+
+    connection.query('UPDATE user SET currentscore = ?, homescore = ? WHERE username = ?',
+      [newscore, newhomescore, currentUser],
+      function (error, results, fields) {
+        if (error) {
+          throw error;
+        }
+
+        res.send({
+          status: "success",
+          msg: "Score updated."
+        });
+
+      });
+  });
 });
 
 

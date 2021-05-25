@@ -57,10 +57,118 @@ $(function () {
     getCurrentScore();
 
     
-
-    
+    $('#water').on("click", '.check', function(e){
+        let checkedElement = e.target.checked;
+        let points = e.target.nextSibling.innerHTML;
+        let onlyPoints = parseInt(points);
+        if (checkedElement == true) {
+            setWaterScore(onlyPoints);
+        } else {
+            setWaterScore(onlyPoints * -1);
+        }
+    });
+    $('#food').on("click", '.check', function(e){
+        let checkedElement = e.target.checked;
+        let points = e.target.nextSibling.innerHTML;
+        let onlyPoints = parseInt(points);
+        if (checkedElement == true) {
+            setFoodScore(onlyPoints);
+        } else {
+            setFoodScore(onlyPoints * -1);
+        }
+    });
+    $('#commute').on("click", '.check', function(e){
+        let checkedElement = e.target.checked;
+        let points = e.target.nextSibling.innerHTML;
+        let onlyPoints = parseInt(points);
+        if (checkedElement == true) {
+            setCommuteScore(onlyPoints);
+        } else {
+            setCommuteScore(onlyPoints * -1);
+        }
+    });
+    $('#home').on("click", '.check', function(e){
+        let checkedElement = e.target.checked;
+        let points = e.target.nextSibling.innerHTML;
+        let onlyPoints = parseInt(points);
+        if (checkedElement == true) {
+            setHomeScore(onlyPoints);
+        } else {
+            setHomeScore(onlyPoints * -1);
+        }
+    });
 
 });
+
+function setWaterScore(score) {
+    $.ajax({
+        url: "/update-water",
+        dataType: "json",
+        type: "POST",
+        data: {wscore: score},
+        success: function (data) {
+            console.log(data);
+            getCurrentScore();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR:", jqXHR, textStatus, errorThrown);
+        }
+  
+    });
+}
+
+function setFoodScore(score) {
+    $.ajax({
+        url: "/update-food",
+        dataType: "json",
+        type: "POST",
+        data: {fscore: score},
+        success: function (data) {
+            console.log(data);
+            getCurrentScore();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR:", jqXHR, textStatus, errorThrown);
+        }
+  
+    });
+}
+
+function setCommuteScore(score) {
+    $.ajax({
+        url: "/update-transport",
+        dataType: "json",
+        type: "POST",
+        data: {tscore: score},
+        success: function (data) {
+            console.log(data);
+            getCurrentScore();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR:", jqXHR, textStatus, errorThrown);
+        }
+  
+    });
+}
+
+function setHomeScore(score) {
+    $.ajax({
+        url: "/update-home",
+        dataType: "json",
+        type: "POST",
+        data: {hscore: score},
+        success: function (data) {
+            console.log(data);
+            getCurrentScore();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR:", jqXHR, textStatus, errorThrown);
+        }
+  
+    });
+}
+
+
 
 function animate() {
 
