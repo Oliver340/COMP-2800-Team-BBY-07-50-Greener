@@ -43,3 +43,9 @@ svg {
   #chart-desc {
       padding: 3%;
   }
+
+  #carbon-score{
+    color: rgb(53, 155, 63);
+    font-size: 2rem;
+    padding: 1.5% 3%;
+  }
