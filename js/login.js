@@ -123,5 +123,7 @@ function changePage() {
     document.getElementById('client-script').replaceWith(script2);
   }
   document.getElementById('jquery-script').replaceWith(script1);
+  var temp7 = '<script id="tweet-script" async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
+  $("#tweet-script").replaceWith(temp7);
 
 }
