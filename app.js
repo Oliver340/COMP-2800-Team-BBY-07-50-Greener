@@ -707,30 +707,39 @@ function authenticate(username, pwd, callback) {
 
 }
 
-app.post('/newUser', function (req, res) {
-  console.log("new user");
-  res.setHeader('Content-Type', 'application/json');
+app.post('/newUser', [
+  check('signupUsername').trim().escape().notEmpty().withMessage("Enter username").isLength({ min: 3, max: 20 }).withMessage("Username must be between 3-20 characters").isAlphanumeric().withMessage("Username can only contain letters/numbers"),
+  check('signupFirstName').trim().escape().notEmpty().withMessage("Enter first name").isLength({ min: 3, max: 20 }).withMessage("First name must be between 3-20 characters").isAlpha().withMessage("First name can only contain letters"),
+  check('signupLastName').trim().escape().notEmpty().withMessage("Enter last name").isLength({ min: 3, max: 20 }).withMessage("Last name must be between 3-20 characters").isAlpha().withMessage("Last name can only contain letters"),
+  check('signupPassword').trim().escape().notEmpty().withMessage("Enter password").isLength({ min: 6 }).withMessage("Password must contain at least 6 characters"),
+],
+  function (req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).jsonp(errors.array());
+    } else {
+      res.setHeader('Content-Type', 'application/json');
 
-  let results = insertUser(req.body.signupUsername, req.body.signupFirstName, req.body.signupLastName, req.body.signupPassword,
-    function (rows) {
-      if (rows == null) {
-        res.send({
-          status: "fail",
-          msg: "This username already exists."
+      let results = insertUser(req.body.signupUsername, req.body.signupFirstName, req.body.signupLastName, req.body.signupPassword,
+        function (rows) {
+          if (rows == null) {
+            res.send({
+              status: "fail",
+              msg: "This username already exists."
+            });
+          } else {
+            currentUser = req.body.signupUsername;
+            req.session.loggedIn = true;
+            req.session.name = rows.firstName;
+            req.session.save(function (err) { })
+            res.send({
+              status: "success",
+              msg: "Signed up."
+            });
+          }
         });
-      } else {
-        currentUser = req.body.signupUsername;
-        req.session.loggedIn = true;
-        req.session.name = rows.firstName;
-        req.session.save(function (err) { })
-        res.send({
-          status: "success",
-          msg: "Signed up."
-        });
-      }
-    });
-
-});
+    }
+  });
 
 
 function insertUser(username, firstName, lastName, pwd, callback) {
@@ -826,27 +835,34 @@ app.post('/update-goal', function (req, res) {
   // connection.end();
 });
 
-app.post('/changeUsername', function (req, res) {
+app.post('/changeUsername', [
+  check('changeUsername').trim().escape().notEmpty().withMessage("Enter username").isLength({ min: 3, max: 20 }).withMessage("Username must be between 3-20 characters").isAlphanumeric().withMessage("Username can only contain letters/numbers"),
+], function (req, res) {
 
-  res.setHeader('Content-Type', 'application/json');
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).jsonp(errors.array());
+  } else {
 
-  let results = changeUser(req.body.changeUsername,
-    function (rows) {
-      if (rows == null) {
-        res.send({
-          status: "fail",
-          msg: "This username already exists. Try another one"
-        });
-      } else {
-        currentUser = req.body.changeUsername;
+    res.setHeader('Content-Type', 'application/json');
 
-        res.send({
-          status: "success",
-          msg: "Username updated."
-        });
-      }
-    });
+    let results = changeUser(req.body.changeUsername,
+      function (rows) {
+        if (rows == null) {
+          res.send({
+            status: "fail",
+            msg: "This username already exists. Try another one"
+          });
+        } else {
+          currentUser = req.body.changeUsername;
 
+          res.send({
+            status: "success",
+            msg: "Username updated."
+          });
+        }
+      });
+  }
 });
 
 
@@ -888,7 +904,14 @@ function changeUser(newUsername, callback) {
 
 }
 
-app.post('/changePassword', function (req, res) {
+app.post('/changePassword', [
+  check('changePassword').trim().escape().notEmpty().withMessage("Enter password").isLength({ min: 6 }).withMessage("Password must contain at least 6 characters"),
+], function (req, res) {
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).jsonp(errors.array());
+  } else {
 
   res.setHeader('Content-Type', 'application/json');
 
@@ -903,7 +926,7 @@ app.post('/changePassword', function (req, res) {
         msg: "Password updated."
       });
     });
-
+  }
 });
 
 app.post('/deleteUser', function (req, res) {

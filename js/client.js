@@ -286,8 +286,17 @@ $(function () {
         }
 
       },
-      error: function (jqXHR, textStatus, errorThrown) {
-        $("#errorMsg").text(jqXHR.statusText);
+      error: function (data) {
+        $("#change-username").val("");
+        var errors = JSON.parse(data.responseText);
+        var errorsContainer = $('#user-errorMsg');
+        errorsContainer.innerHTML = '';
+        var errorsList = '';
+
+        for (var i = 0; i < errors.length; i++) {
+          errorsList += '<li>' + errors[i].msg + '</li>';
+        }
+        errorsContainer.html(errorsList);
       }
     });
 
@@ -321,8 +330,17 @@ $(function () {
         }
 
       },
-      error: function (jqXHR, textStatus, errorThrown) {
-        $("#errorMsg").text(jqXHR.statusText);
+      error: function (data) {
+        $("#change-password").val("");
+        var errors = JSON.parse(data.responseText);
+        var errorsContainer = $('#pass-errorMsg');
+        errorsContainer.innerHTML = '';
+        var errorsList = '';
+
+        for (var i = 0; i < errors.length; i++) {
+          errorsList += '<li>' + errors[i].msg + '</li>';
+        }
+        errorsContainer.html(errorsList);
       }
     });
 

@@ -119,7 +119,3 @@ a{
 .mandatory {
 	color: red;
 }
-
-input:valid {
-  border: green solid 3px;
-}
