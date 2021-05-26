@@ -119,3 +119,4 @@ It has the following subfolders and files:
 ├── tests                  # Folder for testing files
     /50 Greener tests.side       # Selenium testing file
 
+```
