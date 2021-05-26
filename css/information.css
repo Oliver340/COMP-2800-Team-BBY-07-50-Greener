@@ -5,7 +5,7 @@
 }
 
 #tabmenu span {
-    width: 45px;
+    width: 10vw;
     vertical-align: text-top;
     text-align: center;
 }
@@ -44,7 +44,11 @@
     margin: 0;
 }
 
-#water, #food, #commute, #home, #links {
+#water,
+#food,
+#commute,
+#home,
+#links {
     overflow-y: auto;
 }
 
