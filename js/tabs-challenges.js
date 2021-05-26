@@ -1,5 +1,6 @@
 var currentscore = 0;
 var goal = 0;
+var oldScore = 0;
 var line;
 
 $(function () {
@@ -168,16 +169,38 @@ function setHomeScore(score) {
 
 function animate() {
 
-    if (currentscore != 0 && goal != 0) {
-        var percentComplete = goal / currentscore;
-        if (percentComplete >= 1) {
-            percentComplete = 1;
+    if (oldScore - goal != 0) {
+        var amountToReduce = oldScore - goal;
+        var amountCurrentlyReduced = oldScore - currentscore;
+        var amountCompleted = amountCurrentlyReduced / amountToReduce;
+        if (amountCompleted >= 1) {
+            amountCompleted = 1;
         }
-        line.animate(percentComplete);
+        line.animate(amountCompleted);
     } else {
-        line.animate(0);
+        line.animate(1);
     }
 
+}
+function getOldScore() {
+    $.ajax({
+      url: "/get-old-score",
+      dataType: "json",
+      type: "GET",
+      success: function (data) {
+          data = data[0].oldscore;
+          if (data != null) {
+            oldScore = data;
+          } else {
+            oldScore = 0;
+          }
+          animate();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+          console.log("ERROR:", jqXHR, textStatus, errorThrown);
+      }
+  
+    });
 }
 
 function getCurrentScore() {
@@ -210,7 +233,7 @@ function getGoal() {
             data = data[0].goal;
             if (data != null) {
                 goal = data;
-                animate();
+                getOldScore();
             } else {
                 goal = 0;
             }
