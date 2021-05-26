@@ -18,6 +18,37 @@ Solution: 50% Greener allows users to measure their initial carbon emissions sco
 
 
 ## Features
+Features created for this project
+
+*	Landing page, with information
+*	Nav bar with logo
+*	Hamburger menu with link to about us, settings and login page
+*	Footer with link to home, challenges and information page
+*	Sign up link and login link
+*	Sign up page that uses SQL database to create an account with username, first name, last name and password (as well as data for their goal, score etc.)
+*	Sign up has requirements for fields (ex. password must contain 6 characters)
+*	Button to begin a survey and a button to skip survey to set goal after signing up
+*	Survey with fields to answer for transportation, water, home and diet that are random and taken from a pool of questions
+*	Goals page to set a goal based on user’s current score
+*	Note: up until the user completes the goal and survey links to the other pages won’t work
+*	Main page includes a button to retake the survey or skip it and set a new goal
+*	Username and score are displayed at the top
+*	A dial is displayed to compare one to the average user of the site
+*	A pie chart is displayed to show how high the user’s score is for each category
+*	A tweet button to create a tweet on twitter
+*	A share button to share with Facebook
+*	The about us page has the story of the 50% Greener team
+*	Creator icons that can be flipped to display the name and term
+*	The logo in the top right can be clicked on as the easter egg, with 10 clicks it becomes 50% greener
+*	The settings page allows the user to change their username, password or delete their account from the database
+*	The challenges page has the user’s goal and is completed by a percentage of what is left of the user’s goal is left and how much they have completed with challenges
+*	Different tabs open up challenges that are randomly taken from a pool
+*	Challenges can be completed with the click of a button and decrease the carbon score and bring one closer to the goal they set
+*	The information page has different tabs that show links and blurbs on information to learn how to reduce one’s carbon footprint
+*	The logout button on the hamburger will log you out (only displayed when logged in)
+*	The login page lets a user login through their account and remembers information on the user
+*	Ability to login through google, using the google API
+
 
 ## Technologies
 Technologies used for this project:
