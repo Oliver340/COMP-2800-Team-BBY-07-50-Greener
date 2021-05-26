@@ -65,25 +65,57 @@ It has the following subfolders and files:
     /oliver.png                 # picture of Oliver for about us page
     /victor.png                 # picture of Victor for about us page
 ├── js                     # Folder for scripts
-    /about.js                   # 
-    /challenges-populate.js     # 
-    /client.js                  # 
-    /egg.js                     # 
-    /goals.js                   # 
-    /information-populate.js    # 
-    /login.js                   # 
-    /mainpage-pie-chart.js      # 
-    /mainpage-semi-circle.js    # 
-    /signup.js                  # 
-    /survey.js                  # 
-    /tabs-challenges.js         # 
-    /tabs-information.js        # 
+    /about.js                   # functions for the about page
+    /challenges-populate.js     # functions to populate the challenges page with random challenges sorted by category
+    /client.js                  # client side functionality that contacts server side code to make app interactive
+    /egg.js                     # functions for the easter egg challenge
+    /goals.js                   # functions to set a goal
+    /information-populate.js    # functions to populate the information page with information sorted by category
+    /login.js                   # functions to login and perform user authentication
+    /mainpage-pie-chart.js      # functions for the pie chart on the home page
+    /mainpage-semi-circle.js    # functions for the semicircle chart on the home page
+    /signup.js                  # functions to sign up as a new user
+    /survey.js                  # functions for the survey
+    /tabs-challenges.js         # functions for the tabs on the challenges page
+    /tabs-information.js        # functions for the tabs on the information page
 ├── css                    # Folder for styles
-    /                           # styling of bottom navigation bar
+    /about.css                  # styling of the about us page
+    /challenges.css             # styling of the challenges page
+    /goals.css                  # styling of the goals page
+    /index.css                  # styling of the index/landing page
+    /information.css            # styling of the information page
+    /login.css                  # styling of the login page
+    /mainpage.css               # styling of the home page, once signed in
+    /settings.css               # styling of the settings page
+    /signup.css                 # styling of the signup page
+    /skeleton.css               # general styling applied to all pages
+    /survey.css                 # styling of the survey pages
 ├── html                   # Folder for html template files
-    /                           # styling of bottom navigation bar
+    /about.html                  # html template of the about us page
+    /challenges.html             # html template of the challenges page
+    /goals.html                  # html template of the goals page
+    /index.html                  # html template of the index/landing page
+    /information.html            # html template of the information page
+    /login.html                  # html template of the login page
+    /mainpage.html               # html template of the home page, once signed in
+    /settings.html               # html template of the settings page
+    /signup.html                 # html template of the signup page
+    /skeleton.html               # general html into which the templates are inserted, includes the top and bottom navbars
+    /survey-food.html            # html template of the survey diet page
+    /survey-home.html            # html template of the survey home page
+    /survey-intro.html           # html template of the survey introduction page
+    /survey-transport.html       # html template of the survey transportation page
+    /survey-water.html           # html template of the survey water page
 ├── json                   # Folder for json data files
-    /                           # styling of bottom navigation bar
+    /commute.json                # json content for transportation challenges
+    /food.json                   # json content for diet challenges
+    /home.json                   # json content for home challenges
+    /information-commute.json    # json content for tranportation information
+    /information-food.json       # json content for diet information
+    /information-home.json       # json content for home information
+    /information-links.json      # json content for information links
+    /information-water.json      # json content for water information
+    /water.json                  # json content for water challenges
 ├── tests                  # Folder for testing files
-    /                           # styling of bottom navigation bar
+    /50 Greener tests.side       # Selenium testing file
 
