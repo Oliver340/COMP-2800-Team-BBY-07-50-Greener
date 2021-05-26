@@ -64,11 +64,45 @@ Technologies used for this project:
 
 
 ## Set-up Details
-1. Item 1
-1. Item 2
-1. Item 3
-   1. Item 3a
-   1. Item 3b
+1. IDE
+    * Default Visual Studio Code 
+2. Languages Used
+    * HTML
+    * CSS
+    * JavaScript
+    * JSON
+    * SQL
+3. Libraries Used
+    1. jQuery
+        * https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js
+    2. progressbar.js
+        * https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.1.0/progressbar.min.js
+    3. charts.js
+        * https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js
+    4. Twitter API
+        * https://platform.twitter.com/widgets.js
+    5. Google API
+        * https://apis.google.com/js/platform.js
+4. Node js Modules
+    * To download nodejs go to: https://nodejs.org/en/download/
+    * Follow the setup installer using default settings.
+    * To install nodejs modules use "npm install <module name>" when you're in the root directory
+    * Please have the following nodejs modules installed (order does not matter):
+        1. Express
+        2. Express-Sessions
+        3. fs
+        4. mysql2
+        5. jsdom
+        6. cors
+        7. Express-Validator
+5. To log into AWS RDS and Elasticbean please use the following:
+    * Link: https://190569847245.signin.aws.amazon.com/console
+    * ID: 190569847245
+    * Username: aws-50greener
+    * Password: Please contact for password (not going to put a password here for security reasons)
+6. Testing Plan
+    * https://docs.google.com/spreadsheets/d/1VBIV45flaIrAe_BNfFgKvq_Vk-MQdrXEbFtzpPqwCV4/edit
+
 
 ## Content
 
