@@ -38,7 +38,10 @@ $(function () {
         trailWidth: 1,
         duration: 2000,
         easing: 'easeInOut',
-        svgStyle: {width: '100%', height: '100%'},
+        svgStyle: {
+            width: '100%',
+            height: '100%'
+        },
         text: {
             style: {
                 position: 'relative',
@@ -47,18 +50,22 @@ $(function () {
             },
             autoStyleContainer: false
         },
-        from: {color: '#FFEA82'},
-        to: {color: '#ED6A5A'},
+        from: {
+            color: '#FFEA82'
+        },
+        to: {
+            color: '#ED6A5A'
+        },
         step: (state, bar) => {
             bar.setText(Math.round(bar.value() * 100) + '% of your goal is complete');
         }
     });
-    
+
 
     getCurrentScore();
 
-    
-    $('#water').on("click", '.check', function(e){
+
+    $('#water').on("click", '.check', function (e) {
         let checkedElement = e.target.checked;
         let points = e.target.nextSibling.innerHTML;
         let onlyPoints = parseInt(points);
@@ -68,7 +75,7 @@ $(function () {
             setWaterScore(onlyPoints);
         }
     });
-    $('#food').on("click", '.check', function(e){
+    $('#food').on("click", '.check', function (e) {
         let checkedElement = e.target.checked;
         let points = e.target.nextSibling.innerHTML;
         let onlyPoints = parseInt(points);
@@ -78,7 +85,7 @@ $(function () {
             setFoodScore(onlyPoints);
         }
     });
-    $('#commute').on("click", '.check', function(e){
+    $('#commute').on("click", '.check', function (e) {
         let checkedElement = e.target.checked;
         let points = e.target.nextSibling.innerHTML;
         let onlyPoints = parseInt(points);
@@ -88,7 +95,7 @@ $(function () {
             setCommuteScore(onlyPoints);
         }
     });
-    $('#home').on("click", '.check', function(e){
+    $('#home').on("click", '.check', function (e) {
         let checkedElement = e.target.checked;
         let points = e.target.nextSibling.innerHTML;
         let onlyPoints = parseInt(points);
@@ -106,14 +113,16 @@ function setWaterScore(score) {
         url: "/update-water",
         dataType: "json",
         type: "POST",
-        data: {wscore: score},
+        data: {
+            wscore: score
+        },
         success: function (data) {
             getCurrentScore();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log("ERROR:", jqXHR, textStatus, errorThrown);
         }
-  
+
     });
 }
 
@@ -122,14 +131,16 @@ function setFoodScore(score) {
         url: "/update-food",
         dataType: "json",
         type: "POST",
-        data: {fscore: score},
+        data: {
+            fscore: score
+        },
         success: function (data) {
             getCurrentScore();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log("ERROR:", jqXHR, textStatus, errorThrown);
         }
-  
+
     });
 }
 
@@ -138,14 +149,16 @@ function setCommuteScore(score) {
         url: "/update-transport",
         dataType: "json",
         type: "POST",
-        data: {tscore: score},
+        data: {
+            tscore: score
+        },
         success: function (data) {
             getCurrentScore();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log("ERROR:", jqXHR, textStatus, errorThrown);
         }
-  
+
     });
 }
 
@@ -154,14 +167,16 @@ function setHomeScore(score) {
         url: "/update-home",
         dataType: "json",
         type: "POST",
-        data: {hscore: score},
+        data: {
+            hscore: score
+        },
         success: function (data) {
             getCurrentScore();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log("ERROR:", jqXHR, textStatus, errorThrown);
         }
-  
+
     });
 }
 
@@ -182,47 +197,48 @@ function animate() {
     }
 
 }
+
 function getOldScore() {
     $.ajax({
-      url: "/get-old-score",
-      dataType: "json",
-      type: "GET",
-      success: function (data) {
-          data = data[0].oldscore;
-          if (data != null) {
-            oldScore = data;
-          } else {
-            oldScore = 0;
-          }
-          animate();
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-          console.log("ERROR:", jqXHR, textStatus, errorThrown);
-      }
-  
+        url: "/get-old-score",
+        dataType: "json",
+        type: "GET",
+        success: function (data) {
+            data = data[0].oldscore;
+            if (data != null) {
+                oldScore = data;
+            } else {
+                oldScore = 0;
+            }
+            animate();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR:", jqXHR, textStatus, errorThrown);
+        }
+
     });
 }
 
 function getCurrentScore() {
     $.ajax({
-      url: "/get-current-score",
-      dataType: "json",
-      type: "GET",
-      success: function (data) {
-          data = data[0].currentscore;
-          if (data != null) {
-            currentscore = data;
-            getGoal();
-          } else {
-            currentscore = 0;
-          }
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-          console.log("ERROR:", jqXHR, textStatus, errorThrown);
-      }
-  
+        url: "/get-current-score",
+        dataType: "json",
+        type: "GET",
+        success: function (data) {
+            data = data[0].currentscore;
+            if (data != null) {
+                currentscore = data;
+                getGoal();
+            } else {
+                currentscore = 0;
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("ERROR:", jqXHR, textStatus, errorThrown);
+        }
+
     });
-  }
+}
 
 function getGoal() {
     $.ajax({
@@ -241,6 +257,6 @@ function getGoal() {
         error: function (jqXHR, textStatus, errorThrown) {
             console.log("ERROR:", jqXHR, textStatus, errorThrown);
         }
-    
+
     });
 }
