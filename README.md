@@ -1,5 +1,14 @@
 # 50% Greener
-## Contributors: Oliver Harrison, Victor Ly, Kyung Min Song & Avneet Sandhu
+## Contributors: 
+
+| First Name | Last Name | Student Number |
+| ---------- | --------- | -------------- |
+| Oliver     | Harrison  | A01224701      |
+| Victor     | Ly        | A00982554      |
+| Kyung Min  | Song      | A01240214      |
+| Avneet     | Sandhu    | A01256644      |
+
+Oliver Harrison, Victor Ly, Kyung Min Song & Avneet Sandhu
 
 * [General info](#general-info)
 * [Features](#features)
