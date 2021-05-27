@@ -11,7 +11,6 @@ $(function () {
     e.preventDefault();
     localStorage.setItem("score", "0");
 
-    console.log(localStorage.getItem("score"));
     
     $.ajax({
       url: "/survey-transport",
@@ -113,7 +112,6 @@ $(function () {
   $("#transport-done").on("click", function (e) {
     e.preventDefault();
     let score = Number(localStorage.getItem("score"));
-    console.log(localStorage.getItem("score"));
 
     $('input:checkbox[name=tq1]').each(function () {
       if ($(this).is(':checked'))
@@ -166,7 +164,6 @@ $(function () {
     });
 
     localStorage.setItem("score", score);
-    console.log(localStorage.getItem("score"));
 
     
         $.ajax({
@@ -219,7 +216,6 @@ $(function () {
         
         
     transportScore = score;
-    console.log("Transport Score: " + transportScore);
         
         
   });
@@ -228,7 +224,6 @@ $(function () {
   $("#water-done").on("click", function (e) {
     e.preventDefault();
     let score = Number(localStorage.getItem("score"));
-    console.log(localStorage.getItem("score"));
 
     $('input:radio[name=wq1]').each(function () {
       if ($(this).is(':checked'))
@@ -281,7 +276,6 @@ $(function () {
     });
 
     localStorage.setItem("score", score);
-    console.log(localStorage.getItem("score"));
 
     
       $.ajax({
@@ -332,7 +326,6 @@ $(function () {
       
       
     waterScore = score - transportScore;
-    console.log("Water Score: " + waterScore);
 
   });
 
@@ -393,7 +386,6 @@ $(function () {
     });
 
     localStorage.setItem("score", score);
-    console.log(localStorage.getItem("score"));
 
   
       $.ajax({
@@ -444,7 +436,6 @@ $(function () {
       
 
     homeScore = score - transportScore - waterScore;
-    console.log("Home Score: " + homeScore);
 
   });
 
@@ -504,10 +495,8 @@ $(function () {
     });
 
     localStorage.setItem("score", score);
-    console.log("Total Score: " + localStorage.getItem("score"));
 
     foodScore = score - transportScore - waterScore - homeScore;
-    console.log("Food Score: " + foodScore);
 
     setScore(Number(localStorage.getItem("score")));
 

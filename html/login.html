@@ -15,12 +15,13 @@
   <div id="login-identifier"></div>
   <div id="login-container">
     <form>
-      <label for="username">Username:</label></br>
+      <p class="mandatory">Mandatory fields marked with an *</p>
+      <label for="username"><span class="mandatory">*</span>Username:</label></br>
       <input type="text" id="login-username" name="username" placeholder="Username"></br></br>
-      <label for="password">Password:</label></br>
+      <label for="password"><span class="mandatory">*</span>Password:</label></br>
       <input type="password" id="login-password" name="password" placeholder="Password"></br>
       <div id="errorMsg"></div></br>
-      <input type="button" id="login-btn" value="Login" />
+      <input type="submit" id="login-btn" value="Login" />
     </form>
   </div>
 

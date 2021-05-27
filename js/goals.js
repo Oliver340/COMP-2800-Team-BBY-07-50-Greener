@@ -38,10 +38,8 @@ function newGoal() {
     var calculateMultiplier = (100 - slider1.value) * 0.01;
 
     getOldScore();
-    console.log("Old Score: " + oldScore);
 
     var goal = oldScore * calculateMultiplier;
-    console.log("Goal: " + goal);
 
     $("#goal-value").html(goal);
 
@@ -123,6 +121,8 @@ function changePage() {
       document.getElementById('client-script').replaceWith(script2);
   }
   document.getElementById('jquery-script').replaceWith(script1);
+  var temp7 = '<script id="tweet-script" async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
+  $("#tweet-script").replaceWith(temp7);
 
 }
 
@@ -141,7 +141,6 @@ function getOldScore() {
     dataType: "json",
     type: "GET",
     success: function (data) {
-        console.log("DATA: " + data[0].oldscore);
         data = data[0].oldscore;
         if (data != null) {
           oldScore = data;

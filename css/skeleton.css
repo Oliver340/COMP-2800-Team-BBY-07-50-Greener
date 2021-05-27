@@ -90,7 +90,7 @@ a{
 		border-radius: 15px;
 	}
 	#logo{
-		width: 25%;
+		width: 50%;
 	}
 	#hammenu{
 		display: inline-block;
@@ -114,4 +114,8 @@ a{
 		font-size: 5vw;
 		margin: 15%;
 	}
+}
+
+.mandatory {
+	color: red;
 }

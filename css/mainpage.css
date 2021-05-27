@@ -1,6 +1,7 @@
 .chartGauge {
     width: 80%;
     margin: 10vw auto;
+    text-align: center;
 } 
 
 .text {
@@ -34,11 +35,17 @@ svg {
   }
 
   #welcomeMsg {
-    color: rgb(93, 184, 102);
+    color: rgb(53, 155, 63);
     font-size: 2rem;
     padding: 1.5% 3%;
   }
 
   #chart-desc {
       padding: 3%;
+  }
+
+  #carbon-score{
+    color: rgb(53, 155, 63);
+    font-size: 2rem;
+    padding: 1.5% 3%;
   }

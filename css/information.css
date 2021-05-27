@@ -1,11 +1,11 @@
 #tabmenu {
     list-style: none;
-    margin: 0 1vw;
+    margin: 0 2vw;
     padding: 0;
 }
 
 #tabmenu span {
-    width: 45px;
+    width: 10vw;
     vertical-align: text-top;
     text-align: center;
 }
@@ -31,9 +31,9 @@
 }
 
 .tab-body {
-    margin: 0 1vw;
+    margin: 0 2vw;
     padding: 15px;
-    height: 72vh;
+    height: 71vh;
     background-color: #c8e9a7;
     border: 1px solid #5db866;
     border-radius: 0 10px 10px 10px;
@@ -44,7 +44,11 @@
     margin: 0;
 }
 
-#water, #food, #commute, #home, #links {
+#water,
+#food,
+#commute,
+#home,
+#links {
     overflow-y: auto;
 }
 

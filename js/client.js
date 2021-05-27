@@ -4,6 +4,30 @@ $(function () {
 
   $(".options").on("click", function () {
     $("#dropdowncontent").css("display", "none");
+    $("#hammenu").css("background-color", "transparent");
+  });
+
+  $(document).on("click", function (e) {
+    var container = $("#dropdown");
+    var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+    if (!container.is(e.target) && container.has(e.target).length === 0 && viewportWidth < 1000) 
+    {
+        $("#dropdowncontent").css("display", "none");
+        $("#hammenu").css("background-color", "transparent");
+    }
+  });
+  
+  window.addEventListener('resize', function () {
+    var viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+    if (viewportWidth > 1000) {
+      $("#dropdowncontent").css("display", "flex");
+      $("#dropdowncontent").css("justify-content", "space-around");
+      $("#dropdowncontent").css("align-items", "center");
+      $("#dropdowncontent").css("flex-direction", "row");
+    } else {
+      $("#dropdowncontent").css("display", "none");
+      $("#hammenu").css("background-color", "transparent");
+    }
   });
 
   $("#hammenu").on("click", function () {
@@ -11,11 +35,10 @@ $(function () {
     $("#dropdowncontent").css("justify-content", "center");
     $("#dropdowncontent").css("align-items", "center");
     $("#dropdowncontent").css("flex-direction", "column");
-  });
-
-  $("#dropdown").on("click", function () {
     $("#hammenu").css("background-color", "rgb(93, 184, 102)");
   });
+
+
 
   $("#index-signup").on("click", function () {
     $.ajax({
@@ -54,7 +77,7 @@ $(function () {
         var temp1 = "<script src='../js/login.js'></script>";
         var temp2 = "<script id='client-script' src='../js/client.js'></script>";
         var temp3 = "<script id='jquery-script' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
-        var temp4 = "<script id='google-script' src='https://apis.google.com/js/platform.js' async defer></script>";
+        var temp4 = "<script id='google-script' src='https://apis.google.com/js/platform.js'></script>";
         $("#login-script").replaceWith(temp1);
         $("#client-script").replaceWith(temp2);
         $("#jquery-script").replaceWith(temp3);
@@ -86,10 +109,12 @@ $(function () {
           var temp4 = "<script id='semicircle-script' src='../js/mainpage-semicircle.js'></script>";
           var temp5 = "<script id='piechart-script' src='../js/mainpage-pie-chart.js'></script>";
           var temp6 = "<script id='progressbar-script' src='https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.1.0/progressbar.min.js' charset='utf-8'></script>";
+          var temp7 = '<script id="tweet-script" async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
           $("#cloudflare-script").replaceWith(temp3);
           $("#semicircle-script").replaceWith(temp4);
           $("#piechart-script").replaceWith(temp5);
           $("#progressbar-script").replaceWith(temp6);
+          $("#tweet-script").replaceWith(temp7);
         } else {
           console.log("redirect");
         }
@@ -260,7 +285,10 @@ $(function () {
     });
   });
 
-  $("#change-user-save-btn").on("click", function () {
+  $("#change-user-save-btn").on("click", function (e) {
+
+    e.preventDefault();
+
     $.ajax({
       url: "/changeUsername",
       type: "POST",
@@ -281,8 +309,17 @@ $(function () {
         }
 
       },
-      error: function (jqXHR, textStatus, errorThrown) {
-        $("#errorMsg").text(jqXHR.statusText);
+      error: function (data) {
+        $("#change-username").val("");
+        var errors = JSON.parse(data.responseText);
+        var errorsContainer = $('#user-errorMsg');
+        errorsContainer.innerHTML = '';
+        var errorsList = '';
+
+        for (var i = 0; i < errors.length; i++) {
+          errorsList += '<li>' + errors[i].msg + '</li>';
+        }
+        errorsContainer.html(errorsList);
       }
     });
 
@@ -292,7 +329,10 @@ $(function () {
     $("#change-username").val("");
   });
 
-  $("#change-pass-save-btn").on("click", function () {
+  $("#change-pass-save-btn").on("click", function (e) {
+
+    e.preventDefault();
+
     $.ajax({
       url: "/changePassword",
       type: "POST",
@@ -313,8 +353,17 @@ $(function () {
         }
 
       },
-      error: function (jqXHR, textStatus, errorThrown) {
-        $("#errorMsg").text(jqXHR.statusText);
+      error: function (data) {
+        $("#change-password").val("");
+        var errors = JSON.parse(data.responseText);
+        var errorsContainer = $('#pass-errorMsg');
+        errorsContainer.innerHTML = '';
+        var errorsList = '';
+
+        for (var i = 0; i < errors.length; i++) {
+          errorsList += '<li>' + errors[i].msg + '</li>';
+        }
+        errorsContainer.html(errorsList);
       }
     });
 
@@ -324,7 +373,10 @@ $(function () {
     $("#change-password").val("");
   });
 
-  $("#delete-btn").on("click", function () {
+  $("#delete-btn").on("click", function (e) {
+
+    e.preventDefault();
+
     $.ajax({
       url: "/deleteUser",
       type: "POST",
@@ -388,9 +440,11 @@ $(function () {
         var temp1 = "<script src='../js/login.js'></script>";
         var temp2 = "<script id='client-script' src='../js/client.js'></script>";
         var temp3 = "<script id='jquery-script' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
+        var temp4 = "<script id='google-script' src='https://apis.google.com/js/platform.js'></script>";
         $("#login-script").replaceWith(temp1);
         $("#client-script").replaceWith(temp2);
         $("#jquery-script").replaceWith(temp3);
+        $("#google-script").replaceWith(temp4);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         $("#content").text(jqXHR.statusText);
@@ -411,8 +465,10 @@ $(function () {
         document.documentElement.innerHTML = data;
         var temp1 = "<script id='jquery-script' src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>";
         var temp2 = "<script id='client-script' src='../js/client.js'></script>";
+        var temp3 = "<script id='google-script' src='https://apis.google.com/js/platform.js'></script>";
         $("#jquery-script").replaceWith(temp1);
         $("#client-script").replaceWith(temp2);
+        $("#google-script").replaceWith(temp3);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         $("#content").text(jqXHR.statusText);
@@ -441,7 +497,6 @@ function goSurvey() {
       if (document.getElementById("survey-intro-identifier") != null) {
         changeToSurveyPage();
       } else {
-        console.log("redirect");
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
