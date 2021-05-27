@@ -10,15 +10,15 @@
 
 Oliver Harrison, Victor Ly, Kyung Min Song & Avneet Sandhu
 
+
 * [General info](#general-info)
 * [Features](#features)
 * [Technologies](#technologies)
-* [Set-up details](#set-up-details)
 * [Contents](#content)
+* [Set-up details](#set-up-details)
 
 
 ## General Info
-
 This is a single-page web application design to promote awareness of one's environmental impact and help them to reduce it.
 
 Problem: Climate emergency plan needs involvement from the community to meet goals set by the City. People want to participate but don't know how and needs an easy way to visualize and track their own emission levels as well as city-wide goals.
@@ -72,49 +72,7 @@ Technologies used for this project:
 * AWS RDS
 
 
-## Set-up Details
-1. IDE
-    * Default Visual Studio Code 
-2. Languages Used
-    * HTML
-    * CSS
-    * JavaScript
-    * JSON
-    * SQL
-3. Libraries Used
-    1. jQuery
-        * https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js
-    2. progressbar.js
-        * https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.1.0/progressbar.min.js
-    3. charts.js
-        * https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js
-    4. Twitter API
-        * https://platform.twitter.com/widgets.js
-    5. Google API
-        * https://apis.google.com/js/platform.js
-4. Node js Modules
-    * To download nodejs go to: https://nodejs.org/en/download/
-    * Follow the setup installer using default settings.
-    * To install nodejs modules use "npm install <module name>" when you're in the root directory
-    * Please have the following nodejs modules installed (order does not matter):
-        1. Express
-        2. Express-Sessions
-        3. fs
-        4. mysql2
-        5. jsdom
-        6. cors
-        7. Express-Validator
-5. To log into AWS RDS and Elasticbean please use the following:
-    * Link: https://190569847245.signin.aws.amazon.com/console
-    * ID: 190569847245
-    * Username: aws-50greener
-    * Password: Please contact for password (not going to put a password here for security reasons)
-6. Testing Plan
-    * https://docs.google.com/spreadsheets/d/1VBIV45flaIrAe_BNfFgKvq_Vk-MQdrXEbFtzpPqwCV4/edit
-
-
 ## Content
-
 Content of the project folder:
 
 ```
@@ -194,3 +152,44 @@ It has the following subfolders and files:
     /50 Greener tests.side       # Selenium testing file
 
 ```
+
+
+## Set-up Details
+1. IDE
+    * Default Visual Studio Code 
+2. Languages Used
+    * HTML
+    * CSS
+    * JavaScript
+    * JSON
+    * SQL
+3. Libraries Used
+    1. jQuery
+        * https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js
+    2. progressbar.js
+        * https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.1.0/progressbar.min.js
+    3. charts.js
+        * https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js
+    4. Twitter API
+        * https://platform.twitter.com/widgets.js
+    5. Google API
+        * https://apis.google.com/js/platform.js
+4. Node js Modules
+    * To download nodejs go to: https://nodejs.org/en/download/
+    * Follow the setup installer using default settings.
+    * To install nodejs modules use "npm install <module name>" when you're in the root directory
+    * Please have the following nodejs modules installed (order does not matter):
+        1. Express
+        2. Express-Sessions
+        3. fs
+        4. mysql2
+        5. jsdom
+        6. cors
+        7. Express-Validator
+5. To log into AWS RDS and Elasticbean please use the following:
+    * Link: https://190569847245.signin.aws.amazon.com/console
+    * ID: 190569847245
+    * Username: aws-50greener
+    * Password: Please contact for password (not going to put a password here for security reasons)
+6. Testing Plan
+    * https://docs.google.com/spreadsheets/d/1VBIV45flaIrAe_BNfFgKvq_Vk-MQdrXEbFtzpPqwCV4/edit

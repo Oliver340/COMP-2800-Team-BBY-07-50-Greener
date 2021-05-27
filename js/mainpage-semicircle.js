@@ -14,7 +14,6 @@ function getAverageScore() {
         dataType: "json",
         type: "GET",
         success: function (data) {
-            console.log("average score " + data[0].average);
             if (data != null) {
                 average = data[0].average;
                 getMaximumScore();
@@ -34,7 +33,6 @@ function getMaximumScore() {
         dataType: "json",
         type: "GET",
         success: function (data) {
-            console.log("maximum score " + data[0].maximum);
             if (data != null) {
                 maximum = data[0].maximum;
                 getMinimumScore();
@@ -54,7 +52,6 @@ function getMinimumScore() {
         dataType: "json",
         type: "GET",
         success: function (data) {
-            console.log("minimum score " + data[0].minimum);
             if (data != null) {
                 minimum = data[0].minimum;
                 getCurrentScore();
@@ -74,7 +71,6 @@ function getCurrentScore() {
         dataType: "json",
         type: "GET",
         success: function (data) {
-            console.log("current score " + data[0].currentscore);
             if (data != null) {
                 currentscore = data[0].currentscore;
                 $("#carbon-score").html("Carbon Score: " + currentscore);
@@ -92,20 +88,16 @@ function getCurrentScore() {
 
 function calculate() {
     var normalized = (currentscore - minimum) / (maximum - minimum);
-    console.log("normalized " + normalized);
     
     var normAvg = (average - minimum) / (maximum - minimum);
-    console.log("normavg " + normAvg);
     
     var score = normalized / normAvg;
-    console.log("score " + score);
     results = score / 2;
 
     if (results > 1) {
         results = 1;
     }
 
-    console.log("results " + results);
     createBar();
 }
 function createBar() {
