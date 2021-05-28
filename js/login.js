@@ -53,8 +53,10 @@ function onSignIn(googleUser) {
 
     // https://stackoverflow.com/questions/24546483/how-to-get-data-field-from-xhr-responsetext/37785293
     // How to get data from xhr responseText - Answered Jul 3 '14 at 6:35 by Sudhir Bastakoti
+    // Code Start
     var resdata = xhr.responseText;
     var authenticateText = JSON.parse(resdata);
+    // Code End
     console.log('Sign in: ' + authenticateText['msg']);
 
     if (authenticateText['msg'] == "Logged in") {
